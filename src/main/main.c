@@ -6,22 +6,25 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/07/12 19:43:01 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/07/14 16:01:10 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// its code just for testing makefile
-int main(int ac, char **av)
+int main(int ac, char **av, char **env)
 {
-	int i = 0;
-	if(ac != 2)
+	(void) env;
+	(void) ac;
+	(void) av;
+	t_mhstruct *mh;
+	mh = malloc(sizeof(t_mhstruct));
+	
+	while(1)
 	{
-		write(1, "ONLY ONE ARG", 12);
-		return 0;
+		mh->input = readline("$> ");
+		printf("%s\n", mh->input);
+		add_history(mh->input);
 	}
-	i = ft_atoi(av[1]);
-	ft_putnbr_fd(i, 1);
 	return 0;
 }
