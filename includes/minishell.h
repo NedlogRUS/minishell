@@ -6,7 +6,7 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:13:02 by apanikov          #+#    #+#             */
-/*   Updated: 2023/07/12 19:23:55 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/07/14 15:33:56 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,12 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+
+typedef struct s_mhstuct
+{
+	char	*input;
+}				t_mhstruct;
 
 #endif
