@@ -61,7 +61,7 @@ LIBS_DIR = includes
 # Compiled directories
 SRC = src
 OBJ = obj
-SUBDIRS = execute builtins parser main pipes_redirs
+SUBDIRS = execute builtins parser main pipes_redirs tokenization
 
 # Folder directions
 SRC_DIR = $(foreach dir, $(SUBDIRS), $(addprefix $(SRC)/, $(dir)))

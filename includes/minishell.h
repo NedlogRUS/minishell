@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:13:02 by apanikov          #+#    #+#             */
-/*   Updated: 2023/07/14 15:33:56 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/07/15 17:15:40 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,13 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+typedef enum s_token_type	t_token_type;
+typedef struct s_token		t_token;
+
 typedef struct s_mhstuct
 {
-	char	*input;
+	char			*input;
+	t_token			*token;
 }				t_mhstruct;
 
 #endif
