@@ -6,7 +6,7 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:13:02 by apanikov          #+#    #+#             */
-/*   Updated: 2023/07/15 20:17:45 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/07/17 17:29:51 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,14 @@
 
 typedef struct s_mhstuct
 {
-	char	*input;
+	char			*input;
+	struct s_env	*env;
 }				t_mhstruct;
+
+typedef struct s_env {
+    char			*name;
+    char			*data;
+    struct s_env	*next;
+} t_env;
 
 #endif
