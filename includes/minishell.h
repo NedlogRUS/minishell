@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:13:02 by apanikov          #+#    #+#             */
 /*   Updated: 2023/07/17 17:29:51 by apanikov         ###   ########.fr       */
@@ -23,8 +23,12 @@
 # include <readline/history.h>
 # include <limits.h>
 
+typedef enum s_token_type	t_token_type;
+typedef struct s_token		t_token;
+
 typedef struct s_mhstuct
 {
+	t_token			*token;
 	char			*input;
 	struct s_env	*env;
 }				t_mhstruct;
