@@ -6,7 +6,7 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:29:30 by apanikov          #+#    #+#             */
-/*   Updated: 2023/07/17 21:44:25 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/07/17 21:53:09 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include "minishell.h"
 
+typedef struct s_mhstuct t_mhstruct;
+typedef struct s_env t_env;
 
 void builtin_pwd(t_mhstruct *mh);
 t_env* create_env_node(const char* name, const char* data);

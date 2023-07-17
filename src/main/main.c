@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/07/17 21:41:50 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/07/17 21:54:14 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int main(int ac, char **av, char **env)
 	while(1)
 	{
 		mh->input = readline("$> ");
-		printf("%s\n", mh->input);
 		check_and_tokenize(mh);
 		if(!ft_strcmp(mh->input, "pwd"))
 			builtin_pwd(mh);
