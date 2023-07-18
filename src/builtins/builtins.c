@@ -65,20 +65,6 @@ void builtin_env(t_mhstruct *mh)
     }
 }
 
-void builtin_export(t_mhstruct *mh) //only print
- {
-    t_env* curr = mh->env;
-    while (curr != NULL) 
-	{
-        printf("declare -x %s", curr->name);
-		if(curr->data != NULL)
-        	printf("=\"%s\"\n", curr->data); //dont work print with '\0'
-		else
-			printf("\n");
-        curr = curr->next;
-    }
-}
-
 void add_oldpwd_node(t_mhstruct *mh)
 {
     t_env	*node = (t_env*)malloc(sizeof(t_env));
@@ -86,7 +72,7 @@ void add_oldpwd_node(t_mhstruct *mh)
     if (node != NULL) 
 	{
         node->name = ft_strdup("OLDPWD");
-        node->data = NULL; //ft_strdup("\0");
+        node->data = NULL; 
         node->next = NULL;
 		if(mh->env == NULL)
 			mh->env = node;
@@ -117,6 +103,58 @@ void check_oldpwd(t_mhstruct *mh)
 	if(i == 0)
 	add_oldpwd_node(mh);
 	
+}
+
+char *ft_mhjoin(char *s1, char *s2)
+{
+	int i = 0;
+	int j = 0;
+	char *new;
+	if(!s2)
+		return(s1);
+	new = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if(!new)
+		return 0;
+	while(s1[i])
+	{
+		new[i] = s1[i];
+		i++;
+	}
+	while(s2[j])
+	{
+		new[i+j] = s2[j];
+		j++;
+	}
+	new[i+j] = '\0';
+	free(s1);
+	return new;
+}
+
+char	**get_env_array(t_mhstruct *mh)
+{
+	char **out = NULL;
+	int i = 0;
+    t_env* currentEnv = mh->env;
+    while (currentEnv != NULL)
+    {
+        i++;
+        currentEnv = currentEnv->next;
+    }
+    out = (char **)malloc((i + 1) * sizeof(char *));
+    if (!out)
+        return NULL;
+    i = 0;
+    currentEnv = mh->env;
+    while (currentEnv != NULL)
+	{
+        out[i] = ft_strdup(currentEnv->name);
+		out[i] = ft_mhjoin(out[i], "=");
+		out[i] = ft_mhjoin(out[i], currentEnv->data);
+        currentEnv = currentEnv->next;
+        i++;
+    }
+    out[i] = NULL;
+	return (out);
 }
 
 void initializer_mh(char **env, t_mhstruct *mh)
