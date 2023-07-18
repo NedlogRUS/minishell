@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:13:02 by apanikov          #+#    #+#             */
-/*   Updated: 2023/07/15 17:45:22 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/07/17 17:29:51 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,22 @@
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <limits.h>
 
 typedef enum s_token_type	t_token_type;
 typedef struct s_token		t_token;
 
 typedef struct s_mhstuct
 {
-	char			*input;
 	t_token			*token;
-	char			**env_copy;
+	char			*input;
+	struct s_env	*env;
 }				t_mhstruct;
+
+typedef struct s_env {
+    char			*name;
+    char			*data;
+    struct s_env	*next;
+} t_env;
 
 #endif
