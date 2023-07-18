@@ -6,7 +6,7 @@
 #    By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/22 16:28:31 by apanikov          #+#    #+#              #
-#    Updated: 2023/07/17 13:22:26 by vtavitia         ###   ########.fr        #
+#    Updated: 2023/07/18 14:19:20 by vtavitia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ HEADER = libft.h
 $(NAME): $(OBJ)
 	@$(AR) $(NAME) $(OBJ)
 
-all: $(NAME)
+all: $(NAME) bonus
 
 bonus: $(NAME) $(OBJB)
 	@$(AR) $(NAME) $(OBJB)

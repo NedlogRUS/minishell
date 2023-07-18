@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:50:07 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/07/17 19:57:05 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/07/18 13:16:15 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	print_tokens(t_token *token)
 	{
 		//printf("ADDRESS: %p\tDATA: %s Type: %d Next: %p\n",
 			// token, token->data, token->type, (char *)token->next);
-			printf("DATA: -%s- \tNEXT: -%s- \n",
-			token->data, token->next->data);
+			printf("DATA: -%s-  \tsingle quotes = %d \tdouble quotes = %d\n",
+			token->data, token->s_quote, token->d_quote);
 		token = token->next;
 	}
 	//printf("ADDRESS: %p\tDATA: %s Type: %d Next: %p\n",
@@ -37,6 +37,10 @@ static int	do_copy_helper(char *input, int *ip, int *kp, t_token **current)
 
 	c = input[*ip];
 	open = 1;
+	if (c == '\'')
+		(*current)->s_quote = 1;
+	else if (c == '"')
+		(*current)->d_quote = 1;
 	(*ip)++;
 	while (open)
 	{
@@ -139,7 +143,8 @@ void	check_and_tokenize(t_mhstruct *mh)
 		start_t = init_token("", NULL_VAL);
 		mh->token = start_t;
 		tokenize(start_t, mh->input);
-		print_tokens(mh->token);
+		handle_dollar(&mh);
+		//print_tokens(mh->token);
 	}
 	//concatenate_tokens(mh); but handle $ first! eg echo $"$USER""x" = vtavitiax
 }

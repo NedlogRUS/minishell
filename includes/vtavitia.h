@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 14:39:20 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/07/17 18:46:39 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/07/18 13:16:46 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ typedef struct s_token
 {
 	char			*data;
 	t_token_type	type;
+	int				s_quote;
+	int				d_quote;
 	char			*data_for_redir;
 	struct s_token	*next;
 }	t_token;
@@ -52,5 +54,6 @@ void	check_and_tokenize(t_mhstruct *mh);
 void	concatenate_tokens(t_mhstruct *mh);
 int		is_special(char c);
 int		check_syntax(char *input);
+void	handle_dollar(t_mhstruct **mh);
 
 #endif

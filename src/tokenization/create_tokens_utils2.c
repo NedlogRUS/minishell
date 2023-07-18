@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:53:52 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/07/17 18:36:19 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/07/18 13:04:04 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ t_token	*init_token(char *data, t_token_type type)
 		perror("Token creation failed\n");
 	new_token->data = data;
 	new_token->type = type;
+	new_token->s_quote = 0;
+	new_token->d_quote = 0;
 	new_token->next = NULL;
 	return (new_token);
 }

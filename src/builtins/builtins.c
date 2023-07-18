@@ -86,7 +86,7 @@ void add_oldpwd_node(t_mhstruct *mh)
     if (node != NULL) 
 	{
         node->name = ft_strdup("OLDPWD");
-        node->data = NULL; //ft_strdup("\0");
+        node->data = NULL;
         node->next = NULL;
 		if(mh->env == NULL)
 			mh->env = node;
