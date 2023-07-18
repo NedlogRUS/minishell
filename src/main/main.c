@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/07/15 17:26:30 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/07/17 20:15:39 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int main(int ac, char **av, char **env)
 		check_and_tokenize(mh);
 		printf("%s\n", mh->input);
 		add_history(mh->input);
+		//break ;
 	}
+	//system("leaks minishell");
 	return 0;
 }

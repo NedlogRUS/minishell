@@ -6,49 +6,100 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:50:07 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/07/15 17:18:03 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/07/17 19:57:05 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*init_token(char *data, t_token_type type)
+//deletethis
+void	print_tokens(t_token *token)
 {
-	t_token	*new_token;
+	while (token->next)
+	{
+		//printf("ADDRESS: %p\tDATA: %s Type: %d Next: %p\n",
+			// token, token->data, token->type, (char *)token->next);
+			printf("DATA: -%s- \tNEXT: -%s- \n",
+			token->data, token->next->data);
+		token = token->next;
+	}
+	//printf("ADDRESS: %p\tDATA: %s Type: %d Next: %p\n",
+		// token, token->data, token->type, (char *)token->next);
+		printf("DATA: -%s-\n",
+			token->data);
+}
+/////
 
-	new_token = (t_token *)malloc(sizeof(t_token));
-	if (!new_token)
-		perror("Token creation failed\n");
-	new_token->data = data;
-	new_token->type = type;
-	new_token->next = NULL;
-	return (new_token);
+static int	do_copy_helper(char *input, int *ip, int *kp, t_token **current)
+{
+	int		open;
+	char	c;
+
+	c = input[*ip];
+	open = 1;
+	(*ip)++;
+	while (open)
+	{
+		if (input[*ip] == c)
+		{
+			open = 0;
+			(*current)->data[*kp] = '\0';
+			(*ip)++;
+			return (1);
+		}
+		(*current)->data[*kp] = input[*ip];
+		(*ip)++;
+		(*kp)++;
+	}
+	return (0);
+}
+
+static void	do_copy(char *input, t_token **current, int *ip, int count)
+{
+	int		i;
+	int		k;
+
+	i = *ip;
+	k = 0;
+	while (count-- && input[i] != '\0' && !just_whitespace(input, i))
+	{
+		if (input[i] == '\'' || input[i] == '"')
+		{
+			if (do_copy_helper(input, &i, &k, current) == 1)
+			{
+				*ip = i;
+				return ;
+			}
+		}
+		else
+		{
+			(*current)->data[k] = input[i];
+			i++;
+			k++;
+		}
+	}
+	(*current)->data[k] = '\0';
+	*ip = i;
 }
 
 static void	tozenize_helper(t_token **current_a, char *input, int *ip, int *jp)
 {
 	int		count;
 	t_token	*current;
-	int		k;
 	int		i;
 	int		j;
+	char	c;
 
-	k = 0;
 	i = *ip;
 	j = *jp;
+	c = '\0';
 	count = 0;
 	current = *current_a;
-	increment_i(input, &i);
+	increment_i(input, &i, &j, c);
 	count = i - j;
 	current->data = (char *)malloc(sizeof(char) * count + 1);
 	i = j;
-	while (count-- && input[i] != '\0' && !just_whitespace(input, i))
-	{
-		current->data[k] = input[i];
-		i++;
-		k++;
-	}
-	current->data[k] = '\0';
+	do_copy(input, current_a, &i, count);
 	*ip = i;
 	*jp = i;
 }
@@ -83,10 +134,12 @@ void	check_and_tokenize(t_mhstruct *mh)
 {
 	t_token	*start_t;
 
-	if (check_quotes_wrapped(mh->input) == 0)
+	if (!check_quotes_wrapped(mh->input) && !check_syntax(mh->input))
 	{
 		start_t = init_token("", NULL_VAL);
 		mh->token = start_t;
 		tokenize(start_t, mh->input);
+		print_tokens(mh->token);
 	}
+	//concatenate_tokens(mh); but handle $ first! eg echo $"$USER""x" = vtavitiax
 }

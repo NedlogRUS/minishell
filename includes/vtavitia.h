@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 14:39:20 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/07/15 17:20:26 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/07/17 18:46:39 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,16 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
+t_token	*init_token(char *data, t_token_type type);
 int		is_special(char c);
 int		just_whitespace(char *input, int i);
 void	skip_all_whitespace(char *input, int *ip, int *jp);
-void	increment_i(char *input, int *ip);
+void	increment_i(char *input, int *ip, int *jp, char c);
 int		check_quotes_wrapped(char *str);
 void	error_msg(char *str, int err_num);
 void	check_and_tokenize(t_mhstruct *mh);
+void	concatenate_tokens(t_mhstruct *mh);
+int		is_special(char c);
+int		check_syntax(char *input);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:13:02 by apanikov          #+#    #+#             */
-/*   Updated: 2023/07/15 17:15:40 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/07/15 17:45:22 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_mhstuct
 {
 	char			*input;
 	t_token			*token;
+	char			**env_copy;
 }				t_mhstruct;
 
 #endif
