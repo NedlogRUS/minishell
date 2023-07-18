@@ -3,3 +3,5 @@
 *.o
 /obj
 /readline-lib
+/readline
+.vscode/
