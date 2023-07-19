@@ -15,12 +15,12 @@
 int main(int ac, char **av, char **env)
 {
 	(void) ac;
-	// (void) av;
+	(void) av;
 	t_mhstruct *mh;
 	mh = malloc(sizeof(t_mhstruct));
 	
 	initializer_mh(env, mh);
-	mh->afex = ft_strdup(av[1]);
+	mh->afex = ft_strdup("abc=0");
 	while(1)
 	{
 		mh->input = readline("$> ");

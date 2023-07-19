@@ -164,8 +164,10 @@ int export(t_mhstruct *mh)
 			}
 		}
 		else if(arg[i] == '=')
+		{
 			add_export(mh); // add return
 			return 1;
+		}
 		i++;
 	}
 	return 1;
@@ -176,7 +178,7 @@ void	add_key(t_mhstruct *mh)
 	char *arg = mh->afex;
 	int i = 0;
 	t_env	*node = NULL;
-    char	*name;
+    char	*name = arg;
 	
 	while(arg[i])
 	{
@@ -221,7 +223,7 @@ void builtin_export(t_mhstruct *mh)
 	{
 		if(handle_for_export(mh) == 1)
 			return ;
-		if(!ft_strcmp(mh->afex, "="))
+		if(ft_strchr(mh->afex, '='))
 		{
 			if(export(mh) == 1)
 				return ;
