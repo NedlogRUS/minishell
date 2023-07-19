@@ -6,7 +6,7 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/07/18 18:27:50 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/07/19 20:58:22 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 int main(int ac, char **av, char **env)
 {
 	(void) ac;
-	(void) av;
+	// (void) av;
 	t_mhstruct *mh;
 	mh = malloc(sizeof(t_mhstruct));
 	
 	initializer_mh(env, mh);
+	mh->afex = ft_strdup(av[1]);
 	while(1)
 	{
 		mh->input = readline("$> ");

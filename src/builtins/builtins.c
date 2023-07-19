@@ -16,7 +16,10 @@ t_env* create_env_node(const char* name, const char* data)
     if (node != NULL) 
 	{
         node->name = strdup(name);
-        node->data = strdup(data);
+		if(!data)
+			node->data = NULL;
+		else
+        	node->data = strdup(data);
         node->next = NULL;
     }
     return node;
