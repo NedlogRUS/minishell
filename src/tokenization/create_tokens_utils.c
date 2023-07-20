@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 14:38:36 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/07/15 17:18:23 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/07/17 19:49:39 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	error_msg(char *str, int err_num)
 {
 	errno = err_num;
+	//add $? handler
 	perror(str);
 }
 
@@ -23,7 +24,7 @@ int	is_special(char c)
 	char	*special;
 	int		i;
 
-	special = "\'\";| ";
+	special = "\'\";| <>";
 	i = 0;
 	while (special[i] != '\0')
 	{
@@ -68,19 +69,4 @@ void	skip_all_whitespace(char *input, int *ip, int *jp)
 	}
 	*ip = i;
 	*jp = j;
-}
-
-void	increment_i(char *input, int *ip)
-{
-	int	i;
-
-	i = *ip;
-	if (is_special(input[i]))
-		i++;
-	else
-	{
-		while (!is_special(input[i]) && input[i])
-			i++;
-	}
-	*ip = i;
 }

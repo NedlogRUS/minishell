@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: apanikov <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/22 16:28:31 by apanikov          #+#    #+#              #
-#    Updated: 2023/02/08 21:47:20 by apanikov         ###   ########.fr        #
+#    Updated: 2023/07/20 14:16:46 by vtavitia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ HEADER = libft.h
 $(NAME): $(OBJ)
 	@$(AR) $(NAME) $(OBJ)
 
-all: $(NAME)
+all: $(NAME) bonus
 
 bonus: $(NAME) $(OBJB)
 	@$(AR) $(NAME) $(OBJB)
