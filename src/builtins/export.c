@@ -38,9 +38,10 @@ int	handle_for_export(t_mhstruct *mh, char *tdata)
 
 int check_env_name(t_env** head,char *name)
 {
-	t_env* curr = *head;
+	t_env	*curr = *head;
 	
-	while (curr->next != NULL) 
+	// while (curr->next != NULL) 
+	while (curr != NULL) 
 	{
 		if(!ft_strcmp(curr->name, name))
 			return 1;
@@ -53,13 +54,17 @@ void	change_env_data(t_env** head,char *name, char *data)
 {
 	t_env* curr = *head;
 	
-	while (curr->next != NULL) 
+	// while (curr->next != NULL) 
+	while (curr != NULL)
 	{
 		if(!ft_strcmp(curr->name, name))
 		{
-			if(curr->data != 0)
+			if(curr->data != NULL)
 				free(curr->data);
-			curr->data = ft_strdup(data);
+			if(!data)
+				curr->data = ft_strdup("\0");
+			else
+				curr->data = ft_strdup(data);
 			return ;
 		}
         curr = curr->next;
@@ -119,7 +124,7 @@ void	add_export(t_mhstruct *mh, char *tdata)
 	t_env	*node = NULL;
 	char	*line;
     char	*name;
-    char	*data = '\0'; // NULL cange on '\0'
+    char	*data = NULL; // NULL cange on '\0'
 	char	*tmp;
 	
     line = ft_strdup(tdata);
@@ -132,7 +137,7 @@ void	add_export(t_mhstruct *mh, char *tdata)
 		data = ft_strdup(tmp);
 	if(!check_env_name(&mh->env, name))
 	{
-    	node = create_env_node(name, data);
+    	node = create_env_node(name, data); // Сюда нужен костыль для кейса когда создается новая нода но есть = и нужно занулить
     	if (node != NULL) 
         	insert_env_node(&mh->env, node);
 	}
@@ -187,7 +192,7 @@ void	add_key(t_mhstruct *mh, char *tdata)
 			printf("minihell: export: %s : not a valid identifier\n", tdata);
 			mh->er_num = 1;
 			return ;
-		}
+		} 
 		i++;
 	}
 	if(!check_env_name(&mh->env, tdata))
