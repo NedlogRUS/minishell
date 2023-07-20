@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 14:39:20 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/07/18 13:16:46 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/07/20 15:59:52 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct s_mhstuct	t_mhstruct;
 typedef enum s_token_type
 {
 	STRING,
+	BUILTIN,
 	PIPELINE,
 	GT,
 	LT,

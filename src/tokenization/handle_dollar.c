@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 12:40:07 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/07/18 17:50:22 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/07/20 19:29:09 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	get_search_term(int *i, int *qty, t_token *current, char **search_term)
 	if (!search_term)
 		return ;
 	*search_term = ft_substr(current->data, (*i) - size, size);
+	//printf(">>>%s<<<\n", current->data);
 	size = 0;
 }
 
@@ -119,18 +120,61 @@ int	get_size(char *term, t_env *env_lst, t_env **env_term)
 			found = 1;
 			while (env_lst->data[i])
 				i++;			
-			break ;
 		}
 		env_lst = env_lst->next;
 	}
 
 	if (ft_strncmp(env_lst->name, term, ft_strlen(term)) == 0 && !found)
-		{
+		{ 
 			while (env_lst->data[i])
 				i++;
 		}
 	//printf("FOUND %s which is %s - size is %d\n", term, env_lst->data, i);
 	return (i);
+}
+
+void	slice_term(t_token **current, t_token **previous, t_mhstruct *mh, int i, int term)
+{
+	int start;
+	int	size;
+	int	k;
+	t_token	*new_term;
+
+		(void)mh;
+	new_term = init_token("", NULL_VAL);
+	start = 0;
+	k = 0;
+		
+	size = ft_strlen((*current)->data) - term;
+
+	new_term->data = (char *)malloc(sizeof(char) * size + 1);
+	while (start < i - term - 1 && (*current)->data[start])
+	{
+		new_term->data[k] = (*current)->data[start];
+		start++;
+		k++;
+	//	printf("HERE %s start is %d and i is %d\n", new_term->data, start, i);
+
+	}
+	while ((*current)->data[i])
+	{
+		new_term->data[k] = (*current)->data[i];
+		i++;
+		k++;
+		//	printf("NOW HERE %s\n", new_term->data);
+	}
+	//printf("newterm is %s\n", new_term->data);
+	new_term->data[k] = '\0';
+	new_term->next = (*current)->next;
+	if ((mh)->token == *current)
+			(mh)->token = new_term;
+	if ((*previous) != (*current))
+			(*previous)->next = new_term;		
+
+	free(*current);
+	*current = new_term;
+
+	i++;
 }
 
 void	inject_term(char *search_term,t_token **current, t_token **previous, t_mhstruct *mh)
@@ -139,24 +183,22 @@ void	inject_term(char *search_term,t_token **current, t_token **previous, t_mhst
 	int		location;
 	t_token	*new_term;
 	t_env	*env_term;
-	(void) previous;
 	int		size;
 	int		k;
-	
 	i = 0;
 	k = 0;
-	new_term = init_token(" ", NULL_VAL);
+	//new_term = init_token(" ", NULL_VAL);
 	env_term = NULL;
+	new_term = init_token("", NULL_VAL);
 	size = get_size(search_term, mh->env, &env_term);
-	
-		while ((*current)->data[i] && is_there_dollar((*current)->data + i))
-		{
+//	printf("!!!size is %d\n", size);
+		if (is_there_dollar((*current)->data))
+		 {
 			
 			location = ft_strnstr_mod((*current)->data, search_term, ft_strlen((*current)->data)) - 1;
-			//printf("size is %d\n", size);
-			//printf("@@@@@@@@@@@@@@@@@@@@@@@@@here\n");
+ 			//printf("location is %d\n", location );
+					//printf("ENTERED %s\n", (*current)->data);
 			size = (location + size); //+ ft_strlen((*current)->data) - location;
-		
 			new_term->data = (char *)malloc(sizeof(char) * size + 1);
 			//	printf("here 1 %d\n---\n", size);
 			// if (size)
@@ -167,69 +209,81 @@ void	inject_term(char *search_term,t_token **current, t_token **previous, t_mhst
 					i++;
 					k++;
 				}
-				//printf("here 2 %d\n---\n", size);
+			
 				i = 0;
-				if (check_term_exists(search_term, mh->env))
-				{
+				
+				// if (check_term_exists(search_term, mh->env))
+				// {
 					while (k <= size && env_term->data[i])
 					{
 						new_term->data[k] = env_term->data[i];
 						i++;
 						k++;
 					}
-				}
+					i = location + ft_strlen(search_term) + 1;
+					//	printf("here  %d and k is %d location is %d\n---\n", i, k, location);
+					if ((*current)->data[i])
+					{
+						while ((*current)->data[i])
+						{
+							new_term->data[k] = (*current)->data[i];
+							i++;
+							k++;
+						}
+					}
+				// }
 			// }
 			//printf("size is here%d\n---\n", size);
 			new_term->data[k] = '\0';
-			(*previous)->next = new_term;
 			new_term->next = (*current)->next;
+			if ((*previous) != (*current))
+				(*previous)->next = new_term;
+			if ((mh)->token == *current)
+				(mh)->token = new_term;
+			printf("current next is %p !\n", (*current)->next);
+			//printf("newterm 2 next is %p (*previous)->next is %p\n", new_term->next, (*previous)->next);
+			
 			free(*current);
 			*current = new_term;
-			
-			
-			printf("newterm is %s\n", new_term->data);
-				//printf("envterm is %s\n", env_term->data);
+			printf("current next is %p \n", (*current)->next);
+			(*previous)->next = *current;
+			//(*current)->data = NULL;
+			printf("previous next is %p \n\n", (*previous)->next);
+			//printf("current data is now %s\n", (*current)->data);
+			// printf("newterm is %s and next is %s\n", new_term->data, new_term->data);
 			i++;
-		}
-	
+		//	printf("finish@@@@!!!\n");
+		 }
 }
 
-void	convert_dollars(t_token *current, t_token *previous, t_mhstruct *mh)
+void	convert_dollars(t_token **current, t_token **previous, t_mhstruct *mh)
 {
 	int		i;
 	int		qty;
 	
 	char	*search_term;
-
 	i = 0;
 	search_term = NULL;
-	qty = num_of_dollars(current->data);
-	printf("CURRENT IS %s qty is %d\n", current->data, qty);
-	while (current->data[i] && qty > 0)
+	qty = num_of_dollars((*current)->data);
+	while (is_there_dollar((*current)->data))
 	{
-		if (current->data[i] == '$' && qty)
+		while ((*current)->data[i] != '$' && (*current)->data[i])
+			i++;
+		i++;
+
+		get_search_term(&i, &qty, *current, &search_term);
+				//printf("\n\nSearch term is '%s' qty = %d\n", search_term,qty);
+		if (check_term_exists(search_term, mh->env))
+			inject_term(search_term, current, previous, mh);
+		else if (check_term_exists(search_term, mh->env) == 0)
 		{
-			i++;
-			printf("i is now %d\n", i);
-			get_search_term(&i, &qty, current, &search_term);
-			printf("Search term is %s len = %d\n", search_term, (int)ft_strlen(search_term));
-			if (check_term_exists(search_term, mh->env))
-			{
-				inject_term(search_term, &current, &previous, mh);
-				if (current->data[i])
-					i = ft_strnstr_mod(current->data, "$", ft_strlen(current->data)) - 1;
-			}
-			else if (check_term_exists(search_term, mh->env) == 0)
-			{
-				i += ft_strlen(search_term) - 1;
-				printf("here %s = i is now %d\n", search_term, i);
-			}
-			//printf("CURRENT IS now %s qty is %d\n", current->data, qty);
-			
-			free(search_term);
+			printf("FAIL\n");
+			slice_term(current, previous, mh, i, ft_strlen(search_term));
 		}
-		else
-			i++;
+	//	printf("\n\nOK SO Current is '%s' next is %p\n",current->data, current->next);
+		i = 0;
+		printf("before break current next and data  is  %p - %s \n", (*current)->next, (*current)->data);
+
 	}
 }
 
@@ -238,15 +292,28 @@ void	handle_dollar(t_mhstruct **mh)
 	t_token	*previous;
 	t_token	*current;
 
-	previous = (*mh)->token;
 	current = (*mh)->token;
+	previous = current;
+	
 	while (current->next)
 	{
+		printf("ENTERED333!\n");
 		if (is_there_dollar(current->data))
-			convert_dollars(current, previous, *mh);
-		previous = current;
-		current = current->next;
+			convert_dollars(&current, &previous, *mh);
+		// current = current->next;
+		// previous = current;	
+
 	}
 	if (is_there_dollar(current->data))
-			convert_dollars(current, previous, *mh);
+	{
+			printf("entered here!!\n");
+			convert_dollars(&current, &previous, *mh);
+		// 		current = current->next;
+		// previous = current;
+			
+				printf("Previoud is %s Final is %s \n",previous->data,  current->data);
+	}
+	// (*mh)->token = previous;
+	//printf("Final is %s \n", current->data);	
+	// printf("Final is %s and next is %s\n", current->data, current->next->data);
 }
