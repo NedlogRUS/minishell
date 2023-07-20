@@ -6,20 +6,20 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 18:09:54 by apanikov          #+#    #+#             */
-/*   Updated: 2023/07/19 21:02:54 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/07/20 19:28:55 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	handle_for_export(t_mhstruct *mh)
+int	handle_for_export(t_mhstruct *mh, char *tdata)
 {
-	char *arg = mh->afex;
+	char *arg = tdata;
 	int i = 1;
 	
 	if(!ft_isalpha(arg[1]))
 	{
-		printf("minihell: export: %s : not a valid identifier\n", mh->afex);
+		printf("minihell: export: %s : not a valid identifier\n", tdata);
 		mh->er_num = 1;
 		return 1;
 	}
@@ -27,7 +27,7 @@ int	handle_for_export(t_mhstruct *mh)
 	{
 		if(!ft_isalnum(arg[i]) && arg[i] != '_')
 		{
-			printf("minihell: export: %s : not a valid identifier\n", mh->afex);
+			printf("minihell: export: %s : not a valid identifier\n", tdata);
 			mh->er_num = 1;
 			return 1;
 		}
@@ -42,7 +42,7 @@ int check_env_name(t_env** head,char *name)
 	
 	while (curr->next != NULL) 
 	{
-		if(curr->name == name)
+		if(!ft_strcmp(curr->name, name)) // 
 			return 1;
         curr = curr->next;
     }
@@ -55,7 +55,7 @@ void	change_env_data(t_env** head,char *name, char *data)
 	
 	while (curr->next != NULL) 
 	{
-		if(curr->name == name)
+		if(!ft_strcmp(curr->name, name))
 		{
 			if(curr->data != 0)
 				free(curr->data);
@@ -73,7 +73,7 @@ void	join_env_data(t_env** head,char *name, char *data)
 	
 	while (curr->next != NULL) 
 	{
-		if(curr->name == name)
+		if(!ft_strcmp(curr->name, name))
 		{
 			if(curr->data != 0)
 				curr->data = ft_mhjoin(curr->data, data);
@@ -86,7 +86,7 @@ void	join_env_data(t_env** head,char *name, char *data)
 	return ;
 }
 
-void	join_export(t_mhstruct *mh)
+void	join_export(t_mhstruct *mh, char *tdata)
 {
 	t_env	*node = NULL;
 	char	*line;
@@ -94,7 +94,7 @@ void	join_export(t_mhstruct *mh)
     char	*data;
 	char	*tmp;
 	
-    line = ft_strdup(mh->afex);
+    line = ft_strdup(tdata);
 	tmp = ft_strchr(line, '+');
 	*tmp = '\0';
 	name = ft_strdup(line);
@@ -114,7 +114,7 @@ void	join_export(t_mhstruct *mh)
 	return ;
 }
 
-void	add_export(t_mhstruct *mh)
+void	add_export(t_mhstruct *mh, char *tdata)
 {
 	t_env	*node = NULL;
 	char	*line;
@@ -122,7 +122,7 @@ void	add_export(t_mhstruct *mh)
     char	*data = NULL;
 	char	*tmp;
 	
-    line = ft_strdup(mh->afex);
+    line = ft_strdup(tdata);
 	tmp = ft_strchr(line, '=');
 	*tmp = '\0';
 	name = ft_strdup(line);
@@ -142,9 +142,9 @@ void	add_export(t_mhstruct *mh)
 	return ;
 }
 
-int export(t_mhstruct *mh)
+int export(t_mhstruct *mh, char *tdata)
 {
-	char *arg = mh->afex;
+	char *arg = tdata;
 	int i = 0;
 	
 	while(arg[i])
@@ -153,19 +153,19 @@ int export(t_mhstruct *mh)
 		{
 			if(arg[i + 1] != '=')
 			{
-			printf("minihell: export: %s : not a valid identifier\n", mh->afex);
+			printf("minihell: export: %s : not a valid identifier\n", tdata);
 			mh->er_num = 1;
 			return 1;
 			}
 			else if (arg[i + 1] == '=')
 			{
-				join_export(mh); 
+				join_export(mh, tdata); 
 				return 1;
 			}
 		}
 		else if(arg[i] == '=')
 		{
-			add_export(mh); // add return
+			add_export(mh, tdata);
 			return 1;
 		}
 		i++;
@@ -173,9 +173,9 @@ int export(t_mhstruct *mh)
 	return 1;
 }
 
-void	add_key(t_mhstruct *mh)
+void	add_key(t_mhstruct *mh, char *tdata)
 {
-	char *arg = mh->afex;
+	char *arg = tdata;
 	int i = 0;
 	t_env	*node = NULL;
     char	*name = arg;
@@ -184,13 +184,13 @@ void	add_key(t_mhstruct *mh)
 	{
 		if(arg[i] == '+')
 		{
-			printf("minihell: export: %s : not a valid identifier\n", mh->afex);
+			printf("minihell: export: %s : not a valid identifier\n", tdata);
 			mh->er_num = 1;
 			return ;
 		}
 		i++;
 	}
-	if(!check_env_name(&mh->env, mh->afex))
+	if(!check_env_name(&mh->env, tdata))
 	{
 		node = create_env_node(name, NULL);
     	if (node != NULL) 
@@ -217,19 +217,56 @@ void export_print(t_mhstruct *mh) //only print
 
 void builtin_export(t_mhstruct *mh)
  {
-	if(!mh->afex)
-		export_print(mh);
-	else
+	t_token			*token;
+	token = mh->token;
+	int i = 0;
+	while(token != NULL)
 	{
-		if(handle_for_export(mh) == 1)
-			return ;
-		if(ft_strchr(mh->afex, '='))
-		{
-			if(export(mh) == 1)
-				return ;
-		}
+		token = token->next;
+		if(token == NULL && i == 0)
+			export_print(mh);
 		else
-			add_key(mh); // dont forget chek for +
+			while(1)
+			{
+				if(handle_for_export(mh, token->data) == 1) // 
+					break ;
+				if(ft_strchr(token->data, '='))
+				{
+					if(export(mh, token->data) == 1) //
+						break ;
+				}
+				else
+				{
+					add_key(mh, token->data);
+					break;
+				}
+			}
+		i++;
 	}
 	return ;
 }
+
+// void builtin_export(t_mhstruct *mh)
+//  {
+// 	t_token			*token;
+// 	token = mh->token->next;
+// 	while(token != NULL)
+// 	{
+// 		if(token->type != BUILTIN && token->type != STRING)
+// 			export_print(mh);
+// 		else
+// 		{
+// 			if(handle_for_export(mh) == 1)
+// 				return ;
+// 			if(ft_strchr(mh->afex, '='))
+// 			{
+// 				if(export(mh) == 1)
+// 					return ;
+// 			}
+// 			else
+// 				add_key(mh); 
+// 		}
+// 		token = token->next;
+// 	}
+// 	return ;
+// }

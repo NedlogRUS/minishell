@@ -5,3 +5,5 @@
 /readline-lib
 /readline
 .vscode/
+/libft/libft.a
+minishell
