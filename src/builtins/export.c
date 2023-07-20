@@ -17,7 +17,7 @@ int	handle_for_export(t_mhstruct *mh, char *tdata)
 	char *arg = tdata;
 	int i = 1;
 	
-	if(!ft_isalpha(arg[1]))
+	if(!ft_isalpha(arg[0]))// not 1 ! mean 0
 	{
 		printf("minihell: export: %s : not a valid identifier\n", tdata);
 		mh->er_num = 1;
@@ -42,7 +42,7 @@ int check_env_name(t_env** head,char *name)
 	
 	while (curr->next != NULL) 
 	{
-		if(!ft_strcmp(curr->name, name)) // 
+		if(!ft_strcmp(curr->name, name))
 			return 1;
         curr = curr->next;
     }
@@ -119,7 +119,7 @@ void	add_export(t_mhstruct *mh, char *tdata)
 	t_env	*node = NULL;
 	char	*line;
     char	*name;
-    char	*data = NULL;
+    char	*data = '\0'; // NULL cange on '\0'
 	char	*tmp;
 	
     line = ft_strdup(tdata);
@@ -219,20 +219,21 @@ void builtin_export(t_mhstruct *mh)
  {
 	t_token			*token;
 	token = mh->token;
-	int i = 0;
+	token = token->next;
+	if(token == NULL )
+	{
+		export_print(mh);
+		return ;
+	}
 	while(token != NULL)
 	{
-		token = token->next;
-		if(token == NULL && i == 0)
-			export_print(mh);
-		else
 			while(1)
 			{
-				if(handle_for_export(mh, token->data) == 1) // 
+				if(handle_for_export(mh, token->data) == 1)
 					break ;
 				if(ft_strchr(token->data, '='))
 				{
-					if(export(mh, token->data) == 1) //
+					if(export(mh, token->data) == 1)
 						break ;
 				}
 				else
@@ -241,7 +242,7 @@ void builtin_export(t_mhstruct *mh)
 					break;
 				}
 			}
-		i++;
+			token = token->next;
 	}
 	return ;
 }
