@@ -6,7 +6,7 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/07/21 16:43:32 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/07/21 20:11:53 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	execution_of_commands(t_mhstruct *mh)
 		builtin_env(mh);
 	else if(!ft_strcmp(mh->token->data, "export"))
 		builtin_export(mh);
+	else if(!ft_strcmp(mh->token->data, "unset"))
+		builtin_unset(mh);
 	else
 		printf("minihell: command not found: %s\n", mh->token->data);	
 }

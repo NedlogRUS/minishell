@@ -10,6 +10,21 @@ void builtin_pwd(t_mhstruct *mh)
     return ;
 }
 
+t_env* create_env_node2(const char* name, const char* data)
+{
+    t_env* node = (t_env*)malloc(sizeof(t_env));
+    if (node != NULL) 
+	{
+        node->name = strdup(name);
+		if(!data)
+			node->data = ft_strdup("\0");
+		else
+        	node->data = strdup(data);
+        node->next = NULL;
+    }
+    return node;
+}
+
 t_env* create_env_node(const char* name, const char* data)
 {
     t_env* node = (t_env*)malloc(sizeof(t_env));
@@ -193,6 +208,6 @@ void initializer_env(char **env, t_mhstruct *mh)
 void initializer_mh(char **env, t_mhstruct *mh)
 {
 	initializer_env(env, mh);
-	mh->mh_pid = (int)getpid();
-	ft_putnbr_fd(mh->mh_pid, 1);
+	mh->mh_pid = ft_itoa((int)getpid());
+	// printf("%s\n",mh->mh_pid);
 }
