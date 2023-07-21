@@ -6,7 +6,7 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:13:02 by apanikov          #+#    #+#             */
-/*   Updated: 2023/07/19 16:28:51 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/07/21 16:41:05 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_mhstuct
 {
 	t_token			*token;
 	char			*input;
-	char			*afex; // test case for export
+	int				mh_pid; //pid of miniHell
 	int 			er_num; // number of error when comand done
 	struct s_env	*env;
 }				t_mhstruct;

@@ -160,7 +160,7 @@ char	**get_env_array(t_mhstruct *mh)
 	return (out);
 }
 
-void initializer_mh(char **env, t_mhstruct *mh)
+void initializer_env(char **env, t_mhstruct *mh)
 {
 	mh->env = NULL;
 	t_env	*node;
@@ -188,4 +188,11 @@ void initializer_mh(char **env, t_mhstruct *mh)
 		i++;
     }
 	check_oldpwd(mh);
+}
+
+void initializer_mh(char **env, t_mhstruct *mh)
+{
+	initializer_env(env, mh);
+	mh->mh_pid = (int)getpid();
+	ft_putnbr_fd(mh->mh_pid, 1);
 }
