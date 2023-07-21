@@ -19,10 +19,12 @@ char	*ft_strdup(char *s1)
 	int		j;
 
 	j = 0;
+	if(!s1)
+		return (0);
 	new = (char *)malloc(sizeof(char) * ft_strlen(s1) + 1);
 	if (!new)
 	{
-		return (0);
+		return NULL;
 	}
 	while (s1[j])
 	{
