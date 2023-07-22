@@ -22,6 +22,8 @@ void	execution_of_commands(t_mhstruct *mh)
 		builtin_export(mh);
 	else if(!ft_strcmp(mh->token->data, "unset"))
 		builtin_unset(mh);
+	else if(!ft_strcmp(mh->token->data, "cd"))
+		builtin_cd(mh);
 	else
 		printf("minihell: command not found: %s\n", mh->token->data);	
 }
