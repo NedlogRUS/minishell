@@ -177,7 +177,8 @@ char	**get_env_array(t_mhstruct *mh)
 
 void initializer_env(char **env, t_mhstruct *mh)
 {
-	mh->env = NULL;
+	// mh->env = malloc(sizeof(t_env));
+	// mh->env = NULL;
 	t_env	*node;
 	char	*line;
     char	*name;
