@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/07/20 15:59:59 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/07/21 15:05:09 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int main(int ac, char **av, char **env)
 	while(1)
 	{
 		mh->input = readline("$> ");
+		
 		check_and_tokenize(mh);
 		// if(!ft_strcmp(mh->input, "pwd"))
 		// 	builtin_pwd(mh);
@@ -33,8 +34,8 @@ int main(int ac, char **av, char **env)
 		// else
 		// 	printf("minihell: command not found: %s\n", mh->input);
 		add_history(mh->input);
-		//break ;
+	
 	}
-	//system("leaks minishell");
+		system("leaks minishell");
 	return 0;
 }

@@ -6,7 +6,7 @@
 #    By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/12 19:00:48 by apanikov          #+#    #+#              #
-#    Updated: 2023/07/20 14:21:02 by vtavitia         ###   ########.fr        #
+#    Updated: 2023/07/21 17:02:39 by vtavitia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,7 @@
 # Main Variables
 NAME     = minishell
 GCC      = gcc
-CFLAGS   = -Wall -Wextra -Werror -g #-fsanitize=address
+CFLAGS   = -Wall -Wextra -Werror -g -fsanitize=address
 RM       = rm -rf
 OUTPUT   = ./$(NAME)
 LIBS     = -I./includes/ -I./readline/include

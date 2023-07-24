@@ -121,6 +121,7 @@ void check_oldpwd(t_mhstruct *mh)
 
 void initializer_mh(char **env, t_mhstruct *mh)
 {
+	mh->mh_pid = ft_itoa((int)getpid());
 	mh->env = NULL;
 	t_env	*node;
 	char	*line;
@@ -128,6 +129,7 @@ void initializer_mh(char **env, t_mhstruct *mh)
     char	*data;
 	char	*tmp;
 	int i = 0;
+
 	while(env[i])
 	{
         line = ft_strdup(env[i]);

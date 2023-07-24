@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 14:38:36 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/07/17 19:49:39 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/07/24 13:42:36 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	is_special(char c)
 	char	*special;
 	int		i;
 
-	special = "\'\";| <>";
+	special = "\'\"| <>;";
 	i = 0;
 	while (special[i] != '\0')
 	{
