@@ -6,7 +6,7 @@
 #    By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/12 19:00:48 by apanikov          #+#    #+#              #
-#    Updated: 2023/07/21 17:02:39 by vtavitia         ###   ########.fr        #
+#    Updated: 2023/07/18 17:19:46 by apanikov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,7 @@
 # .PHONY: all clean fclean re 
 
 # Main Variables
+
 NAME     = minishell
 GCC      = gcc
 CFLAGS   = -Wall -Wextra -Werror -g -fsanitize=address
@@ -90,7 +91,7 @@ GREEN  = \033[32m
 YELLOW = \033[33m
 BLUE   = \033[34m
 
-all: readline $(NAME)
+all: readline $(NAME) Makefile
 	@echo > /dev/null
 
 bonus: all
