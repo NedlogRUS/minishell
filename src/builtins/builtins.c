@@ -162,7 +162,8 @@ char	**get_env_array(t_mhstruct *mh)
 
 void initializer_env(char **env, t_mhstruct *mh)
 {
-	mh->mh_pid = ft_itoa((int)getpid());
+	mh->mh_pid = (int)getpid();
+	mh->er_num = 0; 
 	mh->env = NULL;
 	t_env	*node;
 	char	*line;
@@ -196,5 +197,4 @@ void initializer_mh(char **env, t_mhstruct *mh)
 {
 	initializer_env(env, mh);
 	mh->mh_pid = (int)getpid();
-	ft_putnbr_fd(mh->mh_pid, 1);
 }

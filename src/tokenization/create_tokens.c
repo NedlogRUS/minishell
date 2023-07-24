@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:50:07 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/07/24 13:51:41 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/07/24 15:00:28 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,6 @@ void	check_and_tokenize(t_mhstruct *mh)
 		tokenize(start_t, mh->input);
 		handle_dollar(&mh);
 	//	concatenate_tokens(mh);
-		print_tokens(mh->token);
+	//  print_tokens(mh->token);
 	}
 }
