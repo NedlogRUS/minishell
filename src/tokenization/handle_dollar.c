@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 12:40:07 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/07/22 19:04:56 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/07/24 14:57:37 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	term_helper(char *search, t_mhstruct *mh, t_token **curr, t_env *env_t)
 	i = location + ft_strlen(search) + 1;
 	if ((*curr)->data[i])
 		copy_remaining(&i, &k, curr, &new_term);
+	//printf("newterm is %s\n", new_term->data);
 	finalise_newterm(new_term, curr, mh, k);
 }
 

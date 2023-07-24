@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 18:46:26 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/07/22 19:06:26 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/07/24 15:01:00 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ int	inject_pid(int	*k, int size, t_token **new_t, t_mhstruct **mh)
 	int	i;
 
 	i = 0;
-	while (*k <= size && (*mh)->mh_pid[i])
+	while (*k <= size && ft_itoa((*mh)->mh_pid)[i])
 	{	
-		(*new_t)->data[*k] = (*mh)->mh_pid[i];
-		i++;
+		(*new_t)->data[*k] = ft_itoa((*mh)->mh_pid)[i];
 		(*k)++;
+		i++;
 	}
 	return (i);
 }
@@ -31,9 +31,9 @@ int	inject_exit_msg(int	*k, int size, t_token **new_t, t_mhstruct **mh)
 	int	i;
 
 	i = 0;
-	while (*k <= size && (*mh)->exit[i])
+	while (*k <= size && ft_itoa((*mh)->er_num)[i])
 	{	
-		(*new_t)->data[*k] = (*mh)->exit[i];
+		(*new_t)->data[*k] = ft_itoa((*mh)->er_num)[i];
 		i++;
 		(*k)++;
 	}
@@ -54,9 +54,9 @@ int	get_size(char *term, t_env *env_lst, t_env **env_term, t_mhstruct *mh)
 	i = 0;
 	found = 0;
 	if ((!ft_strcmp("$", term)))
-		return (ft_strlen(mh->mh_pid));
+		return (ft_strlen(ft_itoa(mh->mh_pid)));
 	else if ((!ft_strcmp("?", term)))
-		return (ft_strlen(mh->exit));
+		return (ft_strlen(ft_itoa(mh->er_num)));
 	while (env_lst->next)
 	{
 		if (!ft_strcmp(env_lst->name, term))

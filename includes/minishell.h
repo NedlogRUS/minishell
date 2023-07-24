@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:13:02 by apanikov          #+#    #+#             */
-/*   Updated: 2023/07/21 16:41:05 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/07/24 14:24:04 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ typedef struct s_mhstuct
 	int				mh_pid; //pid of miniHell
 	int 			er_num; // number of error when comand done
 	struct s_env	*env;
-	char			*mh_pid;
 }				t_mhstruct;
 
 typedef struct s_env {
