@@ -35,12 +35,13 @@ int main(int ac, char **av, char **env)
 	while(1)
 	{
 		mh->input = readline("$> ");
+		
 		check_and_tokenize(mh);
 		execution_of_commands(mh);
 		// free_token(mh);
 		add_history(mh->input);
-		//break ;
+	
 	}
-	//system("leaks minishell");
+		system("leaks minishell");
 	return 0;
 }

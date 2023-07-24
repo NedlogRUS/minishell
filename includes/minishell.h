@@ -33,6 +33,7 @@ typedef struct s_mhstuct
 	int				mh_pid; //pid of miniHell
 	int 			er_num; // number of error when comand done
 	struct s_env	*env;
+	char			*mh_pid;
 }				t_mhstruct;
 
 typedef struct s_env {
