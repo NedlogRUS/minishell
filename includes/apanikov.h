@@ -6,7 +6,7 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:29:30 by apanikov          #+#    #+#             */
-/*   Updated: 2023/07/21 18:54:49 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/07/25 17:34:11 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void insert_env_node(t_env** head, t_env* node);
 void builtin_env(t_mhstruct *mh);
 void builtin_export(t_mhstruct *mh);
 void builtin_unset(t_mhstruct *mh);
+void builtin_cd(t_mhstruct *mh);
 void add_oldpwd_node(t_mhstruct *mh);
 void check_oldpwd(t_mhstruct *mh);
 void initializer_mh(char **env, t_mhstruct *mh);

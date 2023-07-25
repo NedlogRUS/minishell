@@ -6,21 +6,23 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 21:44:40 by apanikov          #+#    #+#             */
-/*   Updated: 2023/07/24 20:28:31 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/07/25 17:33:43 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void cd(t_mhstruct *mh, cahr **path)
+void cd(t_mhstruct *mh, char *path)
 {
-	
+	(void) mh;
+	(void) path;
+	printf("builtin cd in progress\n");
+	return;
 }
 
 void cd_home(t_mhstruct *mh)
 {
 	t_env *temp = mh->env;
-	int i = 0;
     while (temp != NULL) 
 	{
         if(!ft_strcmp(temp->name, "HOME"))
@@ -31,10 +33,14 @@ void cd_home(t_mhstruct *mh)
 				printf("minihell: cd: HOME not set\n");
 				return;
 			}
-			cd(mh, temp->data)
+			cd(mh, temp->data);
+			return;
 		}
         temp = temp->next;
     }
+	printf("minihell: cd: HOME not set\n");
+	mh->er_num = 1;
+	return;
 }
 
 void builtin_cd(t_mhstruct *mh)
@@ -47,7 +53,7 @@ void builtin_cd(t_mhstruct *mh)
 	if(token == NULL )// нужно проверить на маке, на линуксе если нет аргументов
 	// сд выходит в коренвую папку // yes on mac too
 	{	
-		cd_home(mh)
+		cd_home(mh);
 		return ;
 	}
 	while(token != NULL) //здесь нужно будет проверять что сд получает только стрингу или команду
@@ -61,7 +67,7 @@ void builtin_cd(t_mhstruct *mh)
 		printf("minihell: cd: too many arguments\n");
 		return ;
 	}
-	do_cd(mh, token->data);
+	// do_cd(mh, token->data);
 	return ;
 }
 
