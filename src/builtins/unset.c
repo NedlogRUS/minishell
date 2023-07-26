@@ -6,7 +6,7 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 18:50:42 by apanikov          #+#    #+#             */
-/*   Updated: 2023/07/21 20:33:45 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/07/26 20:46:40 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@ void	unset(t_mhstruct *mh, char *tdata)
 
 	if(!ft_strcmp(curr->name, tdata))
 	{
+		free(mh->env->name);
+		if(mh->env->data != NULL)
+			free(mh->env->data);
 		free(mh->env);
 		mh->env = curr->next;
 		return;
@@ -32,6 +35,9 @@ void	unset(t_mhstruct *mh, char *tdata)
 				temp->next = curr->next;
 			else
 				temp->next = NULL;
+			free(curr->name);
+			if(curr->data != NULL)
+				free(curr->data);
 			free(curr);
 			return;
 		}

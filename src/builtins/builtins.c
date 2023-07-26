@@ -31,10 +31,12 @@ t_env* create_env_node(const char* name, const char* data)
     if (node != NULL) 
 	{
         node->name = strdup(name);
+		// node->name = name;
 		if(!data)
 			node->data = NULL;
 		else
-        	node->data = strdup(data);
+		    node->data = strdup(data);
+        	// node->data = data;
         node->next = NULL;
     }
     return node;
