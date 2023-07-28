@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:15:07 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/07/15 17:13:08 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/07/25 17:29:00 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,6 @@ int	check_quotes_wrapped(char *str)
 	c = '\0';
 	open = check_quotes_wrapped_loop(str, c, open, i);
 	if (open)
-	{
-		error_msg("Syntax error - check quotes", 1);
 		return (1);
-	}
 	return (0);
 }

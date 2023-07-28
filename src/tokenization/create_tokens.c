@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:50:07 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/07/24 15:00:28 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/07/28 19:06:38 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,23 @@
 //deletethis
 void	print_tokens(t_token *token)
 {
-	while (token->next != NULL)
-	{
-		//printf("ADDRESS: %p\tDATA: %s Type: %d Next: %p\n",
-			// token, token->data, token->type, (char *)token->next);
-			printf("DATA: -%s-  next is %p\n",
-			token->data ,  token->next);
-		token = token->next;
-	}
-	// printf("ADDRESS: %p\tDATA: %s Type: %d Next: %p\n",
-	// 	token, token->data, token->type, (char *)token->next);
-	// 	if (token !=NULL)
-			printf("DATA: -%s-\n",
-			token->data );
+		printf("Printing tokens\n------\n");
+		while (token->next != NULL)
+		{
+				printf("DATA: -%s-\n",
+				token->data);
+			token = token->next;
+		}
+		if (ft_tokenlstsize(token))
+			printf("DATA: -%s-\n", token->data);	
+				printf("------\n");
 }
-/////
 
 static int	do_copy_helper(char *input, int *ip, int *kp, t_token **current)
 {
 	int		open;
 	char	c;
-
+	
 	c = input[*ip];
 	open = 1;
 	if (c == '\'')
@@ -66,7 +62,7 @@ static void	do_copy(char *input, t_token **current, int *ip, int count)
 
 	i = *ip;
 	k = 0;
-	while (count-- && input[i] != '\0' && !just_whitespace(input, i))
+	while (count-- && input[i] != '\0' && !jw(input, i))
 	{
 		if (input[i] == '\'' || input[i] == '"')
 		{
@@ -117,11 +113,10 @@ void	tokenize(t_token *current, char *input)
 
 	i = 0;
 	j = 0;
-	skip_all_whitespace(input, &i, &j);
 	while (input[i] != '\0')
 	{
 		tozenize_helper(&current, input, &i, &j);
-		if (just_whitespace(input, i) || input[i] == '\0')
+		if (jw(input, i) || input[i] == '\0')
 		{
 			current->next = NULL;
 			break ;
@@ -139,13 +134,19 @@ void	check_and_tokenize(t_mhstruct *mh)
 {
 	t_token	*start_t;
 
-	if (!check_quotes_wrapped(mh->input) && !check_syntax(mh->input))
+	if (check_quotes_wrapped(mh->input))
+		error_msg("Syntax error -check quotes", 1, mh);
+	else if (check_bad_specials(mh->input))
+		error_msg("Syntax error - near unexpected token", 1, mh);
+	else if (!check_quotes_wrapped(mh->input))
 	{
 		start_t = init_token("", NULL_VAL);
 		mh->token = start_t;
 		tokenize(start_t, mh->input);
 		handle_dollar(&mh);
-	//	concatenate_tokens(mh);
-	//  print_tokens(mh->token);
+		concatenate_tokens(mh);
+		if (ft_tokenlstsize(mh->token) >= 2)
+			remove_empty_nodes(mh);
+		print_tokens(mh->token);
 	}
 }

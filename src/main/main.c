@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/07/24 14:31:15 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/07/24 15:31:52 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int main(int ac, char **av, char **env)
 		mh->input = readline("$> ");
 		
 		check_and_tokenize(mh);
-		execution_of_commands(mh);
+		//execution_of_commands(mh);
 		// free_token(mh);
 		add_history(mh->input);
 	

@@ -6,109 +6,122 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:11:30 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/07/24 13:46:03 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/07/28 18:46:23 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_tokenlstsize(t_token *lst)
+int	isbreak(char c)
 {
+	char	*special;
 	int		i;
 
+	special = "|<>; ";
 	i = 0;
-	if (!lst || lst->data[0] == '\0')
-		return (0);
-	while (lst)
+	while (special[i] != '\0')
 	{
+		if (special[i] == c || special[i] == '\0')
+			return (1);
 		i++;
-		lst = lst->next;
 	}
-
-	return (i);
+	return (0);
 }
 
-int	find_range(t_mhstruct *mh, int range)
+int	find_range(t_mhstruct *mh, int *start, int *nodes)
 {
-	int	count;
-	int	mark;
+	t_token	*token;
 
-	count = 1;
-	mark = 0;
-	while (mh->token->next && mark == 0)
+	token = mh->token;
+	while (token && !(*nodes))
 	{
-		printf("here");
-		if (!(is_special(mh->token->next->data[0])))
+		(*start)++;
+		if (token->next)
 		{
-			mark = 1;
-			mh->token = mh->token->next;
-			while (mh->token->next)
+			if ((!isbreak(token->data[0]) || (token->s_quote || token->d_quote))
+				&& (!isbreak(token->next->data[0])
+					|| (token->next->s_quote || token->next->d_quote)))
+				(*nodes)++;
+			while ((token->next) && ((!isbreak(token->data[0])
+						|| (token->s_quote || token->d_quote))
+					&& (!isbreak(token->next->data[0])
+						|| (token->next->s_quote || token->next->d_quote))))
 			{
-				if (is_special(mh->token->next->data[0]))
-					break ;
-				mark++;
-				mh->token = mh->token->next;
-			}	
+				(*nodes)++;
+				token = token->next;
+			}
 		}
-		count++;
-		mh->token = mh->token->next;
+		token = token->next;
 	}
-	printf("mark is %d - count is %d - size is %d\n", mark, count, range);
-	return (mark);
+	return (*nodes);
 }
 
-// int count_chars(t_mstruct mh, i, j);
+void	begin_cat_helper(t_token *token, t_token *new_t, int nodes)
+{
+	int		i;
+	int		k;
+	int		sq;
+	int		dq;
 
-// void	cat_tokens(t_mhstruct *mh, int *i, int *j, int *quote_found)
-// {
-// 	int	i;
-// 	int	j;
-// 	int	quote_found;
-// 	int	count_chars;
+	i = 0;
+	k = 0;
+	sq = token->s_quote;
+	dq = token->d_quote;
+	while (nodes--)
+	{	
+		while (token->data[i])
+		{
+			new_t->data[k] = token->data[i];
+			i++;
+			k++;
+		}
+		token = token->next;
+		i = 0;
+	}
+	if (sq || dq)
+		assign_quotes(&new_t, sq, dq);
+	new_t->data[k] = '\0';
+}
 
-// 	i = *i;
-// 	j = *j;
-// 	quote_found = *quote_found;
-// 	count_chars = count_chars(mh, i, j);
-	
-	
-// }
+void	begin_cat(t_mhstruct *mh, int start, int nodes, int lst_size)
+{
+	int		i;
+	int		k;
+	int		count;
+	t_token	*new_t;
+	t_token	*token;
 
-// void	begin_cat(t_mhstruct *mh, int size)
-// {
-// 	int		i;
-// 	int		j;
-// 	int		quote_found;
-// 	char	c;
-
-// 	i = 1;
-// 	j = 0;
-// 	quote_found = 0;
-
-// 	while (i < size)
-// 	{
-// 		while (mh->token[j])
-// 		{
-// 			if (mh->token[j] == '\'' || mh->token[j] == "\'")
-// 			{
-// 				c = mh->token[j];
-// 				quote_found = 1;
-// 				while (quote_found)
-// 					cat_tokens(mh, &i, &j, &quote_found)
-// 			}
-// 			j++;
-// 		}
-// 		j = 0;
-// 		i++;
-// 	}
-// }
+	i = 0;
+	k = 0;
+	count = count_chars(mh, start, nodes, lst_size);
+	token = mh->token;
+	new_t = init_token("", NULL_VAL);
+	new_t->data = (char *)malloc(sizeof(char) * count + 1);
+	if (!new_t->data)
+		error_msg("Concatenation Failed\n", 1, mh);
+	count = 0;
+	while (count++ < start - 1 && count < lst_size)
+		token = token->next;
+	begin_cat_helper(token, new_t, nodes);
+	replace_token(mh, new_t, start, nodes);
+}
 
 void	concatenate_tokens(t_mhstruct *mh)
 {
-	int	lst_size;
+	int		lst_size;
+	int		start;
+	int		nodes;
 
+	start = 0;
+	nodes = 0;
+	parse_start(mh);
 	lst_size = ft_tokenlstsize(mh->token);
-	find_range(mh, lst_size);
-	printf("list size is %d\n", lst_size);
-	//begin_cat(mh, tok_lst_size);
+	while (find_range(mh, &start, &nodes))
+	{
+		find_range(mh, &start, &nodes);
+		if (nodes)
+			begin_cat(mh, start, nodes, lst_size);
+		start = 0;
+		nodes = 0;
+	}
 }
