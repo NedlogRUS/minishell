@@ -6,7 +6,7 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:13:02 by apanikov          #+#    #+#             */
-/*   Updated: 2023/07/21 18:58:17 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/07/28 20:57:09 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <limits.h>
+# include <dirent.h>
+# include <errno.h>
 
 typedef enum s_token_type	t_token_type;
 typedef struct s_token		t_token;
