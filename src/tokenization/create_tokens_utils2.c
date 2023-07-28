@@ -6,11 +6,19 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:53:52 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/07/18 13:04:04 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/07/28 18:11:15 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vtavitia.h"
+
+static void	check_and_inc(char *input, int *i)
+{
+	if (input[*i] == '>' && input[*i + 1] == '>')
+		(*i)++;
+	if (input[*i] == '<' && input[*i + 1] == '<')
+		(*i)++;
+}
 
 static void	do_special_inc(char *input, int *ip, char c)
 {
@@ -34,7 +42,10 @@ static void	do_special_inc(char *input, int *ip, char c)
 		}
 	}
 	else
+	{
+		check_and_inc(input, &i);
 		i++;
+	}
 	*ip = i;
 }
 
@@ -69,4 +80,12 @@ t_token	*init_token(char *data, t_token_type type)
 	new_token->d_quote = 0;
 	new_token->next = NULL;
 	return (new_token);
+}
+
+void	assign_quotes(t_token **new_t, int sq, int dq)
+{
+	if (sq)
+		(*new_t)->s_quote = sq;
+	if (dq)
+		(*new_t)->d_quote = dq;
 }
