@@ -1,85 +1,127 @@
-// /* ************************************************************************** */
-// /*                                                                            */
-// /*                                                        :::      ::::::::   */
-// /*   concatenate_tokens.c                               :+:      :+:    :+:   */
-// /*                                                    +:+ +:+         +:+     */
-// /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
-// /*                                                +#+#+#+#+#+   +#+           */
-// /*   Created: 2023/07/17 13:11:30 by vtavitia          #+#    #+#             */
-// /*   Updated: 2023/07/17 13:45:45 by vtavitia         ###   ########.fr       */
-// /*                                                                            */
-// /* ************************************************************************** */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   concatenate_tokens.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/17 13:11:30 by vtavitia          #+#    #+#             */
+/*   Updated: 2023/07/28 18:46:23 by vtavitia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-// #include "minishell.h"
+#include "minishell.h"
 
-// int	ft_tokenlstsize(t_token *lst)
-// {
-// 	int		i;
-// 	t_token	*j;
+int	isbreak(char c)
+{
+	char	*special;
+	int		i;
 
-// 	j = lst;
-// 	i = 0;
-// 	if (!lst)
-// 		return (0);
-// 	while (j != 0)
-// 	{
-// 		i++;
-// 		j = j->next;
-// 	}
-// 	return (i);
-// }
+	special = "|<>; ";
+	i = 0;
+	while (special[i] != '\0')
+	{
+		if (special[i] == c || special[i] == '\0')
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
-// int count_chars(t_mstruct mh, i, j);
+int	find_range(t_mhstruct *mh, int *start, int *nodes)
+{
+	t_token	*token;
 
-// void	cat_tokens(t_mhstruct *mh, int *i, int *j, int *quote_found)
-// {
-// 	int	i;
-// 	int	j;
-// 	int	quote_found;
-// 	int	count_chars;
+	token = mh->token;
+	while (token && !(*nodes))
+	{
+		(*start)++;
+		if (token->next)
+		{
+			if ((!isbreak(token->data[0]) || (token->s_quote || token->d_quote))
+				&& (!isbreak(token->next->data[0])
+					|| (token->next->s_quote || token->next->d_quote)))
+				(*nodes)++;
+			while ((token->next) && ((!isbreak(token->data[0])
+						|| (token->s_quote || token->d_quote))
+					&& (!isbreak(token->next->data[0])
+						|| (token->next->s_quote || token->next->d_quote))))
+			{
+				(*nodes)++;
+				token = token->next;
+			}
+		}
+		token = token->next;
+	}
+	return (*nodes);
+}
 
-// 	i = *i;
-// 	j = *j;
-// 	quote_found = *quote_found;
-// 	count_chars = count_chars(mh, i, j);
-	
-	
-// }
+void	begin_cat_helper(t_token *token, t_token *new_t, int nodes)
+{
+	int		i;
+	int		k;
+	int		sq;
+	int		dq;
 
-// void	begin_cat(t_mhstruct *mh, int size)
-// {
-// 	int		i;
-// 	int		j;
-// 	int		quote_found;
-// 	char	c;
+	i = 0;
+	k = 0;
+	sq = token->s_quote;
+	dq = token->d_quote;
+	while (nodes--)
+	{	
+		while (token->data[i])
+		{
+			new_t->data[k] = token->data[i];
+			i++;
+			k++;
+		}
+		token = token->next;
+		i = 0;
+	}
+	if (sq || dq)
+		assign_quotes(&new_t, sq, dq);
+	new_t->data[k] = '\0';
+}
 
-// 	i = 1;
-// 	j = 0;
-// 	quote_found = 0;
+void	begin_cat(t_mhstruct *mh, int start, int nodes, int lst_size)
+{
+	int		i;
+	int		k;
+	int		count;
+	t_token	*new_t;
+	t_token	*token;
 
-// 	while (i < size)
-// 	{
-// 		while (mh->token[j])
-// 		{
-// 			if (mh->token[j] == '\'' || mh->token[j] == "\'")
-// 			{
-// 				c = mh->token[j];
-// 				quote_found = 1;
-// 				while (quote_found)
-// 					cat_tokens(mh, &i, &j, &quote_found)
-// 			}
-// 			j++;
-// 		}
-// 		j = 0;
-// 		i++;
-// 	}
-// }
+	i = 0;
+	k = 0;
+	count = count_chars(mh, start, nodes, lst_size);
+	token = mh->token;
+	new_t = init_token("", NULL_VAL);
+	new_t->data = (char *)malloc(sizeof(char) * count + 1);
+	if (!new_t->data)
+		error_msg("Concatenation Failed\n", 1, mh);
+	count = 0;
+	while (count++ < start - 1 && count < lst_size)
+		token = token->next;
+	begin_cat_helper(token, new_t, nodes);
+	replace_token(mh, new_t, start, nodes);
+}
 
-// void	concatenate_tokens(t_mhstruct *mh)
-// {
-// 	int	tok_lst_size;
+void	concatenate_tokens(t_mhstruct *mh)
+{
+	int		lst_size;
+	int		start;
+	int		nodes;
 
-// 	tok_lst_size = ft_tokenlstsize(mh->token);
-// 	\\printf("list size is %d\n", tok_lst_size);
-// 	begin_cat(mh, tok_lst_size);
-// }
+	start = 0;
+	nodes = 0;
+	parse_start(mh);
+	lst_size = ft_tokenlstsize(mh->token);
+	while (find_range(mh, &start, &nodes))
+	{
+		find_range(mh, &start, &nodes);
+		if (nodes)
+			begin_cat(mh, start, nodes, lst_size);
+		start = 0;
+		nodes = 0;
+	}
+}

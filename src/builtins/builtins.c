@@ -180,6 +180,8 @@ char	**get_env_array(t_mhstruct *mh)
 void initializer_env(char **env, t_mhstruct *mh)
 {
 	mh->env = malloc(sizeof(t_env));
+	mh->er_num = 0; 
+	mh->mh_pid = (int)getpid();
 	mh->env = NULL;
 	t_env	*node;
 	char	*line;
@@ -187,6 +189,7 @@ void initializer_env(char **env, t_mhstruct *mh)
     char	*data;
 	char	*tmp;
 	int i = 0;
+
 	while(env[i])
 	{
         line = ft_strdup(env[i]);
@@ -211,6 +214,5 @@ void initializer_env(char **env, t_mhstruct *mh)
 void initializer_mh(char **env, t_mhstruct *mh)
 {
 	initializer_env(env, mh);
-	mh->mh_pid = ft_itoa((int)getpid());
-	// printf("%s\n",mh->mh_pid);
+	mh->mh_pid = (int)getpid();
 }

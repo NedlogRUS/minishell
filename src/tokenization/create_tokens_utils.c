@@ -6,16 +6,15 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 14:38:36 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/07/17 19:49:39 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/07/28 18:57:10 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	error_msg(char *str, int err_num)
+void	error_msg(char *str, int err_num, t_mhstruct *mh)
 {
-	errno = err_num;
-	//add $? handler
+	mh->er_num = err_num;
 	perror(str);
 }
 
@@ -24,7 +23,7 @@ int	is_special(char c)
 	char	*special;
 	int		i;
 
-	special = "\'\";| <>";
+	special = "\'\"| <>;";
 	i = 0;
 	while (special[i] != '\0')
 	{
@@ -35,7 +34,7 @@ int	is_special(char c)
 	return (0);
 }
 
-int	just_whitespace(char *input, int i)
+int	jw(char *input, int i)
 {
 	while (input[i] == ' ')
 	{
