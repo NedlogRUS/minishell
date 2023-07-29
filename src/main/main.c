@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/07/25 18:11:18 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/07/29 16:06:20 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ int main(int ac, char **av, char **env)
 		mh->input = readline("$> ");
 		
 		check_and_tokenize(mh);
-		//execution_of_commands(mh);
+		execution_of_commands(mh);
 		// free_token(mh);
 		add_history(mh->input);
 	
 	}
-		system("leaks minishell");
+		// system("leaks minishell");
 	return 0;
 }
