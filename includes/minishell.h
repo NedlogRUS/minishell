@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:13:02 by apanikov          #+#    #+#             */
-/*   Updated: 2023/07/28 20:57:09 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/07/29 16:07:10 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ typedef struct s_mhstuct
 {
 	t_token			*token;
 	char			*input;
-	// int				mh_pid; //pid of miniHell
-	char			*mh_pid;
+	int				mh_pid; //pid of miniHell
+	// char			*mh_pid;
 	int 			er_num; // number of error when comand done
 	struct s_env	*env;
 }				t_mhstruct;
