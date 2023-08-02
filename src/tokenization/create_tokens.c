@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_tokens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:50:07 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/07/29 16:09:20 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/02 13:27:34 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,6 @@ void	check_and_tokenize(t_mhstruct *mh)
 		concatenate_tokens(mh);
 		if (ft_tokenlstsize(mh->token) >= 2)
 			remove_empty_nodes(mh);
-		// print_tokens(mh->token);
+		print_tokens(mh->token);
 	}
 }
