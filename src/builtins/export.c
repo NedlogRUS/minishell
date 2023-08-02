@@ -6,7 +6,7 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 18:09:54 by apanikov          #+#    #+#             */
-/*   Updated: 2023/07/20 19:28:55 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/07/21 17:17:22 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ void	join_env_data(t_env** head,char *name, char *data)
 {
 	t_env* curr = *head;
 	
-	while (curr->next != NULL) 
+	// while (curr->next != NULL)
+	while (curr != NULL) 
 	{
 		if(!ft_strcmp(curr->name, name))
 		{
@@ -137,7 +138,10 @@ void	add_export(t_mhstruct *mh, char *tdata)
 		data = ft_strdup(tmp);
 	if(!check_env_name(&mh->env, name))
 	{
-    	node = create_env_node(name, data); // Сюда нужен костыль для кейса когда создается новая нода но есть = и нужно занулить
+		if(!data)
+			node = create_env_node2(name, NULL);//
+		else
+    		node = create_env_node(name, data); 
     	if (node != NULL) 
         	insert_env_node(&mh->env, node);
 	}

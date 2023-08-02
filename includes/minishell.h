@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:13:02 by apanikov          #+#    #+#             */
-/*   Updated: 2023/07/24 14:24:04 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/07/29 16:07:10 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <limits.h>
+# include <dirent.h>
+# include <errno.h>
 
 typedef enum s_token_type	t_token_type;
 typedef struct s_token		t_token;
@@ -31,6 +33,7 @@ typedef struct s_mhstuct
 	t_token			*token;
 	char			*input;
 	int				mh_pid; //pid of miniHell
+	// char			*mh_pid;
 	int 			er_num; // number of error when comand done
 	struct s_env	*env;
 }				t_mhstruct;
