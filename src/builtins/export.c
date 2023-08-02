@@ -6,7 +6,7 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 18:09:54 by apanikov          #+#    #+#             */
-/*   Updated: 2023/07/21 17:17:22 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/02 21:28:12 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,9 @@ void	join_export(t_mhstruct *mh, char *tdata)
 	else
 		join_env_data(&mh->env, name, data);
     free(line);
+	free(name);
+	if(data != NULL)
+		free(data);
 	return ;
 }
 
@@ -148,6 +151,9 @@ void	add_export(t_mhstruct *mh, char *tdata)
 	else
 		change_env_data(&mh->env, name, data);
     free(line);
+	free(name);
+	if(data != NULL)
+		free(data);
 	return ;
 }
 

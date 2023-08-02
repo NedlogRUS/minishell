@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_tokens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:50:07 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/02 13:27:34 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/02 21:12:51 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ void	check_and_tokenize(t_mhstruct *mh)
 		error_msg("Syntax error -check quotes", 1, mh);
 	else if (check_bad_specials(mh->input))
 		error_msg("Syntax error - near unexpected token", 1, mh);
-	else if (!check_quotes_wrapped(mh->input))
+	else if (!check_quotes_wrapped(mh->input)  )
 	{
 		start_t = init_token("", NULL_VAL);
 		mh->token = start_t;
@@ -147,6 +147,6 @@ void	check_and_tokenize(t_mhstruct *mh)
 		concatenate_tokens(mh);
 		if (ft_tokenlstsize(mh->token) >= 2)
 			remove_empty_nodes(mh);
-		print_tokens(mh->token);
+		//print_tokens(mh->token);
 	}
 }

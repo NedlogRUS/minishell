@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/02 18:50:38 by apanikov          #+#    #+#             */
+/*   Updated: 2023/08/02 20:51:14 by apanikov         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 void builtin_pwd(t_mhstruct *mh) 
@@ -15,11 +27,11 @@ t_env* create_env_node2(const char* name, const char* data)
     t_env* node = (t_env*)malloc(sizeof(t_env));
     if (node != NULL) 
 	{
-        node->name = strdup(name);
+        node->name = ft_strdup((char *)name);
 		if(!data)
 			node->data = ft_strdup("\0");
 		else
-        	node->data = strdup(data);
+        	node->data = ft_strdup((char *)data);
         node->next = NULL;
     }
     return node;
@@ -30,13 +42,11 @@ t_env* create_env_node(const char* name, const char* data)
     t_env* node = (t_env*)malloc(sizeof(t_env));
     if (node != NULL) 
 	{
-        node->name = strdup(name);
-		// node->name = name;
+        node->name = ft_strdup((char *)name);
 		if(!data)
 			node->data = NULL;
 		else
-		    node->data = strdup(data);
-        	// node->data = data;
+		    node->data = ft_strdup((char *)data);
         node->next = NULL;
     }
     return node;
@@ -127,20 +137,23 @@ void check_oldpwd(t_mhstruct *mh)
 
 char *ft_mhjoin(char *s1, char *s2)
 {
-	int i = 0;
-	int j = 0;
-	char *new;
-	if(!s2)
+	int		i;
+	int		j;
+	char	*new;
+
+	i = 0;
+	j = 0;
+	if (!s2)
 		return(s1);
 	new = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if(!new)
+	if (!new)
 		return 0;
-	while(s1[i])
+	while (s1[i])
 	{
 		new[i] = s1[i];
 		i++;
 	}
-	while(s2[j])
+	while (s2[j])
 	{
 		new[i+j] = s2[j];
 		j++;
@@ -150,51 +163,52 @@ char *ft_mhjoin(char *s1, char *s2)
 	return new;
 }
 
-char	**get_env_array(t_mhstruct *mh)
+char	**get_env_array(t_mhstruct *mh) // if you take array from this function don't forget to free
 {
 	char **out = NULL;
 	int i = 0;
-    t_env* currentEnv = mh->env;
-    while (currentEnv != NULL)
-    {
-        i++;
-        currentEnv = currentEnv->next;
-    }
-    out = (char **)malloc((i + 1) * sizeof(char *));
-    if (!out)
-        return NULL;
-    i = 0;
-    currentEnv = mh->env;
-    while (currentEnv != NULL)
+	t_env* currentEnv = mh->env;
+	while (currentEnv != NULL)
 	{
-        out[i] = ft_strdup(currentEnv->name);
+		i++;
+		currentEnv = currentEnv->next;
+	}
+	out = (char **)malloc((i + 1) * sizeof(char *));
+	if (!out)
+		return NULL;
+	i = 0;
+	currentEnv = mh->env;
+	while (currentEnv != NULL)
+	{
+		out[i] = ft_strdup(currentEnv->name);
 		out[i] = ft_mhjoin(out[i], "=");
 		out[i] = ft_mhjoin(out[i], currentEnv->data);
-        currentEnv = currentEnv->next;
-        i++;
-    }
-    out[i] = NULL;
+		currentEnv = currentEnv->next;
+		i++;
+	}
+	out[i] = NULL;
 	return (out);
 }
 
-void initializer_env(char **env, t_mhstruct *mh)
+void	initializer_env(char **env, t_mhstruct *mh)
 {
-	mh->env = malloc(sizeof(t_env));
-	mh->er_num = 0; 
-	mh->mh_pid = (int)getpid();
-	mh->env = NULL;
 	t_env	*node;
 	char	*line;
-    char	*name;
-    char	*data;
+	char	*name;
+	char	*data;
 	char	*tmp;
-	int i = 0;
-
-	while(env[i])
+	int		i;
+	
+	// mh->env = malloc(sizeof(t_env));
+	// system("leaks minishell");
+	mh->env = NULL;
+	mh->er_num = 0;
+	i = 0;
+	while (env[i])
 	{
-        line = ft_strdup(env[i]);
+		line = ft_strdup(env[i]);
 		tmp = line;
-		if((tmp = ft_strchr(line, '=')))
+		if ((tmp = ft_strchr(line, '=')))
 		{
 			*tmp = '\0';
 			name = ft_strdup(line);
@@ -202,16 +216,18 @@ void initializer_env(char **env, t_mhstruct *mh)
 			tmp++;
 			data = ft_strdup(tmp);
 		}
-        node = create_env_node(name, data);
-        if (node != NULL) 
-            insert_env_node(&mh->env, node);
-        free(line);
+		node = create_env_node(name, data);
+		if (node != NULL) 
+			insert_env_node(&mh->env, node);
+		free(line);
+		free(name);
+		free(data);
 		i++;
-    }
+	}
 	check_oldpwd(mh);
 }
 
-void initializer_mh(char **env, t_mhstruct *mh)
+void	initializer_mh(char **env, t_mhstruct *mh)
 {
 	initializer_env(env, mh);
 	mh->mh_pid = (int)getpid();
