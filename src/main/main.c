@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/02 14:27:18 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/01 19:00:31 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,12 @@ void	execution_of_commands(t_mhstruct *mh)
 
 int main(int ac, char **av, char **env)
 {
-	(void) ac;
+	t_mhstruct *mh;
+	// (void) ac;
 	(void) av;
 	// (void)env;
-	t_mhstruct *mh;
+	if(ac > 1)
+		exit (1);
 	mh = malloc(sizeof(t_mhstruct));
 	initializer_mh(env, mh);
 	while(1)
