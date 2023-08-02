@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 14:39:20 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/07/28 18:55:54 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/02 14:27:24 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <errno.h>
+# include <fcntl.h>
 # include "minishell.h"
 
 typedef struct s_mhstuct	t_mhstruct;
@@ -79,6 +80,10 @@ int		check_bad_specials(char *input);
 void	parse_start(t_mhstruct *mh);
 int		count_chars(t_mhstruct *mh, int start, int nodes, int lst_size);
 void	assign_quotes(t_token **new_t, int sq, int dq);
+void	classify_tokens(t_mhstruct *mh);
+
+// redirects
+void	do_redirects(t_token *t, t_mhstruct *mh);
 
 
 //delete this

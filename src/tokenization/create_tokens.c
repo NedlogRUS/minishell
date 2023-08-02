@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:50:07 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/02 13:27:34 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/02 14:28:58 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ void	print_tokens(t_token *token)
 		printf("Printing tokens\n------\n");
 		while (token->next != NULL)
 		{
-				printf("DATA: -%s-\n",
-				token->data);
+				printf("DATA: -%s- type is %d\n",
+				token->data, token->type);
 			token = token->next;
 		}
 		if (ft_tokenlstsize(token))
-			printf("DATA: -%s-\n", token->data);	
-				printf("------\n");
+			printf("DATA: -%s- type is %d\n",
+				token->data, token->type);
 }
 
 static int	do_copy_helper(char *input, int *ip, int *kp, t_token **current)
@@ -147,6 +147,8 @@ void	check_and_tokenize(t_mhstruct *mh)
 		concatenate_tokens(mh);
 		if (ft_tokenlstsize(mh->token) >= 2)
 			remove_empty_nodes(mh);
-		print_tokens(mh->token);
+		classify_tokens(mh);
+		//do_redirects(mh->token, mh);
+		//print_tokens(mh->token);
 	}
 }
