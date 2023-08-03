@@ -6,7 +6,7 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 12:54:14 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/02 18:49:23 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/03 18:59:18 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,11 +141,7 @@ void	builtin_exit(t_mhstruct *mh)
 		token = token->next;
 	}
 	if (i > 1)
-	{
-		printf("minihell: exit: too many arguments\n");
-		mh->er_num = 1;
-		return ;
-	}
+		return (pr_err(mh, 1, gemsg(mh->emsg[3], mh->emsg[6], NULL)));
 	token = mh->token->next;
 	do_exit(mh, 0, token->data);
 	return ;

@@ -6,7 +6,7 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/02 21:21:04 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/03 16:30:04 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	execution_of_commands(t_mhstruct *mh)
 	}
 }
 
-void	free_token_2(t_mhstruct *mh)
+void	free_token_main(t_mhstruct *mh)
 {
 	if(mh->token == NULL)
 		return ;
@@ -93,11 +93,11 @@ int main(int ac, char **av, char **env)
 		{
 			check_and_tokenize(mh);
 			execution_of_commands(mh);
-			free_token_2(mh);
+			free_token_main(mh);
 			add_history(mh->input);
 		}
 		free(mh->input);
-		system("leaks minishell");
+		// system("leaks minishell");
 
 	}
 		// system("leaks minishell");
