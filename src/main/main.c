@@ -6,7 +6,7 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/03 16:30:04 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/04 14:57:00 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int main(int ac, char **av, char **env)
 {
 	t_mhstruct *mh;
 	(void) av;
-	(void) env;
 	if(ac > 1)
 		exit (1);
 	rl_catch_signals = 0;
