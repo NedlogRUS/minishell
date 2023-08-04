@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/04 14:57:00 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/04 19:26:21 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void do_sigquit(int i)
 	rl_redisplay();
 }
 
+// we need here check for all cases like Pwd pWd pwD ...
+
 void	execution_of_commands(t_mhstruct *mh)
 {
 	if(!ft_strcmp(mh->token->data, "pwd"))
@@ -43,7 +45,7 @@ void	execution_of_commands(t_mhstruct *mh)
 		builtin_echo(mh);
 	else if(!ft_strcmp(mh->token->data, "exit"))
 		builtin_exit(mh);
-	else
+	else if (!execve_of_commands(mh))	
 	{
 		mh->er_num = 127;
 		printf("minihell: command not found: %s\n", mh->token->data);
