@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 16:27:19 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/04 16:43:21 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/04 17:14:18 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,20 +66,41 @@ void	execute_last(char **argv, char **envp, int i)
 void	delete_outfile_tokens(t_mhstruct **mh, t_token *redir)
 {
 	t_token	*temp;
-	t_token *t;
+	t_token	*t;
 
-	t= (*mh)->token;
-
-	while (t && t !=redir)
+	t = (*mh)->token;
+	while (t && t != redir)
 		t = t->next;
 	temp = (t)->next;
 	free_token(t);
 	t = temp;
 	temp = (t)->next;
 	free_token(t);
-	// free_token(temp);
 }
 
+void	checkred(t_token **pre, t_token **nullthis, t_mhstruct **mh, int *out)
+{
+	if (*pre && (*pre)->type == GT)
+	{
+		*out = open((*pre)->next->data, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+		delete_outfile_tokens(mh, *pre);
+		(*nullthis)->next = NULL;
+	}
+	else if (*pre && (*pre)->type == D_GT)
+	{
+		*out = open((*pre)->next->data, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+		delete_outfile_tokens(mh, *pre);
+		(*nullthis)->next = NULL;
+	}
+}
+
+void	ct_check(int count, t_token **last, t_token **preprev, t_token **prev)
+{
+	if (count >= 4)
+		*last = *preprev;
+	if (count >= 3)
+		*preprev = *prev;
+}
 
 int	dup_out_file(int *outfile, t_mhstruct **mh)
 {
@@ -88,8 +109,8 @@ int	dup_out_file(int *outfile, t_mhstruct **mh)
 	t_token *preprev;
 	t_token	*nullthis;
 	int count;
+	
 	count = 1;
-	(void)outfile;
 	t = (*mh)->token;
 	prev = t;
 	preprev = NULL;
@@ -101,58 +122,13 @@ int	dup_out_file(int *outfile, t_mhstruct **mh)
 	}
 	while (t)
 	{
-		if (count >= 4)
-			nullthis = preprev;
-		if (count >= 3)
-			preprev = prev;
+		ct_check(count, &nullthis, &preprev, &prev);
 		prev = t;
 		t = t->next;
 		count++;
 	}
-	if (preprev && preprev->type == GT)
-	{
-		*outfile = open((preprev)->next->data, O_CREAT | O_TRUNC | O_WRONLY, 0644);
-		delete_outfile_tokens(mh, preprev);
-		nullthis->next = NULL;
-	}
-	else if (preprev && preprev->type == D_GT)
-	{
-		*outfile = open((preprev)->next->data, O_CREAT | O_TRUNC | O_WRONLY, 0644);
-		delete_outfile_tokens(mh, preprev);
-		nullthis->next = NULL;
-	}
-
-	// if (ft_tokenlstsize((*mh)->token) > 3)
-	// 	printf("found '%s' and pre prev = '%s' and nullthis= '%s\n", preprev->next->data, preprev->data, nullthis->data);
-	
-	
-	print_tokens((*mh)->token);
+	checkred(&preprev, &nullthis, mh, outfile);
 	return (0);
-	// while (t)
-	// {
-	// 	if (t->type == GT || t->type == D_GT)
-	// 	{
-	// 		if (do_dups(t, mh))
-	// 			return (1);
-	// 		delete_redirs(t, mh, prev);
-	// 	}
-	// }
-	// int	i;
-
-	// i = 3;
-	// if (ft_strncmp(argv[1], "here_doc", 8) == 0)
-	// {
-	// 	if (argc < 6)
-	// 		error_msg2("Error\nNot enough arguments!");
-	// 	*outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
-	// 	do_here_doc(argv[2]);
-	// }
-	// else
-	// {
-	// 	*outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	// 	i = 2;
-	// }
-	// return (i);
 }
 
 
