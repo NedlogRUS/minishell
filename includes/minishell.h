@@ -6,7 +6,7 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:13:02 by apanikov          #+#    #+#             */
-/*   Updated: 2023/07/29 16:07:10 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/03 17:43:46 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ typedef struct s_mhstuct
 	int				mh_pid; //pid of miniHell
 	// char			*mh_pid;
 	int 			er_num; // number of error when comand done
+	char			**emsg; // error message and command name for print
 	struct s_env	*env;
+	struct s_utils	*utils;
 }				t_mhstruct;
 
 typedef struct s_env {
@@ -43,5 +45,12 @@ typedef struct s_env {
     char			*data;
     struct s_env	*next;
 } t_env;
+
+typedef struct s_utils {
+	char			*line;
+    char			*name;
+    char			*data;
+	char			*tmp;
+} t_utils;
 
 #endif
