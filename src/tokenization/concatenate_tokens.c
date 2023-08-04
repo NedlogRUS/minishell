@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:11:30 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/07/28 18:46:23 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/03 19:22:46 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ void	begin_cat(t_mhstruct *mh, int start, int nodes, int lst_size)
 		token = token->next;
 	begin_cat_helper(token, new_t, nodes);
 	replace_token(mh, new_t, start, nodes);
+	free(token->data);
 }
 
 void	concatenate_tokens(t_mhstruct *mh)

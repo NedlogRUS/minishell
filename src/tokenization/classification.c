@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:43:32 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/07/31 14:40:36 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/02 17:19:19 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ static void	assign_type(t_token *t)
 {
 	if (check_builtin(t->data))
 			t->type = BUILTIN;
-	else if (!(ft_strcmp(t->data, "<")))
+	else if (!(ft_strcmp(t->data, "<")) && !(t->s_quote || t->d_quote))
 		t->type = LT;
-	else if (!(ft_strcmp(t->data, "<<")))
+	else if (!(ft_strcmp(t->data, "<<")) && !(t->s_quote || t->d_quote))
 		t->type = D_LT;
-	else if (!(ft_strcmp(t->data, ">")))
+	else if (!(ft_strcmp(t->data, ">")) && !(t->s_quote || t->d_quote))
 		t->type = GT;
-	else if (!(ft_strcmp(t->data, ">>")))
+	else if (!(ft_strcmp(t->data, ">>")) && !(t->s_quote || t->d_quote))
 		t->type = D_GT;
 	else if (!(ft_strcmp(t->data, "|")) && !(t->s_quote || t->d_quote))
 		t->type = PIPELINE;

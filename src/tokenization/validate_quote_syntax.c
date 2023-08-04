@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:15:07 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/07/25 17:29:00 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/03 18:36:37 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,22 @@ int	check_quotes_wrapped(char *str)
 	c = '\0';
 	open = check_quotes_wrapped_loop(str, c, open, i);
 	if (open)
+		return (1);
+	return (0);
+}
+
+int	check_bad_specials(char *input)
+{
+	int	i;
+	int	count;
+	int	open;
+
+	i = 0;
+	count = 0;
+	open = 0;
+	if (check_lt(input, i, count, open))
+		return (1);
+	if (check_gt(input, i, count, open))
 		return (1);
 	return (0);
 }

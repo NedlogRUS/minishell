@@ -3,13 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apanikov <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:13:48 by apanikov          #+#    #+#             */
-/*   Updated: 2023/02/09 16:07:50 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/04 15:23:28 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
+
+#include <unistd.h>
+#include <stdlib.h>
 
 int	ft_wordcount(const char *s, char c)
 {
