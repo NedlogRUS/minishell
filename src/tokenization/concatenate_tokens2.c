@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 17:13:42 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/07/28 17:10:33 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/03 15:52:10 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_tokenlstsize(t_token *lst)
 	int		i;
 
 	i = 0;
-	if (!lst || lst->data[0] == '\0')
+	if (!lst)
 		return (0);
 	while (lst)
 	{
@@ -29,8 +29,9 @@ int	ft_tokenlstsize(t_token *lst)
 
 void	free_token(t_token *token)
 {
-	free(token->data);
-	free(token);
+	if (ft_strlen(token->data))
+		free(token->data);
+	token = NULL;
 }
 
 void	move_and_free(t_token **token, t_token **tmp)

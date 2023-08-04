@@ -6,18 +6,19 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 14:39:20 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/07/28 18:55:54 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/04 16:44:42 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VTAVITIA_H
 # define VTAVITIA_H
 
+# include "minishell.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <errno.h>
-# include "minishell.h"
+# include <fcntl.h>
 
 typedef struct s_mhstuct	t_mhstruct;
 
@@ -79,8 +80,46 @@ int		check_bad_specials(char *input);
 void	parse_start(t_mhstruct *mh);
 int		count_chars(t_mhstruct *mh, int start, int nodes, int lst_size);
 void	assign_quotes(t_token **new_t, int sq, int dq);
+void	classify_tokens(t_mhstruct *mh);
+int		check_bad_specials(char *input);
+int		check_gt(char *input, int i, int count, int open);
+int		check_lt(char *input, int i, int count, int open);
 
+// redirects
+void	do_redirects(t_token *t, t_mhstruct *mh);
+void	execution_of_commands(t_mhstruct *mh);
+int		check_redir_exist(t_token *t);
+void	set_prev(t_token **previous, t_token **tok);
+void	do_gt(t_token **t);
+void	do_d_gt(t_token **t);
+int		action_redirect(t_token **tok, t_token **previous, t_mhstruct **mh);
+int		do_dups(t_token **t, t_mhstruct **mh);
+void	delete_redirs(t_token **t, t_mhstruct **mh, t_token **previous);
+void	run_comms(t_mhstruct *mh, int mark, int in, int screen);
+int		bad_redirect_syntax(t_token *t);
+
+//pipes
+void	do_here_doc(char *lim);
+int		setting_out_files(char **argv, int *outfile, int argc);
+int		setting_in_files(int *infile, char **argv, char **envp);
+int		check_command(char *argv, char **envp);
+int		setting_files(int *i, int argc, char **argv, char **envp);
+char	*find_path(char *comm, char **envp, char *buffer);
+char	**ft_split(char const *s, char c);
+char	*ft_strjoin(char const *s1, char const *s2);
+void	error_msg2(char *msg);
+int		check_commands(char **argv, char **envp, int argc);
+int		check_first_comm(char *argv, char **envp);
+void	path_to_array(char ***paths, char **envp);
+int		join_commands(char **paths, char *argv);
+int		set_infile(int *infile, char **argv, int argc, char **envp);
+void	free_all(char **array);
+int		dup_out_file(int *outfile, t_mhstruct **mh);
+int		check_pipe_exists(t_token *t);
+int		check_path_exists(char *argv, char **envp, char **command_path);
+char	*cut_argv(char *argv);
 
 //delete this
 void	print_tokens(t_token *token);
+void	dell(t_token **t);
 #endif
