@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 15:23:49 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/07/28 17:22:51 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/07/31 13:20:48 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,9 @@ void	parse_start(t_mhstruct *mh)
 	t_token	*token;
 
 	token = mh->token;
-	if ((!ft_strlen(token->data) && token)
-		|| (ft_strlen(token->data) == 1 && token->data[0] == ' '))
+	if (!ft_strlen(token->data) && token)
 	{
-		while ((!ft_strlen(token->data) && token)
-			|| (ft_strlen(token->data) == 1 && token->data[0] == ' '))
+		while (!ft_strlen(token->data) && token)
 		{
 			current = token;
 			if (token->next)

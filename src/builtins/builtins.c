@@ -213,6 +213,7 @@ void initializer_env(char **env, t_mhstruct *mh)
 
 void initializer_mh(char **env, t_mhstruct *mh)
 {
-	initializer_env(env, mh);
+	(void)env;
+	//initializer_env(env, mh);
 	mh->mh_pid = (int)getpid();
 }

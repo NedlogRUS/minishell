@@ -6,91 +6,104 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:40:51 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/02 14:22:31 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/04 15:36:19 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vtavitia.h"
 
-int	check_redirects(t_mhstruct *mh)
+int	check_redir_exist(t_token *t)
 {
-	t_token	*t;
-
-	t = mh->token;
 	while (t->next)
 	{
-		if (t->type == LT || t->type == GT || t->type == D_GT)
+		if (t->type == GT || t->type == LT
+			|| t->type == D_GT || t->type == D_LT)
 			return (1);
 		t = t->next;
 	}
-	if (t->type == LT || t->type == GT || t->type == D_GT)
+	if (t->type == GT || t->type == LT || t->type == D_GT || t->type == D_LT)
 		return (1);
 	return (0);
 }
 
-void	check_symbol(t_token *tok, t_token **symbol)
+int	bad_redirect_syntax(t_token *t)
 {
-	//printf("HERE checking %s\n", tok->data);
-	if (tok->type == GT)
-		*symbol = tok;
-	else if (tok->type == LT)
-		*symbol = tok;
-	else if (tok->type == D_GT)
-		*symbol = tok;
-	//printf("HERE now %s\n", (*symbol)->data);
-}
-
-void	execute_redirect(t_token *t, t_token *symbol)
-{
-	(void) t;
-	int		fd;
-	
-	fd = 0;
-	if (!(ft_strcmp(symbol->data, "<")))
-	{
-		fd = open(symbol->next->data, O_RDONLY);
-		dup2(fd, STDIN_FILENO);
-	}
-	else if (!(ft_strcmp(symbol->data, ">")))
-	{
-		fd = open(symbol->next->data, O_RDONLY);
-		dup2(fd, STDOUT_FILENO);
-	}
-	
-}
-
-int		bad_redirect_syntax(t_token *t)
-{
-	printf("here!!");
+	if (t->type == PIPELINE)
+		return (1);
 	while (t->next)
 		t = t->next;
-	if (t->type == GT || t->type == LT || t->type == D_GT)
+	if (t->type == GT || t->type == LT || t->type == D_GT || t->type == D_LT
+		|| t->type == PIPELINE)
 		return (1);
 	return (0);
+}
+
+int	do_dups(t_token **t, t_mhstruct **mh)
+{
+	int	fd;
+
+	if ((*t)->type == GT)
+		do_gt(t);
+	else if ((*t)->type == D_GT)
+		do_d_gt(t);
+	else if ((*t)->type == LT)
+	{
+		if (!access(((*t)->next->data), R_OK))
+		{
+			fd = open((*t)->next->data, O_RDONLY, 0644);
+			dup2(fd, STDIN_FILENO);
+		}
+		else
+		{
+			error_msg("No such file or directory", 1, *mh);
+			return (1);
+		}
+	}
+	return (0);
+}
+
+void	delete_redirs(t_token **t, t_mhstruct **mh, t_token **previous)
+{
+	t_token	*temp;
+
+	if (*t == (*mh)->token)
+	{
+		(*mh)->token = (*mh)->token->next->next;
+		*previous = (*mh)->token;
+	}
+	else
+		(*previous)->next = (*t)->next->next;
+	temp = (*t)->next;
+	free_token(*t);
+	*t = temp;
+	temp = (*t)->next;
+	free_token(*t);
+	*t = temp;
 }
 
 void	do_redirects(t_token *t, t_mhstruct *mh)
 {
-	t_token	*symbol;
 	t_token	*tok;
+	t_token	*previous;
+	int		screen;
+	int		in;
+	int		mark;
 
-	tok = t;
-	symbol = NULL;
-	
+	tok = mh->token;
+	previous = tok;
+	screen = dup(STDOUT_FILENO);
+	in = dup(STDIN_FILENO);
+	mark = 0;
 	if (bad_redirect_syntax(t))
-		error_msg("Syntax error near unexpected token", 258, mh);
-	else
+		return (error_msg("Syntax error near unexpected token", 258, mh));
+	if (check_redir_exist(mh->token))
 	{
-		while (tok->next && !symbol)
+		while (tok)
 		{
-			check_symbol(tok, &symbol);
-			tok = tok->next;
-		}
-		check_symbol(tok, &symbol);
-		if (symbol)
-		{
-			printf("Redirect found %s\n", symbol->data);
-			execute_redirect(t, symbol);
+			mark = action_redirect(&tok, &previous, &mh);
+			if (mark)
+				break ;
 		}
 	}
+	run_comms(mh, mark, in, screen);
 }

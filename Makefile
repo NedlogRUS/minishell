@@ -6,7 +6,7 @@
 #    By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/12 19:00:48 by apanikov          #+#    #+#              #
-#    Updated: 2023/08/02 14:05:31 by vtavitia         ###   ########.fr        #
+#    Updated: 2023/08/03 20:09:01 by vtavitia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,7 @@ LIBS_DIR = includes
 # Compiled directories
 SRC = src
 OBJ = obj
-SUBDIRS = execute builtins parser main pipes_redirs tokenization redirects
+SUBDIRS = execute builtins parser main pipes_redirs tokenization redirects pipes
 
 # Folder directions
 SRC_DIR = $(foreach dir, $(SUBDIRS), $(addprefix $(SRC)/, $(dir)))

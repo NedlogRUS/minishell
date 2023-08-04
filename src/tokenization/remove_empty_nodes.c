@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 14:37:54 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/07/28 19:03:02 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/02 14:54:02 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,28 @@ static void	change_current(t_token **current, t_token **previous)
 	*current = (*current)->next;
 }
 
+void	adjust_first(t_mhstruct *mh, t_token **c, t_token **token, t_token **p)
+{
+	if ((jw((*c)->data, 0) && !((*c)->s_quote || (*c)->d_quote))
+		|| ft_strlen((*c)->data) == 0)
+	{
+		while ((jw((*c)->data, 0) && !((*c)->s_quote || (*c)->d_quote))
+			|| ft_strlen((*c)->data) == 0)
+		{
+			mh->token = (*c)->next;
+			free_token(*c);
+			*c = (*c)->next;
+			*token = *c;
+			*p = *c;
+		}
+	}
+	else
+	{
+		*p = *c;
+		*c = (*c)->next;
+	}
+}
+
 void	remove_empty_nodes(t_mhstruct *mh)
 {
 	t_token	*token;
@@ -35,13 +57,14 @@ void	remove_empty_nodes(t_mhstruct *mh)
 	token = mh->token;
 	c = mh->token;
 	previous = c;
+	adjust_first(mh, &c, &token, &previous);
 	while (c->next)
-	{
+	{	
 		if (check_qual(c))
 		{
 			previous->next = c->next;
 			token = c->next;
-			//free_token(c);
+			free_token(c);
 			if (token)
 				c = token;
 		}
@@ -49,21 +72,3 @@ void	remove_empty_nodes(t_mhstruct *mh)
 			change_current(&c, &previous);
 	}
 }
-
-// void	adjust_first(t_mhstruct *mh, t_token *current, t_token *token, t_token *previous)
-// {
-// 	if ((jw(current->data, 0) && !(token->s_quote || token->d_quote))
-// 	|| ft_strlen(current->data) == 0)
-// 	{
-// 		mh->token = current->next;
-// 			free_token(current);
-// 		current = mh->token;
-// 		token = current;
-// 		previous = current;
-// 	}
-// 	else
-// 	{
-// 		previous = current;
-// 		current = current->next;
-// 	}
-// }
