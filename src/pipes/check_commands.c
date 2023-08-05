@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 18:49:47 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/04 15:48:07 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/05 16:50:53 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,11 @@ char	*cut_argv(char *argv)
 
 int	join_commands(char **paths, char *argv)
 {
-	int		i;
 	int		j;
 	char	*comm;	
 	char	*tmp;
 	int		check;
 
-	i = 2;
 	j = 0;
 	check = 0;
 	argv = cut_argv(argv);
@@ -106,12 +104,10 @@ int	join_commands(char **paths, char *argv)
 
 int	check_command(char *argv, char **envp)
 {
-	int		i;
 	char	**paths;
 	int		check;
 
 	path_to_array(&paths, envp);
-	i = 2;
 	check = 0;
 	check = join_commands(paths, argv);
 	free_all(paths);

@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/04 19:27:46 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/05 19:15:08 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	free_token_main(t_mhstruct *mh)
 int main(int ac, char **av, char **env)
 {
 	t_mhstruct *mh;
+
 	
 	(void) av;
 	if(ac > 1)
@@ -102,7 +103,8 @@ int main(int ac, char **av, char **env)
 			add_history(mh->input);
 		}
 		free(mh->input);
-		// system("leaks minishell");
+		
+		//system("leaks minishell");
 
 	}
 		// system("leaks minishell");

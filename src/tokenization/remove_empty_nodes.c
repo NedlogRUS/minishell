@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remove_empty_nodes.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 14:37:54 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/02 14:54:02 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/05 16:55:40 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void	adjust_first(t_mhstruct *mh, t_token **c, t_token **token, t_token **p)
 		{
 			mh->token = (*c)->next;
 			free_token(*c);
-			*c = (*c)->next;
+			free(*c);
+			*c = mh->token;
 			*token = *c;
 			*p = *c;
 		}
@@ -65,6 +66,7 @@ void	remove_empty_nodes(t_mhstruct *mh)
 			previous->next = c->next;
 			token = c->next;
 			free_token(c);
+			free(c);
 			if (token)
 				c = token;
 		}
