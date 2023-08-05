@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 18:49:47 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/05 16:50:53 by vatche           ###   ########.fr       */
+/*   Updated: 2023/08/05 17:00:57 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,25 @@ void	path_to_array(char ***paths, char **envp)
 {
 	int		i;
 	int		size;
-	char	*path;
+	char	*path = NULL;
+	int found = 0;
 
 	i = 0;
 	size = 0;
 	while (envp[i] != NULL)
 	{
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+		{
+			found = 1;
 			break ;
+		}
 		i++;
+	}
+	// printf("found = %d\n", found);
+	if (found == 0)
+	{
+		*paths = NULL;
+		return ;
 	}
 	while (envp[i][size])
 		size++;
