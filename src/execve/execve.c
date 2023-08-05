@@ -6,7 +6,7 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 18:31:47 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/04 20:21:51 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/05 15:25:31 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ static int	check_path2(char **paths, char *argv, char **command_path)
 		tmp = *command_path;
 		*command_path = ft_strjoin(paths[j], tmp);
 		if (access(*command_path, R_OK) == 0)
-			return (check++);
+			return (1);
+			// return (check++);
 		else
 			*command_path = NULL;
 		j++;
@@ -45,9 +46,11 @@ int	check_path(char *argv, char **envp, char **command_path)
 	char	**paths;
 	int		check;
 
-	path_to_array(&paths, envp);
-	i = 2;
 	check = 0;
+	path_to_array(&paths, envp);
+	if (!(paths))
+		return (check);
+	i = 2;
 	check = check_path2(paths, argv, command_path);
 	free_all(paths);
 	return (check);
@@ -92,20 +95,29 @@ char	**get_arg_array(t_mhstruct *mh)
 	return (out);
 }
 
-int	execve_of_commands(t_mhstruct *mh)
+void	execve_of_commands(t_mhstruct *mh)
 {
 	int		pid;
 	char	**arg;
 	char	**env;
-	char	*path;
+	char	*path = NULL;
 	int 	out;
 	
 	out = 0;
 	env = get_env_array(mh); //don,t forget to free env
 	arg = get_arg_array(mh); //don,t forget to free env
-	if (check_path(arg[0], env, &path) != 0)
-		write(1, "command not found:\n", 19);
-	else
+	if (check_path(arg[0], env, &path) == 0)
+	{
+		if(access(arg[0], R_OK) == 0)
+			path = arg[0];
+		else
+		{
+		free(env);
+		free(arg);
+		return (pr_err(mh, 127, gemsg(mh->emsg[11], mh->emsg[12], arg[0])));
+		}
+	}
+	if (path != NULL)
 	{
 		pid = fork();
 		if (pid == 0)
@@ -114,9 +126,16 @@ int	execve_of_commands(t_mhstruct *mh)
 			execve(path, arg, env);
 		}
 		else
-			waitpid(pid, NULL, 0);
+			waitpid(pid, &out, 0);
 	}
+	mh->er_num = out / 256;
 	free(env);
 	free(arg);
-	return (out);
+	return ;
 }
+
+// bash-3.2$ ./minishell 
+// $> unset PATH
+// $> ls
+// Segmentation fault: 11
+// bash-3.2$ 

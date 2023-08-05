@@ -6,7 +6,7 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/04 19:26:21 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/05 14:30:17 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,13 @@ void	execution_of_commands(t_mhstruct *mh)
 		builtin_echo(mh);
 	else if(!ft_strcmp(mh->token->data, "exit"))
 		builtin_exit(mh);
-	else if (!execve_of_commands(mh))	
-	{
-		mh->er_num = 127;
-		printf("minihell: command not found: %s\n", mh->token->data);
-	}
+	else
+		execve_of_commands(mh);	
+	// {
+	// 	mh->er_num = 127;
+	// 	printf("minihell: command not found: %s\n", mh->token->data);
+	// }
+	return ;
 }
 
 void	free_token_main(t_mhstruct *mh)
