@@ -6,7 +6,7 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 18:49:47 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/05 15:26:38 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/05 17:00:57 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	path_to_array(char ***paths, char **envp)
 		}
 		i++;
 	}
-	printf("found = %d\n", found);
+	// printf("found = %d\n", found);
 	if (found == 0)
 	{
 		*paths = NULL;

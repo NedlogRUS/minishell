@@ -6,7 +6,7 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 18:31:47 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/05 15:25:31 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/05 16:42:21 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,9 +133,3 @@ void	execve_of_commands(t_mhstruct *mh)
 	free(arg);
 	return ;
 }
-
-// bash-3.2$ ./minishell 
-// $> unset PATH
-// $> ls
-// Segmentation fault: 11
-// bash-3.2$ 
