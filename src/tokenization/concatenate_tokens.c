@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   concatenate_tokens.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:11:30 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/03 19:22:46 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/05 19:01:25 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,10 @@ void	begin_cat_helper(t_token *token, t_token *new_t, int nodes)
 
 void	begin_cat(t_mhstruct *mh, int start, int nodes, int lst_size)
 {
-	int		i;
-	int		k;
 	int		count;
 	t_token	*new_t;
 	t_token	*token;
 
-	i = 0;
-	k = 0;
 	count = count_chars(mh, start, nodes, lst_size);
 	token = mh->token;
 	new_t = init_token("", NULL_VAL);
@@ -104,7 +100,7 @@ void	begin_cat(t_mhstruct *mh, int start, int nodes, int lst_size)
 		token = token->next;
 	begin_cat_helper(token, new_t, nodes);
 	replace_token(mh, new_t, start, nodes);
-	free(token->data);
+	//free(token->data);
 }
 
 void	concatenate_tokens(t_mhstruct *mh)

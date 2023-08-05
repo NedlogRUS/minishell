@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 12:55:08 by vatchetavit       #+#    #+#             */
-/*   Updated: 2023/08/04 15:16:48 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/05 14:13:30 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	clean_buffer(char **buffer)
 		{
 			(*buffer)[i] = '\0';
 			break ;
-		}
+		} 
 		i++;
 	}
 }

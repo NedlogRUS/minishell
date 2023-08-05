@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_dollar_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 15:08:46 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/02 13:27:03 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/05 18:23:25 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,14 @@ int	is_there_dollar(char *str)
 	return (0);
 }
 
-void	get_search_term(int *i, int *qty, t_token *current, char **search_term)
+char	*get_search_term(int *i, int *qty, t_token *current, char **search_term)
 {
 	int		size;
 	char	*delim_chars;
 
 	size = 0;
-	delim_chars = " \t$;&|\n\\.=";
+	delim_chars = " \t$;|\n\\.=";
+	*search_term = NULL;
 	if (ft_isdigit(current->data[*i]) || current->data[(*i)] == '$'
 		|| current->data[(*i)] == '?')
 	{
@@ -85,15 +86,19 @@ void	get_search_term(int *i, int *qty, t_token *current, char **search_term)
 		}
 	}
 	(*qty)--;
-	*search_term = (char *)malloc(sizeof(char) * size);
+	//*search_term = (char *)malloc(sizeof(char) * size);
 	if (!search_term)
-		return ;
-	*search_term = ft_substr(current->data, (*i) - size, size);
+		return (NULL) ;
+	if (size)
+		*search_term = ft_substr(current->data, (*i) - size, size);
+	return (*search_term);
 }
 
 int	check_term_exists(char *term, t_env *env_lst)
 {
-	if (!ft_strcmp(term, "$") || !ft_strcmp(term, "?"))
+	if (!ft_strcmp(term, "&") || !ft_strcmp(term, "_"))
+		return (0);
+	else if (!ft_strcmp(term, "$") || !ft_strcmp(term, "?"))
 		return (1);
 	if (!env_lst->data)
 		return (0);

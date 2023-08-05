@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vtavitia.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 14:39:20 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/04 16:44:42 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/05 18:14:07 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <string.h>
 # include <errno.h>
 # include <fcntl.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 typedef struct s_mhstuct	t_mhstruct;
 
@@ -58,7 +60,7 @@ int		is_special(char c);
 int		check_syntax(char *input, t_mhstruct *mh);
 void	handle_dollar(t_mhstruct **mh);
 int		check_term_exists(char *term, t_env *env_lst);
-void	get_search_term(int *i, int *qty, t_token *current, char **search_term);
+char*	get_search_term(int *i, int *qty, t_token *current, char **search_term);
 int		is_there_dollar(char *str);
 int		num_of_dollars(char *str);
 int		ft_strnstr_mod(const char *haystack, const char *needle, size_t len);
@@ -118,6 +120,8 @@ int		dup_out_file(int *outfile, t_mhstruct **mh);
 int		check_pipe_exists(t_token *t);
 int		check_path_exists(char *argv, char **envp, char **command_path);
 char	*cut_argv(char *argv);
+int		bad_redirect_syntax2(t_token *t);
+int		launch_pipes(t_mhstruct **mh);
 
 //delete this
 void	print_tokens(t_token *token);

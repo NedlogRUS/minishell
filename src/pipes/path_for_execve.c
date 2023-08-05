@@ -14,12 +14,10 @@
 
 static int	check_path_exists2(char **paths, char *argv, char **command_path)
 {
-	int		i;
 	int		j;
 	char	*tmp;
 	int		check;
 
-	i = 2;
 	j = 0;
 	check = 0;
 	argv = cut_argv(argv);
@@ -41,12 +39,10 @@ static int	check_path_exists2(char **paths, char *argv, char **command_path)
 
 int	check_path_exists(char *argv, char **envp, char **command_path)
 {
-	int		i;
 	char	**paths;
 	int		check;
 
 	path_to_array(&paths, envp);
-	i = 2;
 	check = 0;
 	check = check_path_exists2(paths, argv, command_path);
 	free_all(paths);

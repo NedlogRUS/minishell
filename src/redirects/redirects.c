@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:40:51 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/04 15:36:19 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/04 19:20:48 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,16 @@ int	bad_redirect_syntax(t_token *t)
 	if (t->type == GT || t->type == LT || t->type == D_GT || t->type == D_LT
 		|| t->type == PIPELINE)
 		return (1);
+	return (0);
+}
+int	bad_redirect_syntax2(t_token *t)
+{
+	while (t->next)
+	{
+		if (t->type == PIPELINE && t->next->type == PIPELINE)
+			return (1);
+		t = t->next;
+	}
 	return (0);
 }
 
