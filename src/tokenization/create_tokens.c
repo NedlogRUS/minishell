@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_tokens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:50:07 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/04 15:53:03 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/04 17:45:12 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,6 @@ void	tokenize(t_token *current, char *input)
 void	check_and_tokenize(t_mhstruct *mh)
 {
 	t_token	*start_t;
-	int outfile;
 
 	if (check_quotes_wrapped(mh->input))
 		error_msg("Syntax error -check quotes", 1, mh);
@@ -170,10 +169,10 @@ void	check_and_tokenize(t_mhstruct *mh)
 		if (ft_tokenlstsize(mh->token) >= 2)
 			remove_empty_nodes(mh);
 		classify_tokens(mh);
-		if (check_redir_exist(mh->token) && !(check_pipe_exists(mh->token)))
-			do_redirects(mh->token, mh);
-		if (check_pipe_exists(mh->token))
-			dup_out_file(&outfile, &mh);
+		// if (check_redir_exist(mh->token) && !(check_pipe_exists(mh->token)))
+		// 	do_redirects(mh->token, mh);
+		// if (check_pipe_exists(mh->token))
+		// 	dup_out_file(&outfile, &mh);
 		// printf("outfile is %d\n",)
 		
 		// print_tokens(mh->token);

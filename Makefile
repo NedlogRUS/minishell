@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+         #
+#    By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/12 19:00:48 by apanikov          #+#    #+#              #
-#    Updated: 2023/08/03 20:09:01 by vtavitia         ###   ########.fr        #
+#    Updated: 2023/08/04 17:48:29 by vtavitia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,8 +53,7 @@
 
 NAME     = minishell
 GCC      = gcc
-CFLAGS   = -Wall -Wextra -Werror -g 
-#-fsanitize=address
+CFLAGS   = -Wall -Wextra -Werror -g -fsanitize=address
 RM       = rm -rf
 OUTPUT   = ./$(NAME)
 LIBS     = -I./includes/ -I./readline/include

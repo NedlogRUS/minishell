@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 14:39:20 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/04 16:44:42 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/04 19:28:15 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,8 @@ int		dup_out_file(int *outfile, t_mhstruct **mh);
 int		check_pipe_exists(t_token *t);
 int		check_path_exists(char *argv, char **envp, char **command_path);
 char	*cut_argv(char *argv);
+int		bad_redirect_syntax2(t_token *t);
+int		launch_pipes(t_mhstruct **mh);
 
 //delete this
 void	print_tokens(t_token *token);

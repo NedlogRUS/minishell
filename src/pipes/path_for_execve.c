@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 18:49:47 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/04 15:55:22 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/04 18:52:20 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,10 @@ static int	check_path_exists2(char **paths, char *argv, char **command_path)
 		tmp = *command_path;
 		*command_path = ft_strjoin(paths[j], tmp);
 		if (access(*command_path, R_OK) == 0)
-			check++;
+			return (check++);
+		else
+			*command_path = NULL;
 		j++;
-		free(*command_path);
 		free(tmp);
 	}
 	free(argv);

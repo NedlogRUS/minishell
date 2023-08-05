@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/04 14:57:00 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/04 19:27:46 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	free_token_main(t_mhstruct *mh)
 int main(int ac, char **av, char **env)
 {
 	t_mhstruct *mh;
+	
 	(void) av;
 	if(ac > 1)
 		exit (1);
@@ -91,7 +92,12 @@ int main(int ac, char **av, char **env)
 		if (ft_strlen(mh->input))
 		{
 			check_and_tokenize(mh);
-			execution_of_commands(mh);
+			if (check_redir_exist(mh->token) && !(check_pipe_exists(mh->token)))
+				do_redirects(mh->token, mh);
+			else if (check_pipe_exists(mh->token))
+				launch_pipes(&mh);
+			else
+				execution_of_commands(mh);
 			free_token_main(mh);
 			add_history(mh->input);
 		}
