@@ -121,3 +121,18 @@ int main(int ac, char **av, char **env)
 	}
 	return 0;
 }
+
+// bash-3.2$ ./minishell 
+// $> test
+// $> echo $?
+// 1
+// $> echo $?
+// 0
+// $> echo ><
+// Syntax error near unexpected token: Undefined error: 0
+// > <
+// $> echo $?
+// 0
+// $> <
+// Syntax error - near unexpected token: Undefined error: 0
+// Segmentation fault: 11
