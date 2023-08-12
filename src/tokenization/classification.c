@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   classification.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:43:32 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/02 17:19:19 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/06 08:35:06 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 static int	check_builtin(char *str)
 {
-	if (!(ft_strcmp(str, "echo")) || !(ft_strcmp(str, "export"))
+	if (ft_strlen(str) == 0)
+		return (0);
+	else if (!(ft_strcmp(str, "echo")) || !(ft_strcmp(str, "export"))
 		|| !(ft_strcmp(str, "cd")) || !(ft_strcmp(str, "unset"))
 		|| !(ft_strcmp(str, "env")) || !(ft_strcmp(str, "exit"))
 		|| !(ft_strcmp(str, "pwd")))

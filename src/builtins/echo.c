@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:36:10 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/04 17:41:23 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/12 14:48:37 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	do_echo(t_token *token, int flag)
 	return ;
 }
 
+// cfix case echo "-nnnn" nenie_ir
 void	builtin_echo(t_mhstruct *mh)
 {
 	t_token	*token;

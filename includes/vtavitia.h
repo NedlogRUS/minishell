@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vtavitia.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 14:39:20 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/05 18:14:07 by vatche           ###   ########.fr       */
+/*   Updated: 2023/08/12 15:54:23 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,8 @@ void	increment_i(char *input, int *ip, int *jp, char c);
 int		check_quotes_wrapped(char *str);
 void	error_msg(char *str, int err_num, t_mhstruct *mh);
 void	check_and_tokenize(t_mhstruct *mh);
-void	concatenate_tokens(t_mhstruct *mh);
 int		is_special(char c);
 int		check_syntax(char *input, t_mhstruct *mh);
-void	handle_dollar(t_mhstruct **mh);
 int		check_term_exists(char *term, t_env *env_lst);
 char*	get_search_term(int *i, int *qty, t_token *current, char **search_term);
 int		is_there_dollar(char *str);
@@ -86,6 +84,19 @@ void	classify_tokens(t_mhstruct *mh);
 int		check_bad_specials(char *input);
 int		check_gt(char *input, int i, int count, int open);
 int		check_lt(char *input, int i, int count, int open);
+void	handle_dollar(t_mhstruct **mh);
+int		isbreak(char c);
+void	concatenate_tokens(t_mhstruct **mh);
+void	move_current(t_token *current, t_token *previous, t_mhstruct **mh);
+void	clean_start(t_mhstruct *mh, char c);
+int		do_copy_helper(char *input, int *ip, int *kp, t_token **current);
+int		found_dollar(t_mhstruct *mh);
+int		found_err_num(t_mhstruct *mh);
+void	slice_term(t_token **x, t_mhstruct *mh, int i, int termlen);
+void	inject_term(char *search, t_token **curr, t_mhstruct *mh);
+void	shift_i(t_token **current, int *i);
+void	term_helper(char *search, t_mhstruct *mh, t_token **curr, t_env *env_t);
+
 
 // redirects
 void	do_redirects(t_token *t, t_mhstruct *mh);
@@ -94,11 +105,11 @@ int		check_redir_exist(t_token *t);
 void	set_prev(t_token **previous, t_token **tok);
 void	do_gt(t_token **t);
 void	do_d_gt(t_token **t);
-int		action_redirect(t_token **tok, t_token **previous, t_mhstruct **mh);
-int		do_dups(t_token **t, t_mhstruct **mh);
+int		do_dups(t_token **t, t_mhstruct **mh, int screen);
 void	delete_redirs(t_token **t, t_mhstruct **mh, t_token **previous);
 void	run_comms(t_mhstruct *mh, int mark, int in, int screen);
 int		bad_redirect_syntax(t_token *t);
+int		action_redirect(t_token **tok, t_token **previous, t_mhstruct **mh, int screen);
 
 //pipes
 void	do_here_doc(char *lim);

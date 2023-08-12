@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 18:39:00 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/04 17:43:34 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/10 16:10:10 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ void	do_d_gt(t_token **t)
 	dup2(fd, STDOUT_FILENO);
 }
 
-int	action_redirect(t_token **tok, t_token **previous, t_mhstruct **mh)
+int	action_redirect(t_token **tok, t_token **previous, t_mhstruct **mh, int screen)
 {
 	if ((*tok)->type == GT || (*tok)->type == LT || (*tok)->type == D_GT)
 	{
-		if (do_dups(tok, mh))
+		if (do_dups(tok, mh, screen))
 			return (1);
 		delete_redirs(tok, mh, previous);
 	}

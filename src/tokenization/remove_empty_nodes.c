@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remove_empty_nodes.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 14:37:54 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/05 16:55:40 by vatche           ###   ########.fr       */
+/*   Updated: 2023/08/12 17:30:00 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,49 +26,27 @@ static void	change_current(t_token **current, t_token **previous)
 	*current = (*current)->next;
 }
 
-void	adjust_first(t_mhstruct *mh, t_token **c, t_token **token, t_token **p)
-{
-	if ((jw((*c)->data, 0) && !((*c)->s_quote || (*c)->d_quote))
-		|| ft_strlen((*c)->data) == 0)
-	{
-		while ((jw((*c)->data, 0) && !((*c)->s_quote || (*c)->d_quote))
-			|| ft_strlen((*c)->data) == 0)
-		{
-			mh->token = (*c)->next;
-			free_token(*c);
-			free(*c);
-			*c = mh->token;
-			*token = *c;
-			*p = *c;
-		}
-	}
-	else
-	{
-		*p = *c;
-		*c = (*c)->next;
-	}
-}
-
 void	remove_empty_nodes(t_mhstruct *mh)
 {
-	t_token	*token;
 	t_token	*c;
 	t_token	*previous;
+	t_token	*tmp;
 
-	token = mh->token;
 	c = mh->token;
-	previous = c;
-	adjust_first(mh, &c, &token, &previous);
-	while (c->next)
-	{	
+	tmp = c;
+	previous = NULL;
+	while (c)
+	{
 		if (check_qual(c))
 		{
-			previous->next = c->next;
-			token = c->next;
-			free_token(c);
-			free(c);
-			if (token)
-				c = token;
+			tmp = c;
+			c = c->next;
+			if (previous)
+				previous->next = c;
+			else
+				mh->token = c;
+			free(tmp->data);
+			free(tmp);
 		}
 		else
 			change_current(&c, &previous);

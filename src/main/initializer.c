@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initializer.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 13:42:38 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/05 14:25:08 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/08 14:01:13 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ void	initializer_env(char **env, t_mhstruct *mh, t_env *node, int i)
 
 void	add_error_message(t_mhstruct *mh)
 {
-	mh->emsg = malloc(sizeof(char *) * 13);
+	mh->emsg = malloc(sizeof(char *) * 11);
 	mh->emsg[0] = ft_strdup("cd: ");
 	mh->emsg[1] = ft_strdup("export: ");
 	mh->emsg[2] = ft_strdup("unset: ");
@@ -149,8 +149,6 @@ void	add_error_message(t_mhstruct *mh)
 	mh->emsg[8] = ft_strdup(": Not a directory\n");
 	mh->emsg[9] = ft_strdup(": No such file or directory\n");
 	mh->emsg[10] = ft_strdup(": not a valid identifier\n");
-	mh->emsg[11] = ft_strdup("command not found: ");
-	mh->emsg[12] = ft_strdup("\n");
 }
 
 void	initializer_mh(char **env, t_mhstruct *mh)
@@ -165,7 +163,7 @@ void	initializer_mh(char **env, t_mhstruct *mh)
 	mh->er_num = 0;
 	mh->mh_pid = (int)getpid();
 	initializer_env(env, mh, node, i);
-	add_error_message(mh);
+	//add_error_message(mh);
 	free(mh->utils);
 	mh->utils = NULL;
 }

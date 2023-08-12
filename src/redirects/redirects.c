@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:40:51 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/04 19:20:48 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/10 16:14:41 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ int	bad_redirect_syntax2(t_token *t)
 	return (0);
 }
 
-int	do_dups(t_token **t, t_mhstruct **mh)
+int	do_dups(t_token **t, t_mhstruct **mh, int screen)
 {
 	int	fd;
-
+	(void) screen;
 	if ((*t)->type == GT)
 		do_gt(t);
 	else if ((*t)->type == D_GT)
@@ -62,6 +62,8 @@ int	do_dups(t_token **t, t_mhstruct **mh)
 		{
 			fd = open((*t)->next->data, O_RDONLY, 0644);
 			dup2(fd, STDIN_FILENO);
+			// dup2(screen, STDOUT_FILENO);
+			// printf("here dup!!!!!\n");
 		}
 		else
 		{
@@ -74,7 +76,7 @@ int	do_dups(t_token **t, t_mhstruct **mh)
 
 void	delete_redirs(t_token **t, t_mhstruct **mh, t_token **previous)
 {
-	t_token	*temp;
+	t_token	*tmp;
 
 	if (*t == (*mh)->token)
 	{
@@ -83,14 +85,18 @@ void	delete_redirs(t_token **t, t_mhstruct **mh, t_token **previous)
 	}
 	else
 		(*previous)->next = (*t)->next->next;
-	temp = (*t)->next;
-	free_token(*t);
-	*t = temp;
-	temp = (*t)->next;
-	free_token(*t);
-	*t = temp;
+	tmp = (*t);
+	(*t) = (*t)->next;
+	free(tmp->data);
+	free(tmp);
+	tmp = (*t);
+	(*t) = (*t)->next;
+	free(tmp->data);
+	free(tmp);
 }
 
+
+// write rull for < Makefile
 void	do_redirects(t_token *t, t_mhstruct *mh)
 {
 	t_token	*tok;
@@ -110,7 +116,7 @@ void	do_redirects(t_token *t, t_mhstruct *mh)
 	{
 		while (tok)
 		{
-			mark = action_redirect(&tok, &previous, &mh);
+			mark = action_redirect(&tok, &previous, &mh, screen);
 			if (mark)
 				break ;
 		}
