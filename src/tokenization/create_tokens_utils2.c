@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:53:52 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/07/28 18:11:15 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/11 10:51:26 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,11 @@ t_token	*init_token(char *data, t_token_type type)
 {
 	t_token	*new_token;
 
+	(void)data;
 	new_token = (t_token *)malloc(sizeof(t_token));
 	if (!new_token)
 		perror("Token creation failed\n");
-	new_token->data = data;
+	new_token->data = NULL;
 	new_token->type = type;
 	new_token->s_quote = 0;
 	new_token->d_quote = 0;
@@ -82,10 +83,39 @@ t_token	*init_token(char *data, t_token_type type)
 	return (new_token);
 }
 
-void	assign_quotes(t_token **new_t, int sq, int dq)
+void	clean_start(t_mhstruct *mh, char c)
 {
-	if (sq)
-		(*new_t)->s_quote = sq;
-	if (dq)
-		(*new_t)->d_quote = dq;
+	int		i;
+	char	*new_input;
+
+	i = 0;
+	while (mh->input[i])
+	{
+		reset:
+		if (mh->input[i] && (mh->input[i] == '\'' || (mh->input[i] == '"')))
+		{
+			c = mh->input[i];
+			if (mh->input[i + 1] == c)
+			{
+				i += 2;
+				if (mh->input[i] == '\'' || (mh->input[i] == '"'))
+					goto reset;
+			}
+			else
+				break ;
+		}
+		else
+			break ;
+	}
+	new_input = ft_strdup(&(mh->input[i]));
+	free(mh->input);
+	mh->input = new_input;
 }
+
+// void	assign_quotes(t_token **new_t, int sq, int dq)
+// {
+// 	if (sq)
+// 		(*new_t)->s_quote = sq;
+// 	if (dq)
+// 		(*new_t)->d_quote = dq;
+// }

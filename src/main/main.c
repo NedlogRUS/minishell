@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/07 17:55:15 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/12 17:37:51 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ void do_sigquit(int i)
 	rl_redisplay();
 }
 
-// we need here check for all cases like Pwd pWd pwD ...
-
 void	execution_of_commands(t_mhstruct *mh)
 {
 	if(!ft_strcmp(mh->token->data, "pwd"))
@@ -46,12 +44,10 @@ void	execution_of_commands(t_mhstruct *mh)
 	else if(!ft_strcmp(mh->token->data, "exit"))
 		builtin_exit(mh);
 	else
-		execve_of_commands(mh);	
-	// {
-	// 	mh->er_num = 127;
-	// 	printf("minihell: command not found: %s\n", mh->token->data);
-	// }
-	return ;
+	{
+		mh->er_num = 127;
+		printf("minihell: command not found: %s\n", mh->token->data);
+	}
 }
 
 void	free_token_main(t_mhstruct *mh)
@@ -75,7 +71,10 @@ void	free_token_main(t_mhstruct *mh)
 int main(int ac, char **av, char **env)
 {
 	t_mhstruct *mh;
+
+	
 	(void) av;
+
 	if(ac > 1)
 		exit (1);
 	rl_catch_signals = 0;
@@ -89,21 +88,37 @@ int main(int ac, char **av, char **env)
 		mh->input = readline("$> ");
 		if(mh->input == NULL)
 		{
+			free(mh->input);
 			printf("\x1b[1A\x1b[3Cexit\n");
 			exit(mh->er_num);
 		}
 		if (ft_strlen(mh->input))
 		{
-			check_and_tokenize(mh);
-			execution_of_commands(mh);
-			free_token_main(mh);
 			add_history(mh->input);
+			check_and_tokenize(mh);
+			free(mh->input);
+			if (mh->token)
+			{
+				if (check_redir_exist(mh->token) && !(check_pipe_exists(mh->token)))
+					do_redirects(mh->token, mh);
+				else if (check_pipe_exists(mh->token))
+					launch_pipes(&mh);
+				else if (ft_strlen(mh->token->data) && mh->token)
+					execution_of_commands(mh);
+		
+				free_token_main(mh);
+				free(mh->token);
+			}
+			else
+			{
+				free_token_main(mh);
+				free(mh->token);
+			}
 		}
-		free(mh->input);
-		// system("leaks minishell");
-
+		else
+			free(mh->input);
+	// system("leaks minishell");
 	}
-		// system("leaks minishell");
 	return 0;
 }
 

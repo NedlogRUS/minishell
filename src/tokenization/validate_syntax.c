@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_syntax.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 18:44:21 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/03 19:25:04 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/05 16:49:56 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ static int	syntax_conds(char *in, int i, t_mhstruct *mh)
 int	check_syntax(char *input, t_mhstruct *mh)
 {
 	int		i;
-	char	c;
 
 	i = 0;
 	while (input[i])
@@ -120,7 +119,6 @@ int	check_syntax(char *input, t_mhstruct *mh)
 			&& input[i] != '"' && input[i] != ' ' )
 		{
 			{
-				c = input[i];
 				if (check_bad_specials(input))
 				{
 					error_msg("Syntax error - near unexpected token", 1, mh);

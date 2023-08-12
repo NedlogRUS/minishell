@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 12:54:14 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/03 18:59:18 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/05 16:48:46 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,9 @@ int	check_long_min(const char *str)
 int	exit_check_long(const char *str)
 {
 	unsigned long long	out;
-	int					sign;
 	int					i;
 
 	out = 0;
-	sign = 1;
 	i = 0;
 	while (str[i] == 32 || (str[i] > 8 && str[i] < 14))
 		i++;
