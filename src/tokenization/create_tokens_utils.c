@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 14:38:36 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/02 14:57:58 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/11 10:50:11 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	error_msg(char *str, int err_num, t_mhstruct *mh)
 {
 	mh->er_num = err_num;
+	errno = 1;
 	perror(str);
 }
 
@@ -68,4 +69,32 @@ void	skip_all_whitespace(char *input, int *ip, int *jp)
 	}
 	*ip = i;
 	*jp = j;
+}
+
+int	do_copy_helper(char *input, int *ip, int *kp, t_token **current)
+{
+	int		open;
+	char	c;
+
+	c = input[*ip];
+	open = 1;
+	if (c == '\'')
+		(*current)->s_quote = 1;
+	else if (c == '"')
+		(*current)->d_quote = 1;
+	(*ip)++;
+	while (open)
+	{
+		if (input[*ip] == c)
+		{
+			open = 0;
+			(*current)->data[*kp] = '\0';
+			(*ip)++;
+			return (1);
+		}
+		(*current)->data[*kp] = input[*ip];
+		(*ip)++;
+		(*kp)++;
+	}
+	return (0);
 }
