@@ -6,7 +6,7 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/05 14:30:17 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/07 17:55:15 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,3 +106,18 @@ int main(int ac, char **av, char **env)
 		// system("leaks minishell");
 	return 0;
 }
+
+// bash-3.2$ ./minishell 
+// $> test
+// $> echo $?
+// 1
+// $> echo $?
+// 0
+// $> echo ><
+// Syntax error near unexpected token: Undefined error: 0
+// > <
+// $> echo $?
+// 0
+// $> <
+// Syntax error - near unexpected token: Undefined error: 0
+// Segmentation fault: 11

@@ -6,7 +6,7 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 18:31:47 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/05 16:42:21 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/07 16:32:54 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,9 @@ static int	check_path2(char **paths, char *argv, char **command_path)
 	int		i;
 	int		j;
 	char	*tmp;
-	int		check;
 
 	i = 2;
 	j = 0;
-	check = 0;
 	argv = cut_argv(argv);
 	while (paths[j] != NULL)
 	{
@@ -30,14 +28,12 @@ static int	check_path2(char **paths, char *argv, char **command_path)
 		*command_path = ft_strjoin(paths[j], tmp);
 		if (access(*command_path, R_OK) == 0)
 			return (1);
-			// return (check++);
 		else
 			*command_path = NULL;
 		j++;
 		free(tmp);
 	}
-	// free(argv);
-	return (check);
+	return (0);
 }
 
 int	check_path(char *argv, char **envp, char **command_path)
@@ -87,7 +83,7 @@ char	**get_arg_array(t_mhstruct *mh)
 	i = 0;
 	while (token != NULL)
 	{
-		out[i] = ft_strdup(token->data);	
+		out[i] = ft_strdup(token->data);
 		token = token->next;
 		i++;
 	}
@@ -95,41 +91,88 @@ char	**get_arg_array(t_mhstruct *mh)
 	return (out);
 }
 
+int	execve_of_commands_2(char *path, char **arg, char **env)
+{
+	int	pid;
+	int	out;
+
+	out = 0;
+	pid = fork();
+	if (pid == 0)
+	{
+		out++;
+		execve(path, arg, env);
+	}
+	else
+		waitpid(pid, &out, 0);
+	return (out);
+}
+
 void	execve_of_commands(t_mhstruct *mh)
 {
-	int		pid;
 	char	**arg;
 	char	**env;
-	char	*path = NULL;
-	int 	out;
-	
+	char	*path;
+	int		out;
+
+	path = NULL;
 	out = 0;
-	env = get_env_array(mh); //don,t forget to free env
-	arg = get_arg_array(mh); //don,t forget to free env
+	env = get_env_array(mh);
+	arg = get_arg_array(mh);
 	if (check_path(arg[0], env, &path) == 0)
 	{
-		if(access(arg[0], R_OK) == 0)
+		if (access(arg[0], R_OK) == 0)
 			path = arg[0];
 		else
 		{
-		free(env);
-		free(arg);
-		return (pr_err(mh, 127, gemsg(mh->emsg[11], mh->emsg[12], arg[0])));
+			free(env);
+			free(arg);
+			return (pr_err(mh, 127, gemsg(mh->emsg[11], mh->emsg[12], arg[0])));
 		}
 	}
 	if (path != NULL)
-	{
-		pid = fork();
-		if (pid == 0)
-		{
-			out++;
-			execve(path, arg, env);
-		}
-		else
-			waitpid(pid, &out, 0);
-	}
+		out = execve_of_commands_2(path, arg, env);
 	mh->er_num = out / 256;
 	free(env);
 	free(arg);
-	return ;
 }
+
+// void	execve_of_commands(t_mhstruct *mh)
+// {
+// 	int		pid;
+// 	char	**arg;
+// 	char	**env;
+// 	char	*path;
+// 	int		out;
+
+// 	path = NULL;
+// 	out = 0;
+// 	env = get_env_array(mh); //don,t forget to free env
+// 	arg = get_arg_array(mh); //don,t forget to free env
+// 	if (check_path(arg[0], env, &path) == 0)
+// 	{
+// 		if (access(arg[0], R_OK) == 0)
+// 			path = arg[0];
+// 		else
+// 		{
+// 			free(env);
+// 			free(arg);
+// 			return (pr_err(mh, 127, gemsg(mh->emsg[11], mh->emsg[12], arg[0])));
+// 		}
+// 	}
+// 	if (path != NULL)
+// 	{
+// 		pid = fork();
+// 		if (pid == 0)
+// 		{
+// 			out++;
+// 			execve(path, arg, env);
+// 		}
+// 		else
+// 			waitpid(pid, &out, 0);
+// 	}
+// 	mh->er_num = out / 256;
+// 	free(env);
+// 	free(arg);
+// 	return ;
+// }
