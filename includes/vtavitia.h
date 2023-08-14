@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 14:39:20 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/12 15:54:23 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/14 17:39:57 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	term_helper(char *search, t_mhstruct *mh, t_token **curr, t_env *env_t);
 
 
 // redirects
-void	do_redirects(t_token *t, t_mhstruct *mh);
+void	do_redirects(t_token *t, t_mhstruct *mh, int x);
 void	execution_of_commands(t_mhstruct *mh);
 int		check_redir_exist(t_token *t);
 void	set_prev(t_token **previous, t_token **tok);
@@ -133,6 +133,9 @@ int		check_path_exists(char *argv, char **envp, char **command_path);
 char	*cut_argv(char *argv);
 int		bad_redirect_syntax2(t_token *t);
 int		launch_pipes(t_mhstruct **mh);
+char	**get_arg_array(t_mhstruct *mh);
+int		check_path(char *argv, char **envp, char **command_path);
+int		execve_of_commands_2(char *path, char **arg, char **env);
 
 //delete this
 void	print_tokens(t_token *token);
