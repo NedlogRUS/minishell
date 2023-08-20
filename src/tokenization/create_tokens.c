@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:50:07 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/14 16:22:10 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/20 10:44:32 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ void	print_tokens(t_token *token)
 		{
 			while (token)
 			{
-					printf("DATA: -%s- type is %d\n", token->data, token->type);
+					printf("DATA: -%s- pi is %d\n", token->data, token->pi);
 					token = token->next;				
 			}
 		}

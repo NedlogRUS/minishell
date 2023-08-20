@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 14:39:20 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/14 17:39:57 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/20 14:13:40 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct s_token
 	t_token_type	type;
 	int				s_quote;
 	int				d_quote;
-	char			*data_for_redir;
+	int				pi;
 	struct s_token	*next;
 }	t_token;
 
@@ -136,6 +136,8 @@ int		launch_pipes(t_mhstruct **mh);
 char	**get_arg_array(t_mhstruct *mh);
 int		check_path(char *argv, char **envp, char **command_path);
 int		execve_of_commands_2(char *path, char **arg, char **env);
+void	execve_commands_pipes(t_token *current, t_mhstruct *mh);
+int		check_redir_exist_pipe(t_token *t);
 
 //delete this
 void	print_tokens(t_token *token);

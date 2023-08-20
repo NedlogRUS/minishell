@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 16:27:19 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/14 19:04:25 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/20 14:13:17 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,19 +137,19 @@ int	dup_out_file(int *outfile, t_mhstruct **mh)
 	return (0);
 }
 
-int	check_redir_exist_pipe(t_token *t)
-{
-	while (t && t->next->type != PIPELINE)
-	{
-		if (t->type == GT || t->type == LT
-			|| t->type == D_GT || t->type == D_LT)
-			return (1);
-		t = t->next;
-	}
-	// if (t->type == GT || t->type == LT || t->type == D_GT || t->type == D_LT)
-	// 	return (1);
-	return (0);
-}
+// int	check_redir_exist_pipe(t_token *t)
+// {
+// 	while (t && t->next->type != PIPELINE)
+// 	{
+// 		if (t->type == GT || t->type == LT
+// 			|| t->type == D_GT || t->type == D_LT)
+// 			return (1);
+// 		t = t->next;
+// 	}
+// 	// if (t->type == GT || t->type == LT || t->type == D_GT || t->type == D_LT)
+// 	// 	return (1);
+// 	return (0);
+// }
 
 // int	check_pipe_redirs(t_mhstruct **mh, int screen)
 // {
@@ -337,27 +337,27 @@ void	run_pipe(t_mhstruct **mh, int *pipes)
 }
 
 
-int	launch_pipes(t_mhstruct **mh)
-{
-	int		outfile = dup(STDOUT_FILENO);
-	int		in = dup(STDIN_FILENO);
-		int	pipes[2];
-		if (pipe(pipes) == -1)
-		return (1);
-	//dup_out_file(&outfile, mh);
-	if (bad_redirect_syntax((*mh)->token) || bad_redirect_syntax2((*mh)->token))
-	{
-		error_msg("Syntax error near unexpected token", 258, *mh);
-		return (1);
-	}
+// int	launch_pipes(t_mhstruct **mh)
+// {
+// 	int		outfile = dup(STDOUT_FILENO);
+// 	int		in = dup(STDIN_FILENO);
+// 		int	pipes[2];
+// 		if (pipe(pipes) == -1)
+// 		return (1);
+// 	//dup_out_file(&outfile, mh);
+// 	if (bad_redirect_syntax((*mh)->token) || bad_redirect_syntax2((*mh)->token))
+// 	{
+// 		error_msg("Syntax error near unexpected token", 258, *mh);
+// 		return (1);
+// 	}
 	
-	int	count = count_segs((*mh)->token);
-	while (count--) 
-		run_pipe(mh, pipes);
-	// close(pipes[0]);
-	// close(pipes[1]);
-	dup2(outfile, STDOUT_FILENO);
-	do_redirects((*mh)->token, *mh, 1);
-	dup2(in, STDIN_FILENO);
-	return (0);
-}
+// 	int	count = count_segs((*mh)->token);
+// 	while (count--) 
+// 		run_pipe(mh, pipes);
+// 	// close(pipes[0]);
+// 	// close(pipes[1]);
+// 	dup2(outfile, STDOUT_FILENO);
+// 	do_redirects((*mh)->token, *mh, 1);
+// 	dup2(in, STDIN_FILENO);
+// 	return (0);
+// }

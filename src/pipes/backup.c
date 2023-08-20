@@ -405,3 +405,346 @@
 // // 	}
 // // 	return (0);
 // // }
+
+
+//20aug
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/20 10:37:53 by vtavitia          #+#    #+#             */
+/*   Updated: 2023/08/20 14:06:30 by vtavitia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+// #include "vtavitia.h"
+
+
+// int	c_w(t_mhstruct **mh, int i)
+// {
+// 	t_token	*current;
+// 	int		words;
+
+// 	words = 0;
+// 	current = (*mh)->token;
+// 	while (current && current->pi != i)
+// 		current = current->next;
+// 	while (current && current->pi == i)
+// 	{
+// 		words++;
+// 		current = current->next;
+// 	}
+// 	return (words);
+// }
+
+// int	c_ch(t_mhstruct **mh, int i)
+// {
+// 	t_token	*current;
+// 	int		j;
+// 	int		count;
+
+// 	j = 0;
+// 	count = 0;
+// 	current = (*mh)->token;
+// 	while (current && current->pi != i)
+// 		current = current->next;
+// 	while (current && current->pi == i)
+// 	{
+// 		while (current->data[j])
+// 		{
+// 			count++;
+// 			j++;
+// 		}
+// 		j = 0;
+// 		current = current->next;
+// 	}
+// 	return (count);
+// }
+
+// void	copy_to_grid(t_mhstruct **mh, int i, char **grid)
+// {
+// 	t_token	*current;
+// 	int		j;
+// 	int		k;
+	
+// 	current = (*mh)->token;
+// 	k = 0;
+// 	j = 0;
+// 	while (current && current->pi != i)
+// 		current = current->next;
+// 	while (current && current->pi == i)
+// 	{
+// 		while (current->data[j])
+// 		{
+// 			grid[i][k] = current->data[j];
+// 			j++;
+// 			k++;
+// 		}
+// 		if (current->next && current->next->pi == i)
+// 		{
+// 			grid[i][k] = ' ';
+// 			k++;
+// 		}
+// 		j = 0;
+// 		current = current->next;
+// 	}
+// 	grid[i][k] = '\0';
+// //	printf("copied for i = %d >%s<\n", i, grid[i]);
+// }
+
+// void	create_grid(char **grid, int lines, t_mhstruct **mh)
+// {
+// 	int	i;
+// 	// int	count;
+// 	// int	words;
+// 	i = 0;
+// 	// count = 0;
+// 		// printf("lines are %d\n", lines);
+// 	while (i < lines)
+// 	{
+// 		grid[i] = (char *)malloc(sizeof(char) * (c_ch(mh, i) +  c_w(mh, i) + 1));
+// 		if (!grid)
+// 			return ;
+// 		copy_to_grid(mh, i, grid);
+// 		// count = c_ch(mh, i);
+// 		// words =  c_w(mh, i);
+// 		// printf("count for i = %d is %d words = %d\n", i, count, words);
+// 		i++;
+// 	}
+// 	grid[lines] = NULL;
+// 	// printf("copied for i = %d >%s<\n", i, grid[0]);
+// 	// printf("copied for i = %d >%s<\n", i, grid[1]);
+// 	// printf("copied for i = %d >%s<\n", i, grid[2]);
+// }
+
+// int	assign_pi(t_mhstruct **mh)
+// {
+// 	t_token	*current;
+// 	int		idx;
+
+// 	current = (*mh)->token;
+// 	idx = 0;
+// 	while (current)
+// 	{
+// 		while (current->type != PIPELINE && current)
+// 		{
+// 			current->pi = idx;
+// 			if (current->next)
+// 				current = current->next;
+// 			else
+// 				break;
+// 		}
+// 		if (current)
+// 			current = current->next;
+// 		idx++;
+// 	}
+// 	return (idx);
+// }
+
+// int	get_args_size_pipes(t_token *tmp)
+// {
+// 	int		i;
+// 	// t_token	*tmp;
+
+// 	// tmp = mh->token;
+// 	i = 0;
+// 	if (!tmp)
+// 		return (0);
+// 	while (tmp && tmp->type != PIPELINE)
+// 	{
+// 		i++;
+// 		tmp = tmp->next;
+// 	}
+// 	return (i);
+// }
+
+// char	**get_args_pipes(t_token *token, t_mhstruct *mh)
+// {
+// 	char	**out;
+// 	int		i;
+// 	(void) mh;
+// 	// t_token	*token;
+
+// 	// token = mh->token;
+// 	i =get_args_size_pipes(token);
+// 	out = (char **)malloc((i + 1) * sizeof(char *));
+// 	if (!out)
+// 		return (NULL);
+// 	i = 0;
+// 	while (token && token->type != PIPELINE)
+// 	{
+// 		out[i] = ft_strdup(token->data);
+// 		token = token->next;
+// 		i++;
+// 	}
+// 	out[i] = NULL;
+// 	return (out);
+// }
+
+
+// void	execve_commands_pipes(t_token *curr, t_mhstruct *mh)
+// {
+// 	char	**arg;
+// 	char	**env;
+// 	char	*path;
+// 	int		out;
+
+// 	path = NULL;
+// 	out = 0;
+// 	env = get_env_array(mh);
+// 	arg = get_args_pipes(curr, mh);
+// 	if (check_path(arg[0], env, &path) == 0)
+// 	{
+// 		if (access(arg[0], R_OK) == 0)
+// 			path = arg[0];
+// 		else
+// 		{
+// 			free(env);
+// 			free(arg);
+// 			return (pr_err(mh, 127, gemsg(mh->emsg[11], mh->emsg[12], arg[0])));
+// 		}
+// 	}
+// 	// if (path != NULL)
+// 	// 	out = execve_of_commands_2(path, arg, env);
+// 	execve(path, arg, env);
+// 	mh->er_num = out / 256;
+// 	free(env);
+// 	free(arg);
+// }
+
+
+// void	do_pipe_forks(t_mhstruct **mh, int **pipes, int	i)
+// {
+// 	int	pid;
+// 	t_token	*current;
+// 	// int	screen = dup(STDOUT_FILENO);
+// //printf("ENTERED FORK and i is %d!\n", i);
+// 	current = (*mh)->token;
+// 	while (current != NULL & current->pi != i)
+// 		current = current->next;
+// 	(void)mh;
+// 	if (pipe(pipes[i]) == -1)
+// 		return ;
+// 	pid = fork();
+// 	if (pid == 0)
+// 	{
+// 		//printf("Executing FORK! i is %d\n\n\n", i);
+// 		close(pipes[i][0]);
+// 		dup2(pipes[i][1], STDOUT_FILENO);
+	
+// 		//printf("DoNE! i is %d and pid is %d\n\n\n", i, pid);
+// 		execve_commands_pipes(current, *mh);
+// 	}
+// 	else
+// 	{
+// 		wait(NULL);
+// 		close(pipes[i][1]);
+// 		dup2(pipes[i][0], STDIN_FILENO);
+// 			// dup2(screen, STDOUT_FILENO);
+// 		close(pipes[i][0]);
+// 		//printf(" COMPLETED fork %d\n\n\n", i);
+// 	}
+// }
+
+
+// void	do_pipes(t_mhstruct **mh, char **grid, int lines)
+// {
+// 	int	i;
+// 	int	**pipes;
+// 	int	mainp[2];
+// 	(void) grid;
+// 	int	screen = dup(STDOUT_FILENO);
+// 	i = 0;
+// 	pipe(mainp);
+// 	pipes = (int **)malloc(sizeof(int *) * lines);
+// 	int	proc = fork();
+// 	if (proc == 0)
+// 	{
+// 		dup2(mainp[1], STDOUT_FILENO);
+// 		while (i < lines)
+// 		{
+// 			//printf("NOW i is %d \n\n\n", i);
+// 			pipes[i] = (int *)malloc(sizeof(int) * 2);
+// 			do_pipe_forks(mh, pipes, i);
+// 			//printf("DONNEE i is %d lines is %d \n\n\n", i, lines);
+// 			i++;
+	
+// 			// free(pipes[i][0]);
+// 			// free(pipes[i][1]);
+// 		}
+// 			//printf("LOOP COMPLETED \n\n\n");
+// 		dup2(screen, STDOUT_FILENO);
+// 		exit(1);
+// 	}
+// 	else
+// 	{
+// 		waitpid(proc, NULL, 0);
+// 		close(mainp[1]);
+// 		dup2(mainp[0], STDIN_FILENO);
+// 		// dup2(screen, mainp[0]);
+// 		dup2(screen, STDOUT_FILENO);
+// 		printf("!FINISHED!\n");
+// 			close(mainp[0]);
+// 		free(pipes);
+// 	}
+// 	// system("leaks minishell");
+// }
+
+
+
+// // void	do_pipes(t_mhstruct **mh, char **grid, int lines)
+// // {
+// // 	int	i;
+// // 	int	**pipes;
+// // 	int	proc;
+// // 	(void) grid;
+// // 	i = 0;
+// // 	pipes = (int **)malloc(sizeof(int *) * lines);
+// // 	while (i < lines)
+// // 	{
+// // 		proc = fork();
+// // 		if (proc == 0)
+// // 		{
+// // 			pipes[i] = (int *)malloc(sizeof(int) * 2);
+// // 			do_pipe_forks(mh, pipes, i);
+// // 			exit(1);
+			
+// // 		}
+// // 		else
+// // 		{
+// // 			wait(NULL);
+// // 			i++;
+// // 	//	free(pipes[i][0]);
+// // 	//	free(pipes[i][1]);
+	
+// // 		}
+// // 	}
+// // 	//free(pipes);
+// // 	// system("leaks minishell");
+// // }
+
+
+// void	run_seq(t_mhstruct **mh)
+// {
+// 	int		lines;
+// 	char	**grid;
+	
+// 	lines = assign_pi(mh);
+// 	//  printf("lines are %d\n", lines);
+// 	grid = (char **)malloc(sizeof(char **) * (lines + 1));
+// 	if (!grid)
+// 		return ;
+// 	create_grid(grid, lines, mh);
+// 	do_pipes(mh, grid, lines);
+	
+// }
+
+
+// int	launch_pipes(t_mhstruct **mh)
+// {
+// 	run_seq(mh);
+// 	return (0);
+// }

@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/14 17:40:09 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/20 14:24:59 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,10 @@ int main(int ac, char **av, char **env)
 			{
 				if (check_redir_exist(mh->token) && !(check_pipe_exists(mh->token)))
 					do_redirects(mh->token, mh, 1);
+				else if (ft_strlen(mh->token->data) && mh->token && !(check_pipe_exists(mh->token)))
+					execution_of_commands(mh);
 				else if (check_pipe_exists(mh->token))
 					launch_pipes(&mh);
-				else if (ft_strlen(mh->token->data) && mh->token)
-					execution_of_commands(mh);
 				free_token_main(mh);
 				free(mh->token);
 			}
