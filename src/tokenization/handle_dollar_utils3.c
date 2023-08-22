@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 18:46:26 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/12 15:08:16 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/22 18:39:37 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ int	inject_exit_msg(int	*k, int size, t_token **new_t, t_mhstruct **mh)
 {
 	int		i;
 	char	*err_num_char;
-
-	err_num_char = ft_itoa((*mh)->er_num);
+	(void)mh;
+	err_num_char = ft_itoa(GLOBAL_ERROR);
 	i = 0;
 	while (*k <= size && err_num_char[i])
 	{	

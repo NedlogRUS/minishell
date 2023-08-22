@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 16:27:19 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/20 14:13:17 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/22 18:26:25 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,7 +229,7 @@ void	execve_of_commands_pipes(t_mhstruct *mh)
 	// if (path != NULL)
 	// 	out = execve_of_commands_2(path, arg, env);
 	execve(path, arg, env);
-	mh->er_num = out / 256;
+	GLOBAL_ERROR = out / 256;
 	free(env);
 	free(arg);
 }

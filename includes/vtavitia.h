@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 14:39:20 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/21 19:59:37 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/22 18:29:18 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 typedef struct s_mhstuct	t_mhstruct;
 
-extern int GLOBAL_ERROR;
+int GLOBAL_ERROR;
 
 typedef enum s_token_type
 {

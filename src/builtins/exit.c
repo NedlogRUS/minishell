@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 12:54:14 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/05 16:48:46 by vatche           ###   ########.fr       */
+/*   Updated: 2023/08/22 18:26:25 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ void	builtin_exit(t_mhstruct *mh)
 	i = 0;
 	token = mh->token->next;
 	if (token == NULL )
-		do_exit(mh, mh->er_num, NULL);
+		do_exit(mh, GLOBAL_ERROR, NULL);
 	while (token != NULL) // don't forget chek for token type
 	{
 		i++;

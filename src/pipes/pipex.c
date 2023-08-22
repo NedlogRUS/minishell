@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 10:37:53 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/22 18:18:02 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/22 18:26:25 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	execution_of_commands_pipe(t_mhstruct *mh, t_token *curr)
 	else
 		execve_of_commands(mh);	
 	// {
-	// 	mh->er_num = 127;
+	// 	GLOBAL_ERROR = 127;
 	// 	printf("minihell: command not found: %s\n", mh->token->data);
 	// }
 	return ;
