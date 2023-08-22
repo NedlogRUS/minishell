@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:40:51 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/14 17:57:27 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/22 14:26:55 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	do_redirects(t_token *t, t_mhstruct *mh, int x)
 	int		screen;
 	int		in;
 	int		mark;
-
+	(void) x;
 	tok = mh->token;
 	previous = tok;
 	screen = dup(STDOUT_FILENO);

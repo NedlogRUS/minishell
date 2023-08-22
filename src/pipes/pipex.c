@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 10:37:53 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/22 13:41:42 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/22 18:18:02 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,31 @@ char	**get_args_pipes(t_token *token, t_mhstruct *mh)
 	return (out);
 }
 
+void	execution_of_commands_pipe(t_mhstruct *mh, t_token *curr)
+{
+	if(!ft_strcmp(curr->data, "pwd"))
+		builtin_pwd(mh);	
+	else if(!ft_strcmp(mh->token->data, "env"))
+		builtin_env(mh);
+	else if(!ft_strcmp(mh->token->data, "export"))
+		builtin_export(mh);
+	else if(!ft_strcmp(mh->token->data, "unset"))
+		builtin_unset(mh);
+	else if(!ft_strcmp(mh->token->data, "cd"))
+		builtin_cd(mh);
+	else if(!ft_strcmp(mh->token->data, "echo"))
+		builtin_echo(mh);
+	else if(!ft_strcmp(mh->token->data, "exit"))
+		builtin_exit(mh);
+	else
+		execve_of_commands(mh);	
+	// {
+	// 	mh->er_num = 127;
+	// 	printf("minihell: command not found: %s\n", mh->token->data);
+	// }
+	return ;
+
+}
 
 
 void	execve_commands_pipes(t_token *curr, t_mhstruct *mh, int lines, int pipes[1000][2])
@@ -97,7 +122,7 @@ void	execve_commands_pipes(t_token *curr, t_mhstruct *mh, int lines, int pipes[1
 	char	**env;
 	char	*path;
 	int		out;
-	int		pid;
+
 	(void) lines;
 (void) pipes;
 	path = NULL;
@@ -115,15 +140,8 @@ void	execve_commands_pipes(t_token *curr, t_mhstruct *mh, int lines, int pipes[1
 			return (pr_err(mh, 127, gemsg(mh->emsg[11], mh->emsg[12], arg[0])));
 		}
 	}
-	pid = fork();
-	if (pid == 0)
-	{
-		execve(path, arg, env);
-		//exit(1);
-	}
-	waitpid(pid, &GLOBAL_ERROR, 0);
+	execve(path, arg, env);
 	return ;
-
 }
 
 
@@ -155,6 +173,71 @@ void	set_pipe(t_token *curr, int pipes[1000][2], int i, int lines, int screen)
 	
 }
 
+// void	copy_to_tmp(t_mhstruct *tmp, t_token *curr)
+// {
+// 	t_token	*start;
+// 	t_token *new;
+	
+// 	new = NULL;
+// 	start = init_token("", NULL_VAL);
+// 	tmp->token = start;
+
+// 	while (curr && curr->type != PIPELINE)
+// 	{
+// 		new = init_token("", NULL_VAL);
+// 		new->data = ft_strdup(curr->data);
+// 		new->pi = curr->pi;
+// 		if (curr->next == NULL || curr->next->type == PIPELINE)
+// 			new->next = NULL;
+// 		start->next = new;
+// 		start = start->next;
+// 		curr = curr->next;
+// 	}
+// 	print_tokens(tmp->token);
+// 	exit(1);
+// }
+
+void	copy_to_tmp(t_mhstruct *tmp, t_token *curr)
+{
+	t_token	*start;
+	t_token *new;
+	
+	new = NULL;
+	//start = init_token("", NULL_VAL);
+	tmp->token = NULL;
+
+	while (curr && curr->type != PIPELINE)
+	{
+		new = init_token("", NULL_VAL);
+		new->data = ft_strdup(curr->data);
+		new->pi = curr->pi;
+		if (curr->next == NULL || curr->next->type == PIPELINE)
+			new->next = NULL;
+		if (tmp->token == NULL)
+		{
+			tmp->token = new;
+			start = tmp->token;
+		}
+		else
+			tmp->token->next = new;
+		curr = curr->next;
+	}
+	tmp->token = start;
+}
+
+void	initializer_temp_mh( t_mhstruct *tmp, t_mhstruct *mh)
+{
+	
+	int		i;
+
+	i = 0;
+	tmp->token = NULL;
+	tmp->env = mh->env;
+	tmp->er_num = 0;
+	mh->mh_pid = (int)getpid();
+	add_error_message(tmp);
+}
+
 int		do_pipe_forks(t_mhstruct **mh, int pipes[1000][2], int	i, int	lines, int screen, char **grid)
 {
 	int		pid;
@@ -163,18 +246,27 @@ int		do_pipe_forks(t_mhstruct **mh, int pipes[1000][2], int	i, int	lines, int sc
 	(void) grid;
 	(void) lines;
 	(void) pipes;
-	
+	t_mhstruct *tmp;
+	tmp = NULL;
+	tmp = malloc(sizeof(t_mhstruct));
+	initializer_temp_mh(tmp, *mh);
 	curr = (*mh)->token;
 	while ( curr->pi != i)
 		curr = curr->next;
+		
+	copy_to_tmp(tmp, curr);
 	pid = fork();
 	if (pid == 0)
 	{
 		set_pipe(curr, pipes, i, lines, screen);
 		close_pipes(pipes, lines);
-		execve_commands_pipes(curr, *mh, lines, pipes);
+		execution_of_commands(tmp);
+		// waitpid(pid, &GLOBAL_ERROR, 0);
+		//execve_commands_pipes(curr, *mh, lines, pipes);
 		exit(1);
 	}
+	free_token_main(tmp);
+	free(tmp);
 	return (pid);
 }
 
@@ -184,9 +276,8 @@ void	do_pipes(t_mhstruct **mh, char **grid, int lines)
 	int	i;
 	int	pipes[1000][2];
 	(void) grid;
-	
+	int pid;
 	i = 0;
-	// printf("lines = %d\n", lines);
 	while (i < lines - 1) 
 	{
 		pipe(pipes[i]);
@@ -195,16 +286,18 @@ void	do_pipes(t_mhstruct **mh, char **grid, int lines)
 	i = 0;
 	while (i < lines)
 	{
-		do_pipe_forks(mh, pipes, i, lines, screen, grid);
+		pid = do_pipe_forks(mh, pipes, i, lines, screen, grid);
 		i++;
 	}	
 	close_pipes(pipes, lines);
 	i = 0;
-	while (i < lines)
+	
+	//waitpid(pid, &GLOBAL_ERROR, 0);
+	while (i < lines )
 	{
 		wait(NULL);
 		i++;
-	}	
+	}
 }
 
 

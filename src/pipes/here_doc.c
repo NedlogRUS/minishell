@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:32:58 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/04 14:06:23 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/22 14:55:04 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	here_doc_child(char **buff, char *lim, int *hdpipe)
 			ft_putstr_fd("> ", 1);
 		if (ft_strncmp(buffer, lim, ft_strlen(lim)) == 0)
 		{
-			free(buffer);
+			free(buffer);	
 			exit(0);
 		}
 		write(hdpipe[1], buffer, ft_strlen(buffer));
@@ -72,7 +72,11 @@ void	do_here_doc(char *lim)
 		error_msg2("Error\nPipe Creation Failed\n");
 	pid = fork();
 	if (pid == 0)
+	{
+		signal(SIGINT, do_sigint);
+		signal(SIGQUIT, do_sigquit);// need to change for fork
 		here_doc_child(&buffer, lim, hdpipe);
+	}
 	else
 	{
 		wait(NULL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 18:31:47 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/12 18:16:28 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/22 18:22:38 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,9 @@ void	execve_of_commands(t_mhstruct *mh)
 		else
 		{
 			free(env);
+			pr_err(mh, 127, gemsg(mh->emsg[11], mh->emsg[12], arg[0]));
 			free(arg);
-			return (pr_err(mh, 127, gemsg(mh->emsg[11], mh->emsg[12], arg[0])));
+			return ;
 		}
 	}
 	if (path != NULL)
