@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 14:39:20 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/21 15:13:18 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/21 19:59:37 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ int		launch_pipes(t_mhstruct **mh);
 char	**get_arg_array(t_mhstruct *mh);
 int		check_path(char *argv, char **envp, char **command_path);
 int		execve_of_commands_2(char *path, char **arg, char **env);
-void	execve_commands_pipes(t_token *current, t_mhstruct *mh);
+void	execve_commands_pipes(t_token *curr, t_mhstruct *mh, int lines, int pipes[1000][2]);
 int		check_redir_exist_pipe(t_token *t);
 
 int		c_w(t_mhstruct **mh, int i);

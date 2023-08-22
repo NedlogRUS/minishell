@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:10:29 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/21 15:11:35 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/21 18:08:55 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,18 +102,7 @@ void	create_grid(char **grid, int lines, t_mhstruct **mh)
 }
 
 
-void	c_pipes(int pipes[1000][2] , int lines)
-{
-	int	i;
 
-	i = 0;
-	while (i < lines)
-	{
-		close(pipes[i][0]);
-		close(pipes[i][1]);
-		i++;
-	}
-}
 
 
 int	check_redir_exist_pipe(t_token *t)
