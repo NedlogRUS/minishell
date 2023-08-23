@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 10:37:53 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/23 14:31:58 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/23 14:54:37 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ void	set_pipe(t_token *curr, int pipes[1000][2], int i, int lines, int screen)
 	(void) screen;
 	if (i == 0)
 	{
-		//close(pipes[i][0]);
+		close(pipes[i][0]);
 		dup2(pipes[i][1], STDOUT_FILENO);
 		close(pipes[i][1]);
 	
@@ -173,29 +173,6 @@ void	set_pipe(t_token *curr, int pipes[1000][2], int i, int lines, int screen)
 	
 }
 
-// void	copy_to_tmp(t_mhstruct *tmp, t_token *curr)
-// {
-// 	t_token	*start;
-// 	t_token *new;
-	
-// 	new = NULL;
-// 	start = init_token("", NULL_VAL);
-// 	tmp->token = start;
-
-// 	while (curr && curr->type != PIPELINE)
-// 	{
-// 		new = init_token("", NULL_VAL);
-// 		new->data = ft_strdup(curr->data);
-// 		new->pi = curr->pi;
-// 		if (curr->next == NULL || curr->next->type == PIPELINE)
-// 			new->next = NULL;
-// 		start->next = new;
-// 		start = start->next;
-// 		curr = curr->next;
-// 	}
-// 	print_tokens(tmp->token);
-// 	exit(1);
-// }
 
 void	copy_to_tmp(t_mhstruct *tmp, t_token *curr)
 {
@@ -203,7 +180,6 @@ void	copy_to_tmp(t_mhstruct *tmp, t_token *curr)
 	t_token *new;
 	
 	new = NULL;
-	//start = init_token("", NULL_VAL);
 	tmp->token = NULL;
 
 	while (curr && curr->type != PIPELINE)
@@ -211,6 +187,7 @@ void	copy_to_tmp(t_mhstruct *tmp, t_token *curr)
 		new = init_token("", NULL_VAL);
 		new->data = ft_strdup(curr->data);
 		new->pi = curr->pi;
+		new->type = curr->type;
 		if (curr->next == NULL || curr->next->type == PIPELINE)
 			new->next = NULL;
 		if (tmp->token == NULL)
@@ -255,13 +232,21 @@ int		do_pipe_forks(t_mhstruct **mh, int pipes[1000][2], int	i, int	lines, int sc
 		curr = curr->next;
 		
 	copy_to_tmp(tmp, curr);
+	//print_tokens((*mh)->token);
+	//print_tokens(tmp->token);
 	pid = fork();
 	if (pid == 0)
 	{
-		set_pipe(curr, pipes, i, lines, screen);
+		if (check_redir_exist(tmp->token))
+		{
+			//printf("here\n");
+			do_redirects(tmp->token, tmp, 1);
+		}
+		else
+			set_pipe(curr, pipes, i, lines, screen);
 		close_pipes(pipes, lines);
 		execution_of_commands(tmp);
-		exit(GLOBAL_ERROR / 256);
+		exit(GLOBAL_ERROR);
 	}
 	free_token_main(tmp);
 	free(tmp);
@@ -296,7 +281,10 @@ void	do_pipes(t_mhstruct **mh, char **grid, int lines)
 	{
 		//printf("pid[i] = %d\n", pid[i]);
 		if (i == lines - 1)
+		{
 			waitpid(pid[i], &GLOBAL_ERROR, 0);
+			GLOBAL_ERROR /= 256;
+		}
 		else
 			waitpid(pid[i], 0, 0);
 		// wait(NULL);
