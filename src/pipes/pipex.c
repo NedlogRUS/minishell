@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 10:37:53 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/22 18:26:25 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/23 13:15:59 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,12 +259,11 @@ int		do_pipe_forks(t_mhstruct **mh, int pipes[1000][2], int	i, int	lines, int sc
 	if (pid == 0)
 	{
 		set_pipe(curr, pipes, i, lines, screen);
-		close_pipes(pipes, lines);
 		execution_of_commands(tmp);
-		// waitpid(pid, &GLOBAL_ERROR, 0);
-		//execve_commands_pipes(curr, *mh, lines, pipes);
-		exit(1);
+		close_pipes(pipes, lines);
+		exit(GLOBAL_ERROR);
 	}
+	
 	free_token_main(tmp);
 	free(tmp);
 	return (pid);
@@ -276,7 +275,7 @@ void	do_pipes(t_mhstruct **mh, char **grid, int lines)
 	int	i;
 	int	pipes[1000][2];
 	(void) grid;
-	int pid;
+	int pid[1000];
 	i = 0;
 	while (i < lines - 1) 
 	{
@@ -286,19 +285,24 @@ void	do_pipes(t_mhstruct **mh, char **grid, int lines)
 	i = 0;
 	while (i < lines)
 	{
-		pid = do_pipe_forks(mh, pipes, i, lines, screen, grid);
+		pid[i] = do_pipe_forks(mh, pipes, i, lines, screen, grid);
 		i++;
 	}	
 	close_pipes(pipes, lines);
 	i = 0;
-	
+
 	//waitpid(pid, &GLOBAL_ERROR, 0);
 	while (i < lines )
 	{
+		// if (i == lines - 1)
+		// 	waitpid(pid[i], &GLOBAL_ERROR, 0);
+		// else
+		// 	waitpid(pid[i], 0, 0);
 		wait(NULL);
 		i++;
+		}
 	}
-}
+	
 
 
 int	launch_pipes(t_mhstruct **mh)
@@ -312,6 +316,7 @@ int	launch_pipes(t_mhstruct **mh)
 		return (1);
 	create_grid(grid, lines, mh);
 	do_pipes(mh, grid, lines);
+	//printf("GLOBAL VAR is %d\n", GLOBAL_ERROR);
 	free_all(grid);
 	return (0);
 }
