@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 10:37:53 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/23 13:40:37 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/23 14:31:58 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,7 +261,7 @@ int		do_pipe_forks(t_mhstruct **mh, int pipes[1000][2], int	i, int	lines, int sc
 		set_pipe(curr, pipes, i, lines, screen);
 		close_pipes(pipes, lines);
 		execution_of_commands(tmp);
-		exit(GLOBAL_ERROR);
+		exit(GLOBAL_ERROR / 256);
 	}
 	free_token_main(tmp);
 	free(tmp);

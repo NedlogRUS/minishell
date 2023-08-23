@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:32:58 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/23 13:44:12 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/23 14:22:00 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ static void	here_doc_child(char **buff, char *lim, int *hdpipe)
 	ft_putstr_fd("> ", 1);
 	while (read_line(&buffer))
 	{
-		signal(SIGINT, do_sigint);
-		signal(SIGQUIT, do_sigquit);
 		if (!(ft_strncmp(buffer, lim, ft_strlen(lim)) == 0))
 			ft_putstr_fd("> ", 1);
 		if (ft_strncmp(buffer, lim, ft_strlen(lim)) == 0)
