@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 10:37:53 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/23 13:15:59 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/23 13:40:37 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,31 +89,31 @@ char	**get_args_pipes(t_token *token, t_mhstruct *mh)
 	return (out);
 }
 
-void	execution_of_commands_pipe(t_mhstruct *mh, t_token *curr)
-{
-	if(!ft_strcmp(curr->data, "pwd"))
-		builtin_pwd(mh);	
-	else if(!ft_strcmp(mh->token->data, "env"))
-		builtin_env(mh);
-	else if(!ft_strcmp(mh->token->data, "export"))
-		builtin_export(mh);
-	else if(!ft_strcmp(mh->token->data, "unset"))
-		builtin_unset(mh);
-	else if(!ft_strcmp(mh->token->data, "cd"))
-		builtin_cd(mh);
-	else if(!ft_strcmp(mh->token->data, "echo"))
-		builtin_echo(mh);
-	else if(!ft_strcmp(mh->token->data, "exit"))
-		builtin_exit(mh);
-	else
-		execve_of_commands(mh);	
-	// {
-	// 	GLOBAL_ERROR = 127;
-	// 	printf("minihell: command not found: %s\n", mh->token->data);
-	// }
-	return ;
+// void	execution_of_commands_pipe(t_mhstruct *mh, t_token *curr)
+// {
+// 	if(!ft_strcmp(curr->data, "pwd"))
+// 		builtin_pwd(mh);	
+// 	else if(!ft_strcmp(mh->token->data, "env"))
+// 		builtin_env(mh);
+// 	else if(!ft_strcmp(mh->token->data, "export"))
+// 		builtin_export(mh);
+// 	else if(!ft_strcmp(mh->token->data, "unset"))
+// 		builtin_unset(mh);
+// 	else if(!ft_strcmp(mh->token->data, "cd"))
+// 		builtin_cd(mh);
+// 	else if(!ft_strcmp(mh->token->data, "echo"))
+// 		builtin_echo(mh);
+// 	else if(!ft_strcmp(mh->token->data, "exit"))
+// 		builtin_exit(mh);
+// 	else
+// 		execve_of_commands(mh);	
+// 	// {
+// 	// 	GLOBAL_ERROR = 127;
+// 	// 	printf("minihell: command not found: %s\n", mh->token->data);
+// 	// }
+// 	return ;
 
-}
+// }
 
 
 void	execve_commands_pipes(t_token *curr, t_mhstruct *mh, int lines, int pipes[1000][2])
@@ -152,7 +152,7 @@ void	set_pipe(t_token *curr, int pipes[1000][2], int i, int lines, int screen)
 	(void) screen;
 	if (i == 0)
 	{
-		close(pipes[i][0]);
+		//close(pipes[i][0]);
 		dup2(pipes[i][1], STDOUT_FILENO);
 		close(pipes[i][1]);
 	
@@ -259,11 +259,10 @@ int		do_pipe_forks(t_mhstruct **mh, int pipes[1000][2], int	i, int	lines, int sc
 	if (pid == 0)
 	{
 		set_pipe(curr, pipes, i, lines, screen);
-		execution_of_commands(tmp);
 		close_pipes(pipes, lines);
+		execution_of_commands(tmp);
 		exit(GLOBAL_ERROR);
 	}
-	
 	free_token_main(tmp);
 	free(tmp);
 	return (pid);
@@ -286,22 +285,25 @@ void	do_pipes(t_mhstruct **mh, char **grid, int lines)
 	while (i < lines)
 	{
 		pid[i] = do_pipe_forks(mh, pipes, i, lines, screen, grid);
+		//printf(" HERE pid[i] = %d\n", pid[i]);
 		i++;
 	}	
 	close_pipes(pipes, lines);
 	i = 0;
 
 	//waitpid(pid, &GLOBAL_ERROR, 0);
-	while (i < lines )
+	while (i < lines)
 	{
-		// if (i == lines - 1)
-		// 	waitpid(pid[i], &GLOBAL_ERROR, 0);
-		// else
-		// 	waitpid(pid[i], 0, 0);
-		wait(NULL);
+		//printf("pid[i] = %d\n", pid[i]);
+		if (i == lines - 1)
+			waitpid(pid[i], &GLOBAL_ERROR, 0);
+		else
+			waitpid(pid[i], 0, 0);
+		// wait(NULL);
 		i++;
-		}
+		
 	}
+}
 	
 
 
