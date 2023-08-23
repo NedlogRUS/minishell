@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 21:44:40 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/03 18:53:47 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/22 18:27:14 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ char	*gemsg(char *cmndname, char *errmsg, char *data)
 
 void	pr_err(t_mhstruct *mh, int i, char *errmsg)
 {
-	mh->er_num = i;
+	(void) mh;
+	GLOBAL_ERROR = i;
 	ft_putstr_fd(errmsg, 2);
 	free(errmsg);
 	return ;
@@ -204,7 +205,7 @@ void	builtin_cd(t_mhstruct *mh)
 	int		i;
 
 	token = mh->token->next;
-	mh->er_num = 0;
+	GLOBAL_ERROR = 0;
 	i = 0;
 	if (token == NULL )
 	{	

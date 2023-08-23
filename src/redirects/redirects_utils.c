@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 18:39:00 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/10 16:10:10 by vatche           ###   ########.fr       */
+/*   Updated: 2023/08/14 18:18:55 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	action_redirect(t_token **tok, t_token **previous, t_mhstruct **mh, int scre
 
 void	run_comms(t_mhstruct *mh, int mark, int in, int screen)
 {
-	if (mh->token && mh->token->type == BUILTIN && !mark)
+	if (mh->token && !mark)
 		execution_of_commands(mh);
 	dup2(screen, STDOUT_FILENO);
 	dup2(in, STDIN_FILENO);
