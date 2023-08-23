@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/12 18:17:21 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/23 13:42:08 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	execution_of_commands(t_mhstruct *mh)
 	else
 		execve_of_commands(mh);	
 	// {
-	// 	mh->er_num = 127;
+	// 	GLOBAL_ERROR = 127;
 	// 	printf("minihell: command not found: %s\n", mh->token->data);
 	// }
 	return ;
@@ -93,7 +93,7 @@ int main(int ac, char **av, char **env)
 		{
 			free(mh->input);
 			printf("\x1b[1A\x1b[3Cexit\n");
-			exit(mh->er_num);
+			exit(GLOBAL_ERROR);
 		}
 		if (ft_strlen(mh->input))
 		{
@@ -103,12 +103,11 @@ int main(int ac, char **av, char **env)
 			if (mh->token)
 			{
 				if (check_redir_exist(mh->token) && !(check_pipe_exists(mh->token)))
-					do_redirects(mh->token, mh);
+					do_redirects(mh->token, mh, 1);
+				else if (ft_strlen(mh->token->data) && mh->token && !(check_pipe_exists(mh->token)))
+					execution_of_commands(mh);
 				else if (check_pipe_exists(mh->token))
 					launch_pipes(&mh);
-				else if (ft_strlen(mh->token->data) && mh->token)
-					execution_of_commands(mh);
-		
 				free_token_main(mh);
 				free(mh->token);
 			}

@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 14:39:20 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/12 15:54:23 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/22 18:29:18 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include <sys/wait.h>
 
 typedef struct s_mhstuct	t_mhstruct;
+
+int GLOBAL_ERROR;
 
 typedef enum s_token_type
 {
@@ -43,7 +45,7 @@ typedef struct s_token
 	t_token_type	type;
 	int				s_quote;
 	int				d_quote;
-	char			*data_for_redir;
+	int				pi;
 	struct s_token	*next;
 }	t_token;
 
@@ -99,7 +101,7 @@ void	term_helper(char *search, t_mhstruct *mh, t_token **curr, t_env *env_t);
 
 
 // redirects
-void	do_redirects(t_token *t, t_mhstruct *mh);
+void	do_redirects(t_token *t, t_mhstruct *mh, int x);
 void	execution_of_commands(t_mhstruct *mh);
 int		check_redir_exist(t_token *t);
 void	set_prev(t_token **previous, t_token **tok);
@@ -133,6 +135,18 @@ int		check_path_exists(char *argv, char **envp, char **command_path);
 char	*cut_argv(char *argv);
 int		bad_redirect_syntax2(t_token *t);
 int		launch_pipes(t_mhstruct **mh);
+char	**get_arg_array(t_mhstruct *mh);
+int		check_path(char *argv, char **envp, char **command_path);
+int		execve_of_commands_2(char *path, char **arg, char **env);
+void	execve_commands_pipes(t_token *curr, t_mhstruct *mh, int lines, int pipes[1000][2]);
+int		check_redir_exist_pipe(t_token *t);
+
+int		c_w(t_mhstruct **mh, int i);
+int		c_ch(t_mhstruct **mh, int i);
+void	copy_to_grid(t_mhstruct **mh, int i, char **grid);
+void	create_grid(char **grid, int lines, t_mhstruct **mh);
+void	c_pipes(int pipes[1000][2] , int lines);
+int		check_redir_exist_pipe(t_token *t);
 
 //delete this
 void	print_tokens(t_token *token);

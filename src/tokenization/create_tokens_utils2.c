@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:53:52 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/11 10:51:26 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/20 10:39:43 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ t_token	*init_token(char *data, t_token_type type)
 	new_token->type = type;
 	new_token->s_quote = 0;
 	new_token->d_quote = 0;
+	new_token->pi = -1;
 	new_token->next = NULL;
 	return (new_token);
 }

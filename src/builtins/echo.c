@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:36:10 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/12 14:48:37 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/22 18:26:25 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	builtin_echo(t_mhstruct *mh)
 	int		i;
 
 	token = mh->token->next;
-	mh->er_num = 0;
+	GLOBAL_ERROR = 0;
 	i = 0;
 	if (token == NULL )
 	{	

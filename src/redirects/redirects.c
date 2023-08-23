@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:40:51 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/10 16:14:41 by vatche           ###   ########.fr       */
+/*   Updated: 2023/08/22 14:26:55 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,14 +97,14 @@ void	delete_redirs(t_token **t, t_mhstruct **mh, t_token **previous)
 
 
 // write rull for < Makefile
-void	do_redirects(t_token *t, t_mhstruct *mh)
+void	do_redirects(t_token *t, t_mhstruct *mh, int x)
 {
 	t_token	*tok;
 	t_token	*previous;
 	int		screen;
 	int		in;
 	int		mark;
-
+	(void) x;
 	tok = mh->token;
 	previous = tok;
 	screen = dup(STDOUT_FILENO);
@@ -121,5 +121,6 @@ void	do_redirects(t_token *t, t_mhstruct *mh)
 				break ;
 		}
 	}
-	run_comms(mh, mark, in, screen);
+	if (x)
+		run_comms(mh, mark, in, screen);
 }
