@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:40:51 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/24 13:24:54 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/24 17:28:27 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,24 @@ int	check_redir_exist(t_token *t)
 	if (t->type == GT || t->type == LT || t->type == D_GT || t->type == D_LT)
 		return (1);
 	return (0);
+}
+
+int	num_of_heredoc(t_token *t)
+{
+	int	count;
+
+	count = 0;
+	if (!t)
+		return (0);
+	while (t->next)
+	{
+		if (t->type == D_LT)
+			count++;
+		t = t->next;
+	}
+	if (t->type == D_LT)
+			count++;
+	return (count);
 }
 
 int	bad_redirect_syntax(t_token *t)
@@ -99,7 +117,7 @@ void	delete_redirs(t_token **t, t_mhstruct **mh, t_token **previous)
 
 
 // write rull for < Makefile
-void	do_redirects(t_token *t, t_mhstruct *mh, int x)
+int	do_redirects(t_token *t, t_mhstruct *mh, int x)
 {
 	t_token	*tok;
 	t_token	*previous;
@@ -113,16 +131,22 @@ void	do_redirects(t_token *t, t_mhstruct *mh, int x)
 	in = dup(STDIN_FILENO);
 	mark = 0;
 	if (bad_redirect_syntax(t))
-		return (error_msg("Syntax error near unexpected token", 258, mh));
+		{
+			error_msg("Syntax error near unexpected token", 258, mh);
+			return (258);
+		}
 	if (check_redir_exist(mh->token))
 	{
-		while (tok)
+		while (check_redir_exist(mh->token))
 		{
-			mark = action_redirect(&tok, &previous, &mh, screen);
+			// printf("entered\n");
+			// print_tokens(mh->token);
+			mark = action_redirect(&tok, &previous, &mh, screen, in);
 			if (mark)
 				break ;
 		}
 	}
+	return (mark);
 }
 
 void	do_redirects_pipes(t_token *t, t_mhstruct *mh, int x)
@@ -144,7 +168,7 @@ void	do_redirects_pipes(t_token *t, t_mhstruct *mh, int x)
 	{
 		while (tok)
 		{
-			mark = action_redirect(&tok, &previous, &mh, screen);
+			mark = action_redirect(&tok, &previous, &mh, screen, in);
 			if (mark)
 				break ;
 		}

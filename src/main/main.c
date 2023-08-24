@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/24 15:38:40 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/24 17:27:01 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ int		screen;
 		screen = dup(STDOUT_FILENO);
 	in = dup(STDIN_FILENO);
 	(void) av;
-
+	int	mark;
+	mark = 0;
 	if(ac > 1)
 		exit (1);
 	rl_catch_signals = 0;
@@ -106,8 +107,8 @@ int		screen;
 			{
 				if (check_redir_exist(mh->token) && !(check_pipe_exists(mh->token)))
 				{
-					do_redirects(mh->token, mh, 0);
-					if (ft_tokenlstsize(mh->token))
+					mark = do_redirects(mh->token, mh, 0);
+					if (ft_tokenlstsize(mh->token) && !mark)
 						execution_of_commands(mh);
 					dup2(screen, STDOUT_FILENO);
 					dup2(in, STDIN_FILENO);

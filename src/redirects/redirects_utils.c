@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 18:39:00 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/24 13:23:53 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/24 16:40:21 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,9 @@ void	do_d_gt(t_token **t)
 	dup2(fd, STDOUT_FILENO);
 }
 
-int	action_redirect(t_token **tok, t_token **previous, t_mhstruct **mh, int screen)
+int	action_redirect(t_token **tok, t_token **previous, t_mhstruct **mh, int screen, int in)
 {
+	(void)in;
 	if ((*tok)->type == GT || (*tok)->type == LT || (*tok)->type == D_GT)
 	{
 		if (do_dups(tok, mh, screen))
@@ -44,8 +45,9 @@ int	action_redirect(t_token **tok, t_token **previous, t_mhstruct **mh, int scre
 	}
 	else if ((*tok)->type == D_LT)
 	{
-		do_here_doc((*tok)->next->data);
+		do_here_doc((*tok)->next->data, *mh);	
 		delete_redirs(tok, mh, previous);
+		return (0);
 	}
 	else
 		set_prev(previous, tok);
@@ -70,7 +72,7 @@ int	action_justheredoc(t_token **tok, t_token **previous, t_mhstruct **mh, int s
 	(void) screen;
 	if ((*tok)->type == D_LT)
 	{
-		do_here_doc((*tok)->next->data);
+		do_here_doc((*tok)->next->data, *mh);
 		delete_redirs(tok, mh, previous);
 	}
 	return (0);
