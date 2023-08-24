@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 10:37:53 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/24 11:30:36 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/24 13:27:24 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,25 +252,21 @@ int		do_pipe_forks(t_mhstruct **mh, int pipes[1000][2], int	i, int	lines, int sc
 	curr = (*mh)->token;	
 	while ( curr->pi != i)
 		curr = curr->next;
-		
+
 	copy_to_tmp(tmp, curr);
 	pid = fork();
 	if (pid == 0)
 	{
 		int hd = check_heredoc(tmp);
 
-		if (check_redir_exist(tmp->token))
-		{
+		if (hd)
+			just_heredoc(tmp->token, tmp, 0);
+		set_pipe(curr, pipes, i, lines, screen, hd);
+		if (ft_tokenlstsize(tmp->token))
 			do_redirects(tmp->token, tmp, 0);
-			close_pipes(pipes, lines);
+		close_pipes(pipes, lines);
+		if (ft_tokenlstsize(tmp->token))
 			execution_of_commands(tmp);
-		}
-		else
-		{
-			set_pipe(curr, pipes, i, lines, screen, hd);
-			close_pipes(pipes, lines);
-			execution_of_commands(tmp);
-		}
 		exit(GLOBAL_ERROR);
 	}
 	free_token_main(tmp);
@@ -321,14 +317,16 @@ int	launch_pipes(t_mhstruct **mh)
 	int		lines;
 	char	**grid = NULL;
 	lines = assign_pi(mh);
-
+	if (lines > 709)
+	{
+		pr_err(*mh, 1, gemsg("", (*mh)->emsg[14], "fork: "));
+		return (1);
+	}
 	grid = (char **)malloc(sizeof(char **) * (lines + 1));
 	if (!grid)
 		return (1);
 	create_grid(grid, lines, mh);
 	do_pipes(mh, grid, lines);
-	//printf("GLOBAL VAR is %d\n", GLOBAL_ERROR);
-
 	free_all(grid);
 	return (0);
 }

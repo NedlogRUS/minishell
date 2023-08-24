@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/24 11:23:42 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/24 13:21:27 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,8 @@ int		screen;
 				if (check_redir_exist(mh->token) && !(check_pipe_exists(mh->token)))
 				{
 					do_redirects(mh->token, mh, 0);
-					execution_of_commands(mh);
+					if (ft_tokenlstsize(mh->token))
+						execution_of_commands(mh);
 					dup2(screen, STDOUT_FILENO);
 					dup2(in, STDIN_FILENO);
 				}

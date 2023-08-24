@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:40:51 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/24 11:20:48 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/24 13:24:54 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,5 +123,52 @@ void	do_redirects(t_token *t, t_mhstruct *mh, int x)
 				break ;
 		}
 	}
+}
+
+void	do_redirects_pipes(t_token *t, t_mhstruct *mh, int x)
+{
+	t_token	*tok;
+	t_token	*previous;
+	int		screen;
+	int		in;
+	int		mark;
+	(void) x;
+	tok = mh->token;
+	previous = tok;
+	screen = dup(STDOUT_FILENO);
+	in = dup(STDIN_FILENO);
+	mark = 0;
+	if (bad_redirect_syntax(t))
+		return (error_msg("Syntax error near unexpected token", 258, mh));
+	if (check_redir_exist(mh->token))
+	{
+		while (tok)
+		{
+			mark = action_redirect(&tok, &previous, &mh, screen);
+			if (mark)
+				break ;
+		}
+	}
 		
 }
+
+
+void	just_heredoc(t_token *t, t_mhstruct *mh, int x)
+{
+	t_token	*tok;
+	t_token	*previous;
+	int		screen;
+	int		in;
+	(void) x;
+	tok = mh->token;
+	previous = tok;
+	screen = dup(STDOUT_FILENO);
+	in = dup(STDIN_FILENO);
+	if (bad_redirect_syntax(t))
+		return (error_msg("Syntax error near unexpected token", 258, mh));
+
+	while(tok && tok->type != D_LT)
+		tok = tok->next;
+	action_justheredoc(&tok, &previous, &mh, screen);
+}
+
