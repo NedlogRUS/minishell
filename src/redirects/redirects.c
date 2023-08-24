@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:40:51 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/22 14:26:55 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/23 16:05:46 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	check_redir_exist(t_token *t)
 {
+	if (!t)
+		return (0);
 	while (t->next)
 	{
 		if (t->type == GT || t->type == LT
