@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:40:51 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/23 16:05:46 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/24 11:20:48 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,5 @@ void	do_redirects(t_token *t, t_mhstruct *mh, int x)
 				break ;
 		}
 	}
-	if (x)
-		run_comms(mh, mark, in, screen);
+		
 }

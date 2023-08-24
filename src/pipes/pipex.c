@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 10:37:53 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/23 19:56:03 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/24 11:30:36 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,29 +258,19 @@ int		do_pipe_forks(t_mhstruct **mh, int pipes[1000][2], int	i, int	lines, int sc
 	if (pid == 0)
 	{
 		int hd = check_heredoc(tmp);
-	
-		
-		do_redirects(tmp->token, tmp, 0);
-		
-		set_pipe(curr, pipes, i, lines, screen, hd);
-		close_pipes(pipes, lines);
-		execution_of_commands(tmp);
-		
-		// if (check_redir_exist(tmp->token) && !hd)
-		// {
-		// 	do_redirects(tmp->token, tmp, 1);
-		// 	set_pipe(curr, pipes, i, lines, screen, hd);
-		// 	close_pipes(pipes, lines);
-		// //	execution_of_commands(tmp);
-		// }
-		// else
-		// {
-		// 	printf("here");
-		// 	//do_redirects(tmp->token, tmp, 0);
-		// 	set_pipe(curr, pipes, i, lines, screen, hd);
-		// 	close_pipes(pipes, lines);
-		// 	execution_of_commands(tmp);
-		// }
+
+		if (check_redir_exist(tmp->token))
+		{
+			do_redirects(tmp->token, tmp, 0);
+			close_pipes(pipes, lines);
+			execution_of_commands(tmp);
+		}
+		else
+		{
+			set_pipe(curr, pipes, i, lines, screen, hd);
+			close_pipes(pipes, lines);
+			execution_of_commands(tmp);
+		}
 		exit(GLOBAL_ERROR);
 	}
 	free_token_main(tmp);
@@ -305,16 +295,12 @@ void	do_pipes(t_mhstruct **mh, char **grid, int lines)
 	while (i < lines)
 	{
 		pid[i] = do_pipe_forks(mh, pipes, i, lines, screen, grid);
-		//printf(" HERE pid[i] = %d\n", pid[i]);
 		i++;
 	}	
 	close_pipes(pipes, lines);
 	i = 0;
-
-	//waitpid(pid, &GLOBAL_ERROR, 0);
 	while (i < lines)
 	{
-		//printf("pid[i] = %d\n", pid[i]);
 		if (i == lines - 1)
 		{
 			waitpid(pid[i], &GLOBAL_ERROR, 0);
@@ -322,9 +308,7 @@ void	do_pipes(t_mhstruct **mh, char **grid, int lines)
 		}
 		else
 			waitpid(pid[i], 0, 0);
-		// wait(NULL);
 		i++;
-		
 	}
 }
 	

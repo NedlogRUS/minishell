@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/23 19:30:37 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/24 11:23:42 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,10 @@ void	free_token_main(t_mhstruct *mh)
 int main(int ac, char **av, char **env)
 {
 	t_mhstruct *mh;
-
-	
+int		screen;
+	int		in;
+		screen = dup(STDOUT_FILENO);
+	in = dup(STDIN_FILENO);
 	(void) av;
 
 	if(ac > 1)
@@ -103,11 +105,20 @@ int main(int ac, char **av, char **env)
 			if (mh->token)
 			{
 				if (check_redir_exist(mh->token) && !(check_pipe_exists(mh->token)))
-					do_redirects(mh->token, mh, 1);
+				{
+					do_redirects(mh->token, mh, 0);
+					execution_of_commands(mh);
+					dup2(screen, STDOUT_FILENO);
+					dup2(in, STDIN_FILENO);
+				}
 				else if (ft_strlen(mh->token->data) && mh->token && !(check_pipe_exists(mh->token)))
 					execution_of_commands(mh);
 				else if (check_pipe_exists(mh->token))
+				{
 					launch_pipes(&mh);
+					dup2(screen, STDOUT_FILENO);
+					dup2(in, STDIN_FILENO);
+				}
 				free_token_main(mh);
 				free(mh->token);
 			}
