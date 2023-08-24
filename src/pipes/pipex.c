@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 10:37:53 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/23 14:54:37 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/24 16:45:49 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,11 +145,12 @@ void	execve_commands_pipes(t_token *curr, t_mhstruct *mh, int lines, int pipes[1
 }
 
 
-void	set_pipe(t_token *curr, int pipes[1000][2], int i, int lines, int screen)
+void	set_pipe(t_token *curr, int pipes[1000][2], int i, int lines, int screen, int hd)
 {
 
 	(void) curr;
 	(void) screen;
+	(void) hd;
 	if (i == 0)
 	{
 		close(pipes[i][0]);
@@ -167,7 +168,8 @@ void	set_pipe(t_token *curr, int pipes[1000][2], int i, int lines, int screen)
 	else if (i == lines - 1)
 	{
 		close(pipes[i - 1][1]);
-		dup2(pipes[i - 1][0], STDIN_FILENO);
+		if (!hd)
+			dup2(pipes[i - 1][0], STDIN_FILENO);
 		close(pipes[i - 1][0]);
 	}
 	
@@ -196,11 +198,15 @@ void	copy_to_tmp(t_mhstruct *tmp, t_token *curr)
 			start = tmp->token;
 		}
 		else
+		{
 			tmp->token->next = new;
+			tmp->token = tmp->token->next;
+		}
 		curr = curr->next;
 	}
 	tmp->token = start;
 }
+
 
 void	initializer_temp_mh( t_mhstruct *tmp, t_mhstruct *mh)
 {
@@ -215,6 +221,22 @@ void	initializer_temp_mh( t_mhstruct *tmp, t_mhstruct *mh)
 	add_error_message(tmp);
 }
 
+int	check_heredoc(t_mhstruct *mh)
+{
+	t_token *curr;
+	
+	if (!mh->token->data)
+		return (0);
+	curr = mh->token;
+	while (curr)
+	{
+		if (curr->type == D_LT)
+			return (1);
+		curr = curr->next;
+	}
+	return (0);
+}
+
 int		do_pipe_forks(t_mhstruct **mh, int pipes[1000][2], int	i, int	lines, int screen, char **grid)
 {
 	int		pid;
@@ -227,25 +249,27 @@ int		do_pipe_forks(t_mhstruct **mh, int pipes[1000][2], int	i, int	lines, int sc
 	tmp = NULL;
 	tmp = malloc(sizeof(t_mhstruct));
 	initializer_temp_mh(tmp, *mh);
-	curr = (*mh)->token;
+	curr = (*mh)->token;	
 	while ( curr->pi != i)
 		curr = curr->next;
-		
+
 	copy_to_tmp(tmp, curr);
-	//print_tokens((*mh)->token);
-	//print_tokens(tmp->token);
 	pid = fork();
 	if (pid == 0)
 	{
-		if (check_redir_exist(tmp->token))
+		int hd = check_heredoc(tmp);
+
+		if (hd)
 		{
-			//printf("here\n");
-			do_redirects(tmp->token, tmp, 1);
+			while ( check_heredoc(tmp))
+				just_heredoc(tmp->token, tmp, 0);
 		}
-		else
-			set_pipe(curr, pipes, i, lines, screen);
+		set_pipe(curr, pipes, i, lines, screen, hd);
+		if (ft_tokenlstsize(tmp->token))
+			do_redirects(tmp->token, tmp, 0);
 		close_pipes(pipes, lines);
-		execution_of_commands(tmp);
+		if (ft_tokenlstsize(tmp->token))
+			execution_of_commands(tmp);
 		exit(GLOBAL_ERROR);
 	}
 	free_token_main(tmp);
@@ -270,16 +294,12 @@ void	do_pipes(t_mhstruct **mh, char **grid, int lines)
 	while (i < lines)
 	{
 		pid[i] = do_pipe_forks(mh, pipes, i, lines, screen, grid);
-		//printf(" HERE pid[i] = %d\n", pid[i]);
 		i++;
 	}	
 	close_pipes(pipes, lines);
 	i = 0;
-
-	//waitpid(pid, &GLOBAL_ERROR, 0);
 	while (i < lines)
 	{
-		//printf("pid[i] = %d\n", pid[i]);
 		if (i == lines - 1)
 		{
 			waitpid(pid[i], &GLOBAL_ERROR, 0);
@@ -287,26 +307,30 @@ void	do_pipes(t_mhstruct **mh, char **grid, int lines)
 		}
 		else
 			waitpid(pid[i], 0, 0);
-		// wait(NULL);
 		i++;
-		
 	}
 }
 	
 
+//TEST yes | head > 3
+//TEST echo hi > 2 | echo test> 3 | echo 4 > 5 | yes | head
 
 int	launch_pipes(t_mhstruct **mh)
 {
 	int		lines;
 	char	**grid = NULL;
 	lines = assign_pi(mh);
-
+	if (lines > 250)
+	{
+		pr_err(*mh, 1, gemsg("", (*mh)->emsg[14], "fork: "));
+		return (1);
+	}
 	grid = (char **)malloc(sizeof(char **) * (lines + 1));
 	if (!grid)
 		return (1);
 	create_grid(grid, lines, mh);
 	do_pipes(mh, grid, lines);
-	//printf("GLOBAL VAR is %d\n", GLOBAL_ERROR);
 	free_all(grid);
 	return (0);
 }
+

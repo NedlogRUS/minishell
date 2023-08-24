@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:13:02 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/05 16:49:29 by vatche           ###   ########.fr       */
+/*   Updated: 2023/08/24 16:37:09 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ typedef struct s_mhstuct
 	// char			*mh_pid;
 	int 			er_num; // number of error when comand done
 	char			**emsg; // error message and command name for print
+	int				in;		//fd for stdin
+	int				screen; //fd for stdout
 	struct s_env	*env;
 	struct s_utils	*utils;
 }				t_mhstruct;
