@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/23 13:42:08 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/24 18:02:43 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,28 @@
 void do_sigint(int i)
 {
 	(void)i;
+	GLOBAL_ERROR = 1;
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
 
+void do_sigint_fork(int i)
+{
+	(void)i;
+	GLOBAL_ERROR = 1;
+	write(1, "\n", 1); 	
+	// exit(1);
+}
+
 void do_sigquit(int i)
 {
 	(void)i;
-	rl_redisplay();
+	GLOBAL_ERROR = 130;
+	ft_putstr_fd("Quit: 3\n", 2);
 }
+
 
 void	execution_of_commands(t_mhstruct *mh)
 {
@@ -87,7 +98,7 @@ int main(int ac, char **av, char **env)
 	while(1)
 	{
 		signal(SIGINT, do_sigint);
-		signal(SIGQUIT, do_sigquit);
+		signal(SIGQUIT, SIG_IGN);
 		mh->input = readline("$> ");
 		if(mh->input == NULL)
 		{

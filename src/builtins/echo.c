@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:36:10 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/22 18:26:25 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/24 19:19:31 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,26 @@ void	do_echo(t_token *token, int flag)
 	return ;
 }
 
-// cfix case echo "-nnnn" nenie_ir
+int	check_n(const char *str, char n)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if(str[i] != n)
+			return(1);
+		i++;
+	}
+	return (0);
+}
+
+// cfix case echo "-nnnn" nenie_ir // i fix that
 void	builtin_echo(t_mhstruct *mh)
 {
 	t_token	*token;
 	int		i;
+	char *tmp;
 
 	token = mh->token->next;
 	GLOBAL_ERROR = 0;
@@ -50,9 +65,14 @@ void	builtin_echo(t_mhstruct *mh)
 		printf("\n");
 		return ;
 	}
-	while (token != NULL && !ft_strcmp(token->data, "-n")) // don't forget chek for token type
+	while (token != NULL && token->data[0] == '-')
 	{
-		i = 1;
+		tmp = token->data;
+		tmp++;
+		if(!check_n(tmp, 'n'))
+			i = 1;
+		else
+			break;	
 		token = token->next;
 	}
 	do_echo(token, i);

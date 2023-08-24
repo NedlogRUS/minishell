@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:32:58 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/23 14:22:00 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/23 18:50:30 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ static void	here_doc_child(char **buff, char *lim, int *hdpipe)
 	ft_putstr_fd("> ", 1);
 	while (read_line(&buffer))
 	{
+		// signal(SIGINT, do_sigint_fork);
+		// signal(SIGQUIT, SIG_IGN);
 		if (!(ft_strncmp(buffer, lim, ft_strlen(lim)) == 0))
 			ft_putstr_fd("> ", 1);
 		if (ft_strncmp(buffer, lim, ft_strlen(lim)) == 0)
@@ -62,6 +64,13 @@ static void	here_doc_child(char **buff, char *lim, int *hdpipe)
 	exit(0);
 }
 
+void do_sigquit_leha(int i)
+{
+	(void)i;
+	GLOBAL_ERROR = 130;
+	rl_redisplay();
+}
+
 void	do_here_doc(char *lim)
 {
 	int		hdpipe[2];
@@ -71,10 +80,13 @@ void	do_here_doc(char *lim)
 	if (pipe(hdpipe) == -1)
 		error_msg2("Error\nPipe Creation Failed\n");
 	pid = fork();
+	// signal(SIGINT, do_sigint_fork);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, do_sigquit_leha);
 	if (pid == 0)
 	{
-		signal(SIGINT, do_sigint);
-		signal(SIGQUIT, do_sigquit);// need to change for fork
+		signal(SIGINT, do_sigint_fork);
+		signal(SIGQUIT, do_sigquit_leha);
 		here_doc_child(&buffer, lim, hdpipe);
 	}
 	else

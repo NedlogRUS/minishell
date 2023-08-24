@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 18:31:47 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/23 14:15:38 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/24 18:53:04 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static int	check_path2(char **paths, char *argv, char **command_path)
 	int		i;
 	int		j;
 	char	*tmp;
+	struct	stat s;
 
 	i = 2;
 	j = 0;
@@ -26,7 +27,8 @@ static int	check_path2(char **paths, char *argv, char **command_path)
 		*command_path = ft_strjoin("/", argv);
 		tmp = *command_path;
 		*command_path = ft_strjoin(paths[j], tmp);
-		if (access(*command_path, R_OK) == 0)
+		stat(*command_path, &s);
+		if (access(*command_path, R_OK) == 0 && S_ISREG(s.st_mode))
 			return (1);
 		else
 			*command_path = NULL;
@@ -98,6 +100,8 @@ int	execve_of_commands_2(char *path, char **arg, char **env)
 
 	out = 0;
 	pid = fork();
+	signal(SIGINT, do_sigint_fork);
+	signal(SIGQUIT, do_sigquit);
 	if (pid == 0)
 	{
 		out++;
@@ -114,6 +118,7 @@ void	execve_of_commands(t_mhstruct *mh)
 	char	**env;
 	char	*path;
 	int		out;
+	struct	stat s;
 
 	path = NULL;
 	out = 0;
@@ -121,7 +126,8 @@ void	execve_of_commands(t_mhstruct *mh)
 	arg = get_arg_array(mh);
 	if (check_path(arg[0], env, &path) == 0)
 	{
-		if (access(arg[0], R_OK) == 0)
+		stat(arg[0], &s);
+		if (access(arg[0], R_OK) == 0 && S_ISREG(s.st_mode))
 			path = arg[0];
 		else
 		{
