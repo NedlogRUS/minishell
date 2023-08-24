@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 10:37:53 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/24 13:27:24 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/24 15:33:33 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -317,7 +317,7 @@ int	launch_pipes(t_mhstruct **mh)
 	int		lines;
 	char	**grid = NULL;
 	lines = assign_pi(mh);
-	if (lines > 709)
+	if (lines > 250)
 	{
 		pr_err(*mh, 1, gemsg("", (*mh)->emsg[14], "fork: "));
 		return (1);
