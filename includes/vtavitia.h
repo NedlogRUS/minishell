@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 14:39:20 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/24 17:27:32 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 18:40:15 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,8 @@ void	slice_term(t_token **x, t_mhstruct *mh, int i, int termlen);
 void	inject_term(char *search, t_token **curr, t_mhstruct *mh);
 void	shift_i(t_token **current, int *i);
 void	term_helper(char *search, t_mhstruct *mh, t_token **curr, t_env *env_t);
-
+void	check_helper(char *input, char c, int *i, int *open);
+int		check_bad_pipes(char *input, int i, int count, int open);
 
 // redirects
 int		do_redirects(t_token *t, t_mhstruct *mh, int x);
