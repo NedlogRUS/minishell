@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 18:31:47 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/25 16:01:34 by vatche           ###   ########.fr       */
+/*   Updated: 2023/08/25 18:23:44 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static int	check_path2(char **paths, char *argv, char **command_path)
 	int		j;
 	char	*tmp;
 	// i = 2;
+	struct	stat s;
 	j = 0;
 	argv = cut_argv(argv);
 	while (paths[j] != NULL)
@@ -27,7 +28,8 @@ static int	check_path2(char **paths, char *argv, char **command_path)
 		free(*command_path);
 		*command_path = ft_strjoin(paths[j], tmp);
 		free(tmp);
-		if (access(*command_path, R_OK) == 0)
+		stat(*command_path, &s);
+		if (access(*command_path, R_OK) == 0 && S_ISREG(s.st_mode))
 		{
 			free(argv);
 			return (1);
@@ -105,6 +107,8 @@ int	execve_of_commands_2(char *path, char **arg, char **env)
 
 	out = 0;
 	pid = fork();
+	signal(SIGINT, do_sigint_fork);
+	signal(SIGQUIT, do_sigquit);
 	if (pid == 0)
 	{
 		out++;
@@ -121,6 +125,7 @@ void	execve_of_commands(t_mhstruct *mh)
 	char	**env;
 	char	*path;
 	int		out;
+	struct	stat s;
 
 	path = NULL;
 	out = 0;
@@ -128,7 +133,8 @@ void	execve_of_commands(t_mhstruct *mh)
 	arg = get_arg_array(mh);
 	if (check_path(arg[0], env, &path) == 0)
 	{
-		if (access(arg[0], R_OK) == 0)
+		stat(arg[0], &s);
+		if (access(arg[0], R_OK) == 0 && S_ISREG(s.st_mode))
 			path = arg[0];
 		else
 		{
@@ -145,43 +151,3 @@ void	execve_of_commands(t_mhstruct *mh)
 	free(env);
 	free_all(arg);
 }
-
-// void	execve_of_commands(t_mhstruct *mh)
-// {
-// 	int		pid;
-// 	char	**arg;
-// 	char	**env;
-// 	char	*path;
-// 	int		out;
-
-// 	path = NULL;
-// 	out = 0;
-// 	env = get_env_array(mh); //don,t forget to free env
-// 	arg = get_arg_array(mh); //don,t forget to free env
-// 	if (check_path(arg[0], env, &path) == 0)
-// 	{
-// 		if (access(arg[0], R_OK) == 0)
-// 			path = arg[0];
-// 		else
-// 		{
-// 			free(env);
-// 			free(arg);
-// 			return (pr_err(mh, 127, gemsg(mh->emsg[11], mh->emsg[12], arg[0])));
-// 		}
-// 	}
-// 	if (path != NULL)
-// 	{
-// 		pid = fork();
-// 		if (pid == 0)
-// 		{
-// 			out++;
-// 			execve(path, arg, env);
-// 		}
-// 		else
-// 			waitpid(pid, &out, 0);
-// 	}
-// 	GLOBAL_ERROR = out / 256;
-// 	free(env);
-// 	free(arg);
-// 	return ;
-// }

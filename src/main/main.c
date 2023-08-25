@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/25 12:22:07 by vatche           ###   ########.fr       */
+/*   Updated: 2023/08/25 18:38:15 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,27 @@
 void do_sigint(int i)
 {
 	(void)i;
+	GLOBAL_ERROR = 1;
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
 
+void do_sigint_fork(int i)
+{
+	(void)i;
+	GLOBAL_ERROR = 1;
+	write(1, "\n", 1); 	
+}
+
 void do_sigquit(int i)
 {
 	(void)i;
-	rl_redisplay();
+	GLOBAL_ERROR = 130;
+	ft_putstr_fd("Quit: 3\n", 2);
 }
+
 
 void	execution_of_commands(t_mhstruct *mh)
 {
@@ -96,9 +106,9 @@ void	free_token_main(t_mhstruct *mh)
 int main(int ac, char **av, char **env)
 {
 	t_mhstruct *mh;
-int		screen;
+	int		screen;
 	int		in;
-		screen = dup(STDOUT_FILENO);
+	screen = dup(STDOUT_FILENO);
 	in = dup(STDIN_FILENO);
 	(void) av;
 	int	mark;
@@ -112,7 +122,7 @@ int		screen;
 	while(1)
 	{
 		signal(SIGINT, do_sigint);
-		signal(SIGQUIT, do_sigquit);
+		signal(SIGQUIT, SIG_IGN);
 		mh->input = readline("$> ");
 		if(mh->input == NULL)
 		{
@@ -175,3 +185,6 @@ int		screen;
 // $> <
 // Syntax error - near unexpected token: Undefined error: 0
 // Segmentation fault: 11
+// |
+// bash: syntax error near unexpected token `|'
+// pr_err(mh, 258, gemsg(NULL, mh->emsg[15], write token here));
