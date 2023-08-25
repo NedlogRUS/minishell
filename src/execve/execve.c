@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 18:31:47 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/23 14:15:38 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 15:38:53 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,39 @@
 
 static int	check_path2(char **paths, char *argv, char **command_path)
 {
-	int		i;
+	// int		i;
 	int		j;
 	char	*tmp;
-
-	i = 2;
+	// i = 2;
 	j = 0;
 	argv = cut_argv(argv);
 	while (paths[j] != NULL)
 	{
 		*command_path = ft_strjoin("/", argv);
-		tmp = *command_path;
+		tmp = ft_strdup(*command_path);
+		free(*command_path);
 		*command_path = ft_strjoin(paths[j], tmp);
-		if (access(*command_path, R_OK) == 0)
-			return (1);
-		else
-			*command_path = NULL;
-		j++;
 		free(tmp);
+		if (access(*command_path, R_OK) == 0)
+		{
+			free(argv);
+			free(*command_path);
+			return (1);
+		}
+		else
+		{
+			free(*command_path);
+			*command_path = NULL;
+		}
+		j++;
 	}
+	free(argv);
 	return (0);
 }
 
 int	check_path(char *argv, char **envp, char **command_path)
 {
-	int		i;
+	// int		i;
 	char	**paths;
 	int		check;
 
@@ -46,7 +54,7 @@ int	check_path(char *argv, char **envp, char **command_path)
 	path_to_array(&paths, envp);
 	if (!(paths))
 		return (check);
-	i = 2;
+	// i = 2;
 	check = check_path2(paths, argv, command_path);
 	free_all(paths);
 	return (check);
@@ -127,7 +135,7 @@ void	execve_of_commands(t_mhstruct *mh)
 		{
 			free(env);
 			pr_err(mh, 127, gemsg(mh->emsg[11], mh->emsg[12], arg[0]));
-			free(arg);
+			free_all(arg);
 			return ;
 		}
 	}
@@ -135,7 +143,7 @@ void	execve_of_commands(t_mhstruct *mh)
 		out = execve_of_commands_2(path, arg, env);
 	GLOBAL_ERROR = out / 256;
 	free(env);
-	free(arg);
+	free_all(arg);
 }
 
 // void	execve_of_commands(t_mhstruct *mh)

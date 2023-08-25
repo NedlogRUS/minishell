@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 10:37:53 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/24 16:45:49 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 11:54:57 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,12 +121,12 @@ void	execve_commands_pipes(t_token *curr, t_mhstruct *mh, int lines, int pipes[1
 	char	**arg;
 	char	**env;
 	char	*path;
-	int		out;
+	// int		out;
 
 	(void) lines;
 (void) pipes;
 	path = NULL;
-	out = 0;
+	// out = 0;
 	env = get_env_array(mh);
 	arg = get_args_pipes(curr, mh);
 	if (check_path(arg[0], env, &path) == 0)
@@ -211,14 +211,15 @@ void	copy_to_tmp(t_mhstruct *tmp, t_token *curr)
 void	initializer_temp_mh( t_mhstruct *tmp, t_mhstruct *mh)
 {
 	
-	int		i;
+	// int		i;
 
-	i = 0;
+	// i = 0;
 	tmp->token = NULL;
 	tmp->env = mh->env;
 	tmp->er_num = 0;
-	mh->mh_pid = (int)getpid();
-	add_error_message(tmp);
+	tmp->mh_pid = mh->mh_pid;
+	tmp->emsg = mh->emsg;
+	// add_error_message(tmp);
 }
 
 int	check_heredoc(t_mhstruct *mh)
