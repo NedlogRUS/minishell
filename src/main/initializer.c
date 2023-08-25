@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 13:42:38 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/25 19:20:11 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 20:00:41 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,8 @@ void	initializer_mh(char **env, t_mhstruct *mh)
 	GLOBAL_ERROR = 0;
 	mh->mh_pid = (int)getpid();
 	mh->dolmark = 0;
+	mh->t_size = 0;
+	mh->th_i = 0;
 	initializer_env(env, mh, node, i);
 	add_error_message(mh);
 	free(mh->utils);
