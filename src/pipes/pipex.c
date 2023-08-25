@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 10:37:53 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/25 17:54:44 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 20:22:12 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,7 +263,7 @@ int		do_pipe_forks(t_mhstruct **mh, int pipes[1000][2], int	i, int	lines, int sc
 		if (hd)
 		{
 			while ( check_heredoc(tmp))
-				just_heredoc(tmp->token, tmp, 0);
+				just_heredoc(tmp->token, tmp);
 		}
 		set_pipe(curr, pipes, i, lines, screen, hd);
 		if (ft_tokenlstsize(tmp->token))

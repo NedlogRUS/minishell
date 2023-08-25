@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 16:27:19 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/24 16:41:46 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 20:15:26 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -277,9 +277,10 @@ int	count_segs(t_token *token)
 
 int	action_pipe_redirect(t_token **tok, t_token **previous, t_mhstruct **mh, int screen)
 {
+	(void) screen;
 	if ((*tok)->type == GT || (*tok)->type == LT || (*tok)->type == D_GT)
 	{
-		if (do_dups(tok, mh, screen))
+		if (do_dups(tok, mh))
 			return (1);
 		delete_redirs(tok, mh, previous);
 	}
