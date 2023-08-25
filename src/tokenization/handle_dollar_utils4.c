@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 11:07:10 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/22 18:31:49 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 22:13:51 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	found_dollar(t_mhstruct *mh)
 	char	*charerrnum;
 
 	charpid = ft_itoa(mh->mh_pid);
-	charerrnum = ft_itoa(GLOBAL_ERROR);
+	charerrnum = ft_itoa(g_error);
 	found = 0;
 	found = ft_strlen(charpid);
 	free(charpid);
@@ -69,7 +69,7 @@ int	found_err_num(t_mhstruct *mh)
 	char	*charerrnum;
 
 	charpid = ft_itoa(mh->mh_pid);
-	charerrnum = ft_itoa(GLOBAL_ERROR);
+	charerrnum = ft_itoa(g_error);
 	found = 0;
 	found = ft_strlen(charerrnum);
 	free(charpid);

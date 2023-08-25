@@ -6,11 +6,34 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:32:58 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/25 20:36:18 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 22:26:24 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vtavitia.h"
+
+void	do_hd(int pipes[1000][2], int i, t_mhstruct *tmp)
+{
+	close_upto_i(pipes, i);
+	while (check_heredoc(tmp))
+		just_heredoc(tmp->token, tmp);
+}
+
+int	check_heredoc(t_mhstruct *mh)
+{
+	t_token	*curr;
+
+	if (!mh->token->data)
+		return (0);
+	curr = mh->token;
+	while (curr)
+	{
+		if (curr->type == D_LT)
+			return (1);
+		curr = curr->next;
+	}
+	return (0);
+}
 
 static void	finalise_heredoc(t_mhstruct *mh, int *hdpipe)
 {

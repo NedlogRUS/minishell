@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/25 18:21:29 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 22:24:52 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	execution_of_commands(t_mhstruct *mh)
 	else
 		execve_of_commands(mh);	
 	// {
-	// 	GLOBAL_ERROR = 127;
+	// 	g_error = 127;
 	// 	printf("minihell: command not found: %s\n", mh->token->data);
 	// }
 	return ;
@@ -95,6 +95,7 @@ void	free_token_main(t_mhstruct *mh)
 
 int main(int ac, char **av, char **env)
 {
+	g_error = 0;
 	t_mhstruct *mh;
 int		screen;
 	int		in;
@@ -118,7 +119,7 @@ int		screen;
 		{
 			free(mh->input);
 			printf("\x1b[1A\x1b[3Cexit\n");
-			exit(GLOBAL_ERROR);
+			exit(g_error);
 		}
 		if (ft_strlen(mh->input))
 		{

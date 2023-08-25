@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 21:44:40 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/22 18:27:14 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 22:13:51 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*gemsg(char *cmndname, char *errmsg, char *data)
 void	pr_err(t_mhstruct *mh, int i, char *errmsg)
 {
 	(void) mh;
-	GLOBAL_ERROR = i;
+	g_error = i;
 	ft_putstr_fd(errmsg, 2);
 	free(errmsg);
 	return ;
@@ -205,7 +205,7 @@ void	builtin_cd(t_mhstruct *mh)
 	int		i;
 
 	token = mh->token->next;
-	GLOBAL_ERROR = 0;
+	g_error = 0;
 	i = 0;
 	if (token == NULL )
 	{	

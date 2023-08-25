@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 14:38:36 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/22 18:27:35 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 22:13:51 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	error_msg(char *str, int err_num, t_mhstruct *mh)
 {
 	(void) mh;
-	GLOBAL_ERROR = err_num;
+	g_error = err_num;
 	errno = 1;
 	perror(str);
 }

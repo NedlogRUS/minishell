@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 18:31:47 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/25 17:44:35 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 22:13:51 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ void	execve_of_commands(t_mhstruct *mh)
 	}
 	if (path != NULL)
 		out = execve_of_commands_2(path, arg, env);
-	GLOBAL_ERROR = out / 256;
+	g_error = out / 256;
 	free(env);
 	free_all(arg);
 }
@@ -180,7 +180,7 @@ void	execve_of_commands(t_mhstruct *mh)
 // 		else
 // 			waitpid(pid, &out, 0);
 // 	}
-// 	GLOBAL_ERROR = out / 256;
+// 	g_error = out / 256;
 // 	free(env);
 // 	free(arg);
 // 	return ;

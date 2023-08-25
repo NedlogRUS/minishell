@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 14:39:20 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/25 20:54:24 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 22:27:07 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 typedef struct s_mhstuct	t_mhstruct;
 
-int GLOBAL_ERROR;
+int g_error;
 
 typedef enum s_token_type
 {
@@ -150,6 +150,9 @@ int		action_redirect_pipe(t_token **tok, t_token **previous, t_mhstruct **mh, in
 void	do_redirects_pipes(t_token *t, t_mhstruct *mh, int x);
 void	close_pipes(int pipes[1000][2], int lines);
 int		assign_pi(t_mhstruct **mh);
+int		check_heredoc(t_mhstruct *mh);
+void	do_hd(int pipes[1000][2], int i, t_mhstruct *tmp);
+void	close_upto_i(int pipes[1000][2], int i);
 
 int		c_w(t_mhstruct **mh, int i);
 int		c_ch(t_mhstruct **mh, int i);
@@ -158,8 +161,9 @@ void	create_grid(char **grid, int lines, t_mhstruct **mh);
 void	c_pipes(int pipes[1000][2] , int lines);
 int		check_redir_exist_pipe(t_token *t);
 int		num_of_heredoc(t_token *t);
+void	copy_to_tmp(t_mhstruct **tmp, t_token **curr);
+void	set_pipe(int pipes[1000][2], int i, int lines, int hd);
+void	initializer_temp_mh( t_mhstruct *tmp, t_mhstruct *mh);
 
-//delete this
-void	print_tokens(t_token *token);
-void	dell(t_token **t);
+
 #endif
