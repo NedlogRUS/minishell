@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 21:44:40 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/22 18:27:14 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 18:40:50 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ char	*gemsg(char *cmndname, char *errmsg, char *data)
 	char	*out;
 
 	out = ft_strdup("miniHell: ");
-	out = ft_mhjoin(out, cmndname);
+	if(cmndname != NULL)
+		out = ft_mhjoin(out, cmndname);
 	if (data)
 		out = ft_mhjoin(out, data);
 	out = ft_mhjoin(out, errmsg);
@@ -223,7 +224,3 @@ void	builtin_cd(t_mhstruct *mh)
 	handling_cd(mh, token->data);
 	return ;
 }
-
-//здесь нужно будет проверять что сд получает только стрингу или команду
-//eshe odin case, esli pervim podat ne numeric argument 
-//a vtorim number to dolzhen viyty with error non numeric
