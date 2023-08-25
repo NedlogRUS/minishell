@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   validate_syntax.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 18:44:21 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/05 16:49:56 by vatche           ###   ########.fr       */
+/*   Updated: 2023/08/25 19:15:19 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vtavitia.h"
 
-static void	check_helper(char *input, char c, int *i, int *open)
+void	check_helper(char *input, char c, int *i, int *open)
 {
 	*open = 1;
 	(*i)++;
@@ -112,6 +112,8 @@ int	check_syntax(char *input, t_mhstruct *mh)
 	while (input[i])
 	{
 		if (syntax_conds(input, i, mh))
+			return (1);
+		if (check_bad_pipes(input, 0, 0, 0))
 			return (1);
 		if (input[i] == '\'' || input[i] == '"')
 			return (0);

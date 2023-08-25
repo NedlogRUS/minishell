@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:13:02 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/24 16:37:09 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 19:20:36 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_mhstuct
 	char			**emsg; // error message and command name for print
 	int				in;		//fd for stdin
 	int				screen; //fd for stdout
+	int				dolmark;
 	struct s_env	*env;
 	struct s_utils	*utils;
 }				t_mhstruct;

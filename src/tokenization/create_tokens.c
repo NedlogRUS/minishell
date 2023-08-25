@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:50:07 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/23 14:51:26 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 19:13:40 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	check_and_tokenize(t_mhstruct *mh)
 	c = '\0';
 	if (check_quotes_wrapped(mh->input))
 		error_msg("Syntax error -check quotes", 1, mh);
-	else if (check_bad_specials(mh->input))
+	else if (check_bad_specials(mh->input) || check_syntax(mh->input, mh))
 		error_msg("Syntax error - near unexpected token", 1, mh);
 	else if (!check_quotes_wrapped(mh->input) && (!check_syntax(mh->input, mh)))
 	{
@@ -135,21 +135,4 @@ void	check_and_tokenize(t_mhstruct *mh)
 		if (mh->token && ft_tokenlstsize(mh->token))
 			classify_tokens(mh);
 	}
-}
-
-// // //deletethis
-void	print_tokens(t_token *token)
-{
-		printf("Printing tokens\n------\n");
-		if (token)
-		{
-			while (token)
-			{
-					printf("DATA: -%s- pi is %d\n", token->data, token->pi);
-					token = token->next;				
-			}
-		}
-		// if (ft_tokenlstsize(token) == 1 && token)
-		// 	printf("DATA: -%s- type is %d\n",
-		// 		token->data, token->type);
 }
