@@ -25,6 +25,7 @@
 # include <dirent.h>
 # include <errno.h>
 # include <signal.h>
+ #include <sys/stat.h>
 
 typedef enum s_token_type	t_token_type;
 typedef struct s_token		t_token;

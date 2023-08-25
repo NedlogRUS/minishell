@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initializer.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 13:42:38 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/25 22:13:51 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 18:40:13 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ void	initializer_env(char **env, t_mhstruct *mh, t_env *node, int i)
 
 void    add_error_message(t_mhstruct *mh)
 {
-    mh->emsg = malloc(sizeof(char *) * 15);
+    mh->emsg = malloc(sizeof(char *) * 16);
     mh->emsg[0] = ft_strdup("cd: ");
     mh->emsg[1] = ft_strdup("export: ");
     mh->emsg[2] = ft_strdup("unset: ");
@@ -153,6 +153,7 @@ void    add_error_message(t_mhstruct *mh)
     mh->emsg[12] = ft_strdup("\n");
 	mh->emsg[13] = ft_strdup("Minihell: ");
 	mh->emsg[14] = ft_strdup("Resource temporarily unavailable\n");
+	mh->emsg[15] = ft_strdup("syntax error near unexpected token ");
 }
 
 void	initializer_mh(char **env, t_mhstruct *mh)
@@ -176,34 +177,3 @@ void	initializer_mh(char **env, t_mhstruct *mh)
 	free(mh->utils);
 	mh->utils = NULL;
 }
-
-// void	initializer_env(char **env, t_mhstruct *mh, t_env *node, int i)
-// {
-// 	char	*line;
-// 	char	*name;
-// 	char	*data;
-// 	char	*tmp;
-
-// 	while (env[i])
-// 	{
-// 		line = ft_strdup(env[i]);
-// 		tmp = line;
-// 		if (ft_strchr(line, '='))
-// 		{
-// 			tmp = ft_strchr(line, '=');
-// 			*tmp = '\0';
-// 			name = ft_strdup(line);
-// 			*tmp = '0';
-// 			tmp++;
-// 			data = ft_strdup(tmp);
-// 		}
-// 		node = create_env_node(name, data);
-// 		if (node != NULL)
-// 			insert_env_node(&mh->env, node);
-// 		free(line);
-// 		free(name);
-// 		free(data);
-// 		i++;
-// 	}
-// 	check_oldpwd(mh);
-// }
