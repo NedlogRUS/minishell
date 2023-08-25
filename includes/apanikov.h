@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   apanikov.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:29:30 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/22 17:45:11 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 12:16:19 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@ void	do_sigint(int i);
 void	do_sigquit(int i);
 void    add_error_message(t_mhstruct *mh);
 void	free_token_main(t_mhstruct *mh);
+void	free_env(t_env *env);
 
 #endif

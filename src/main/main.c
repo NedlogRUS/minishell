@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/24 17:27:01 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 12:22:07 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,28 @@ void	execution_of_commands(t_mhstruct *mh)
 	// }
 	return ;
 
+}
+
+void	free_env(t_env *env)
+{
+	t_env	*curr;
+	t_env	*tmp;
+	
+	if (env == NULL)
+		return ;
+	curr = env;
+	while (curr != NULL)
+	{
+		tmp = curr;
+		curr = curr->next;
+		if (tmp->data != NULL)
+			free(tmp->data);
+		if (tmp->name != NULL)
+			free(tmp->name);
+		if (tmp != NULL)
+			free(tmp);
+	}
+	env = NULL;
 }
 
 void	free_token_main(t_mhstruct *mh)
@@ -121,11 +143,13 @@ int		screen;
 					dup2(screen, STDOUT_FILENO);
 					dup2(in, STDIN_FILENO);
 				}
+				//free_env(mh->env);
 				free_token_main(mh);
 				free(mh->token);
 			}
 			else
 			{
+				//free_env(mh->env);
 				free_token_main(mh);
 				free(mh->token);
 			}

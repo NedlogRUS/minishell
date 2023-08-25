@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:40:51 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/24 17:28:27 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 11:45:18 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,12 +182,12 @@ void	just_heredoc(t_token *t, t_mhstruct *mh, int x)
 	t_token	*tok;
 	t_token	*previous;
 	int		screen;
-	int		in;
+	// int		in;
 	(void) x;
 	tok = mh->token;
 	previous = tok;
 	screen = dup(STDOUT_FILENO);
-	in = dup(STDIN_FILENO);
+	// in = dup(STDIN_FILENO);
 	if (bad_redirect_syntax(t))
 		return (error_msg("Syntax error near unexpected token", 258, mh));
 
