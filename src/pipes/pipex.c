@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 10:37:53 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/25 21:31:39 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 22:08:01 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,31 +46,31 @@ static void	copy_to_tmp_helper(t_mhstruct **tmp, t_token **new)
 	(*tmp)->token = (*tmp)->token->next;
 }
 
-void	copy_to_tmp(t_mhstruct *tmp, t_token *curr)
+void	copy_to_tmp(t_mhstruct **tmp, t_token **curr)
 {
 	t_token	*start;
 	t_token	*new;
 
 	new = NULL;
-	tmp->token = NULL;
-	while (curr && curr->type != PIPELINE)
+	(*tmp)->token = NULL;
+	while (*curr && (*curr)->type != PIPELINE)
 	{
 		new = init_token("", NULL_VAL);
-		new->data = ft_strdup(curr->data);
-		new->pi = curr->pi;
-		new->type = curr->type;
-		if (curr->next == NULL || curr->next->type == PIPELINE)
+		new->data = ft_strdup((*curr)->data);
+		new->pi = (*curr)->pi;
+		new->type = (*curr)->type;
+		if ((*curr)->next == NULL || (*curr)->next->type == PIPELINE)
 			new->next = NULL;
-		if (tmp->token == NULL)
+		if ((*tmp)->token == NULL)
 		{
-			tmp->token = new;
-			start = tmp->token;
+			(*tmp)->token = new;
+			start = (*tmp)->token;
 		}
 		else
-			copy_to_tmp_helper(&tmp, &new);
-		curr = curr->next;
+			copy_to_tmp_helper(tmp, &new);
+		(*curr) = (*curr)->next;
 	}
-	tmp->token = start;
+	(*tmp)->token = start;
 }
 
 void	initializer_temp_mh( t_mhstruct *tmp, t_mhstruct *mh)
@@ -103,31 +103,46 @@ int	check_heredoc(t_mhstruct *mh)
 	return (0);
 }
 
-int	do_pipe_forks(t_mhstruct **mh, int pipes[1000][2], int i, int lines, int screen)
+void	close_upto_i(int pipes[1000][2], int i)
 {
-	int		pid;
-	t_token	*curr;
-	(void) screen;
+	int	j;
 
-	(void) lines;
-	(void) pipes;
-	t_mhstruct *tmp;
-	tmp = NULL;
-	tmp = malloc(sizeof(t_mhstruct));
-	initializer_temp_mh(tmp, *mh);
-	curr = (*mh)->token;	
-	while ( curr->pi != i)
-		curr = curr->next;
+	j = 0;
+	while (j < i)
+	{
+		close(pipes[j][1]);
+		close(pipes[j][0]);
+		j++;
+	}
+}
 
+void	cr_temp_mh(t_mhstruct **tmp, t_mhstruct **mh, t_token **curr, int *i)
+{
+	*tmp = malloc(sizeof(t_mhstruct));
+	initializer_temp_mh(*tmp, *mh);
+	*curr = (*mh)->token;
+	while ((*curr)->pi != *i)
+		*curr = (*curr)->next;
 	copy_to_tmp(tmp, curr);
+}
+
+int	do_pipe_forks(t_mhstruct **mh, int pipes[1000][2], int i, int lines)
+{
+	int			pid;
+	t_token		*curr;
+	t_mhstruct	*tmp;
+	int			hd;
+
+	tmp = NULL;
+	cr_temp_mh(&tmp, mh, &curr, &i);
 	pid = fork();
 	if (pid == 0)
 	{
-		int hd = check_heredoc(tmp);
-
+		hd = check_heredoc(tmp);
 		if (hd)
 		{
-			while ( check_heredoc(tmp))
+			close_upto_i(pipes, i);
+			while (check_heredoc(tmp))
 				just_heredoc(tmp->token, tmp);
 		}
 		set_pipe(pipes, i, lines, hd);
@@ -145,13 +160,12 @@ int	do_pipe_forks(t_mhstruct **mh, int pipes[1000][2], int i, int lines, int scr
 
 void	do_pipes(t_mhstruct **mh, int lines)
 {
-	int	screen = dup(STDOUT_FILENO);
 	int	i;
 	int	pipes[1000][2];
+	int	pid[1000];
 
-	int pid[1000];
 	i = 0;
-	while (i < lines - 1) 
+	while (i < lines - 1)
 	{
 		pipe(pipes[i]);
 		i++;
@@ -159,7 +173,7 @@ void	do_pipes(t_mhstruct **mh, int lines)
 	i = 0;
 	while (i < lines)
 	{
-		pid[i] = do_pipe_forks(mh, pipes, i, lines, screen);
+		pid[i] = do_pipe_forks(mh, pipes, i, lines);
 		i++;
 	}	
 	close_pipes(pipes, lines);
@@ -175,23 +189,19 @@ void	do_pipes(t_mhstruct **mh, int lines)
 			waitpid(pid[i], 0, 0);
 		i++;
 	}
-}
-	
+}	
 
 int	launch_pipes(t_mhstruct **mh)
 {
 	int		lines;
-	char	**grid = NULL;
+
 	lines = assign_pi(mh);
 	if (lines > 250)
 	{
 		pr_err(*mh, 1, gemsg("", (*mh)->emsg[14], "fork: "));
 		return (1);
 	}
-	grid = (char **)malloc(sizeof(char **) * (lines + 1));
-	if (!grid)
-		return (1);
 	do_pipes(mh, lines);
+	system("leaks minishell");
 	return (0);
 }
-
