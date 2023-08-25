@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/25 18:38:15 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/25 23:49:01 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void do_sigint(int i)
 {
 	(void)i;
-	GLOBAL_ERROR = 1;
+	g_error = 1;
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -25,14 +25,14 @@ void do_sigint(int i)
 void do_sigint_fork(int i)
 {
 	(void)i;
-	GLOBAL_ERROR = 1;
+	g_error = 1;
 	write(1, "\n", 1); 	
 }
 
 void do_sigquit(int i)
 {
 	(void)i;
-	GLOBAL_ERROR = 130;
+	g_error = 130;
 	ft_putstr_fd("Quit: 3\n", 2);
 }
 
@@ -141,6 +141,7 @@ int main(int ac, char **av, char **env)
 				if (check_last_type(mh))
 				{
 					// error - test case finish command with pipe or redir
+					// handle  echo hi | wc >| wc 
 					printf("ERROR MESSAGE HERE\n");
 				}
 				else if (check_redir_exist(mh->token) && !(check_pipe_exists(mh->token)))

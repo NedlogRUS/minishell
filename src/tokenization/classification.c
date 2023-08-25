@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:43:32 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/25 23:26:49 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 23:46:58 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,18 @@ void	classify_tokens(t_mhstruct *mh)
 
 int	check_last_type(t_mhstruct *mh)
 {
+	t_token	*curr;
+
 	if (!mh->token)
 		return (1);
-	while (mh->token->next != NULL)
-		mh->token = mh->token->next;
-	if (mh->token)
+	curr = mh->token;
+	while (curr->next != NULL)
+		curr = curr->next;
+	if (curr)
 	{
-		if (mh->token->type == LT || mh->token->type == D_LT
-			|| mh->token->type == GT || mh->token->type == D_GT
-			|| mh->token->type == PIPELINE)
+		if (curr->type == LT || curr->type == D_LT
+			|| curr->type == GT || curr->type == D_GT
+			|| curr->type == PIPELINE)
 			return (1);
 	}
 	return (0);
