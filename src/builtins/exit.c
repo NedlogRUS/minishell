@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 12:54:14 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/22 18:26:25 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 22:13:51 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ void	builtin_exit(t_mhstruct *mh)
 	i = 0;
 	token = mh->token->next;
 	if (token == NULL )
-		do_exit(mh, GLOBAL_ERROR, NULL);
+		do_exit(mh, g_error, NULL);
 	while (token != NULL) // don't forget chek for token type
 	{
 		i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   classification.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:43:32 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/06 08:35:06 by vatche           ###   ########.fr       */
+/*   Updated: 2023/08/25 23:26:49 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,18 @@ void	classify_tokens(t_mhstruct *mh)
 	assign_type(t);
 }
 
-	// STRING, 0 
-	// BUILTIN, 1
-	// PIPELINE, 2
-	// GT, 3 
-	// LT, 4
-	// D_GT, 5
-	// D_LT, 6
-	// SEMICOL, 7
-	// NULL_VAL 8
+int	check_last_type(t_mhstruct *mh)
+{
+	if (!mh->token)
+		return (1);
+	while (mh->token->next != NULL)
+		mh->token = mh->token->next;
+	if (mh->token)
+	{
+		if (mh->token->type == LT || mh->token->type == D_LT
+			|| mh->token->type == GT || mh->token->type == D_GT
+			|| mh->token->type == PIPELINE)
+			return (1);
+	}
+	return (0);
+}

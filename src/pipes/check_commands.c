@@ -12,23 +12,6 @@
 
 #include "vtavitia.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
-{
-	size_t	index;
-
-	index = 0;
-	if (dstsize == 0)
-		return (ft_strlen(src));
-	while (src[index] && index < dstsize - 1)
-	{
-		dst[index] = src[index];
-		index++;
-	}
-	if (index < dstsize)
-		dst[index] = '\0';
-	return ((size_t)ft_strlen(src));
-}
-
 void	path_to_array(char ***paths, char **envp)
 {
 	int		i;
@@ -99,17 +82,5 @@ int	join_commands(char **paths, char *argv)
 		free(tmp);
 	}
 	free(argv);
-	return (check);
-}
-
-int	check_command(char *argv, char **envp)
-{
-	char	**paths;
-	int		check;
-
-	path_to_array(&paths, envp);
-	check = 0;
-	check = join_commands(paths, argv);
-	free_all(paths);
 	return (check);
 }

@@ -56,7 +56,7 @@ void	execution_of_commands(t_mhstruct *mh)
 	else
 		execve_of_commands(mh);	
 	// {
-	// 	GLOBAL_ERROR = 127;
+	// 	g_error = 127;
 	// 	printf("minihell: command not found: %s\n", mh->token->data);
 	// }
 	return ;
@@ -105,6 +105,7 @@ void	free_token_main(t_mhstruct *mh)
 
 int main(int ac, char **av, char **env)
 {
+	g_error = 0;
 	t_mhstruct *mh;
 	int		screen;
 	int		in;
@@ -128,7 +129,7 @@ int main(int ac, char **av, char **env)
 		{
 			free(mh->input);
 			printf("\x1b[1A\x1b[3Cexit\n");
-			exit(GLOBAL_ERROR);
+			exit(g_error);
 		}
 		if (ft_strlen(mh->input))
 		{
@@ -137,7 +138,12 @@ int main(int ac, char **av, char **env)
 			free(mh->input);
 			if (mh->token)
 			{
-				if (check_redir_exist(mh->token) && !(check_pipe_exists(mh->token)))
+				if (check_last_type(mh))
+				{
+					// error - test case finish command with pipe or redir
+					printf("ERROR MESSAGE HERE\n");
+				}
+				else if (check_redir_exist(mh->token) && !(check_pipe_exists(mh->token)))
 				{
 					mark = do_redirects(mh->token, mh, 0);
 					if (ft_tokenlstsize(mh->token) && !mark)

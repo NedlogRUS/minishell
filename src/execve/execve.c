@@ -147,7 +147,7 @@ void	execve_of_commands(t_mhstruct *mh)
 	}
 	if (path != NULL)
 		out = execve_of_commands_2(path, arg, env);
-	GLOBAL_ERROR = out / 256;
+	g_error = out / 256;
 	free(env);
 	free_all(arg);
 }

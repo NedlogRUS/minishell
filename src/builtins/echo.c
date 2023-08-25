@@ -55,7 +55,7 @@ void	builtin_echo(t_mhstruct *mh)
 	char *tmp;
 
 	token = mh->token->next;
-	GLOBAL_ERROR = 0;
+	g_error = 0;
 	i = 0;
 	if (token == NULL )
 	{	
