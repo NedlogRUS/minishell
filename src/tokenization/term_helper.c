@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 19:54:52 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/25 21:26:03 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 22:57:47 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	term_helper(char *search, t_mhstruct *mh, t_token **curr, t_env *env_t)
 	new_term->data = (char *)malloc(sizeof(char) * mh->t_size + 1);
 	mh->th_i = inject_helper(&k, location, curr, &new_term);
 	if (ft_strcmp(search, "$") && ft_strcmp(search, "?"))
-		inject_without_dollar(&k, mh->t_size, &env_t, &new_term);
+		inject_wo_dollar(&k, mh->t_size, &env_t, &new_term);
 	else if (!ft_strcmp(search, "?"))
 		mh->th_i = inject_exit_msg(&k, mh->t_size, &new_term, &mh);
 	else if (!ft_strcmp(search, "$"))

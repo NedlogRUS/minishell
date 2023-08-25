@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 12:40:07 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/25 19:56:08 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 23:13:07 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ void	handle_dollar(t_mhstruct **mh)
 			if (!ft_strlen(curr->data) && !(curr->s_quote || curr->d_quote))
 				hd_helper(mh, &prev, &curr, &tmp);
 			else if (curr->next)
-				update_car(&prev, &curr);
+				update_cur(&prev, &curr);
 		}
 		else
-			update_car(&prev, &curr);
+			update_cur(&prev, &curr);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 17:53:52 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/20 10:39:43 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 22:35:29 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,11 +112,3 @@ void	clean_start(t_mhstruct *mh, char c)
 	free(mh->input);
 	mh->input = new_input;
 }
-
-// void	assign_quotes(t_token **new_t, int sq, int dq)
-// {
-// 	if (sq)
-// 		(*new_t)->s_quote = sq;
-// 	if (dq)
-// 		(*new_t)->d_quote = dq;
-// }

@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 15:08:46 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/25 21:32:04 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 22:53:32 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	get_search_term_checks(t_token	*current, int *i, int *sizep)
 	}
 }
 
-char	*get_search_term(int *i, int *qty, t_token *current, char **search_term)
+char	*get_term(int *i, int *qty, t_token *current, char **search_term)
 {
 	int		size;
 

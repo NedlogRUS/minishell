@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/25 22:24:52 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 23:26:15 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,12 @@ int		screen;
 			free(mh->input);
 			if (mh->token)
 			{
-				if (check_redir_exist(mh->token) && !(check_pipe_exists(mh->token)))
+				if (check_last_type(mh))
+				{
+					// error - test case finish command with pipe or redir
+					printf("ERROR MESSAGE HERE\n");
+				}
+				else if (check_redir_exist(mh->token) && !(check_pipe_exists(mh->token)))
 				{
 					mark = do_redirects(mh->token, mh, 0);
 					if (ft_tokenlstsize(mh->token) && !mark)

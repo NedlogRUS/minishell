@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 15:51:16 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/25 20:00:55 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 23:13:16 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	shift_i(t_token **current, int *i)
 	(*i)++;
 }
 
-void	update_car(t_token **prev, t_token **curr)
+void	update_cur(t_token **prev, t_token **curr)
 {
 	*prev = *curr;
 	*curr = (*curr)->next;
@@ -59,7 +59,7 @@ void	convert_dollars(t_token **current, t_mhstruct *mh)
 	while (is_there_dollar((*current)->data) && !(*current)->s_quote)
 	{
 		shift_i(current, &i);
-		get_search_term(&i, &qty, *current, &search_term);
+		get_term(&i, &qty, *current, &search_term);
 		if (check_term_exists(search_term, mh->env))
 			inject_term(search_term, current, mh);
 		else if (check_term_exists(search_term, mh->env) == 0)
