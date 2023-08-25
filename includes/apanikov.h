@@ -43,6 +43,7 @@ void	do_sigint(int i);
 void	do_sigquit(int i);
 void    add_error_message(t_mhstruct *mh);
 void	free_token_main(t_mhstruct *mh);
+void	free_env(t_env *env);
 void do_sigint_fork(int i);
 
 #endif

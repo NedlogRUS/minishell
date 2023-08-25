@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 14:39:20 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/22 18:29:18 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/24 17:27:32 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	term_helper(char *search, t_mhstruct *mh, t_token **curr, t_env *env_t);
 
 
 // redirects
-void	do_redirects(t_token *t, t_mhstruct *mh, int x);
+int		do_redirects(t_token *t, t_mhstruct *mh, int x);
 void	execution_of_commands(t_mhstruct *mh);
 int		check_redir_exist(t_token *t);
 void	set_prev(t_token **previous, t_token **tok);
@@ -111,10 +111,10 @@ int		do_dups(t_token **t, t_mhstruct **mh, int screen);
 void	delete_redirs(t_token **t, t_mhstruct **mh, t_token **previous);
 void	run_comms(t_mhstruct *mh, int mark, int in, int screen);
 int		bad_redirect_syntax(t_token *t);
-int		action_redirect(t_token **tok, t_token **previous, t_mhstruct **mh, int screen);
+int		action_redirect(t_token **tok, t_token **previous, t_mhstruct **mh, int screen, int in);
 
 //pipes
-void	do_here_doc(char *lim);
+void	do_here_doc(char *lim, t_mhstruct *mh);
 int		setting_out_files(char **argv, int *outfile, int argc);
 int		setting_in_files(int *infile, char **argv, char **envp);
 int		check_command(char *argv, char **envp);
@@ -140,6 +140,10 @@ int		check_path(char *argv, char **envp, char **command_path);
 int		execve_of_commands_2(char *path, char **arg, char **env);
 void	execve_commands_pipes(t_token *curr, t_mhstruct *mh, int lines, int pipes[1000][2]);
 int		check_redir_exist_pipe(t_token *t);
+int		action_justheredoc(t_token **tok, t_token **previous, t_mhstruct **mh, int screen);
+void	just_heredoc(t_token *t, t_mhstruct *mh, int x);
+int		action_redirect_pipe(t_token **tok, t_token **previous, t_mhstruct **mh, int screen);
+void	do_redirects_pipes(t_token *t, t_mhstruct *mh, int x);
 
 int		c_w(t_mhstruct **mh, int i);
 int		c_ch(t_mhstruct **mh, int i);
@@ -147,6 +151,7 @@ void	copy_to_grid(t_mhstruct **mh, int i, char **grid);
 void	create_grid(char **grid, int lines, t_mhstruct **mh);
 void	c_pipes(int pipes[1000][2] , int lines);
 int		check_redir_exist_pipe(t_token *t);
+int		num_of_heredoc(t_token *t);
 
 //delete this
 void	print_tokens(t_token *token);

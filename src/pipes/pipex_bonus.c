@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 16:27:19 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/22 18:26:25 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/24 16:41:46 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,7 +285,7 @@ int	action_pipe_redirect(t_token **tok, t_token **previous, t_mhstruct **mh, int
 	}
 	else if ((*tok)->type == D_LT)
 	{
-		do_here_doc((*tok)->next->data);
+		do_here_doc((*tok)->next->data, *mh);
 		delete_redirs(tok, mh, previous);
 	}
 	else
@@ -293,48 +293,48 @@ int	action_pipe_redirect(t_token **tok, t_token **previous, t_mhstruct **mh, int
 	return (0);
 }
 
-void	run_pipe(t_mhstruct **mh, int *pipes)
-{
-	int	pid;
+// void	run_pipe(t_mhstruct **mh, int *pipes)
+// {
+// 	int	pid;
 	
-	t_token	**current;
-	t_token	**previous;
+// 	t_token	**current;
+// 	t_token	**previous;
 
-	current = &(*mh)->token;
-	previous = current;
+// 	current = &(*mh)->token;
+// 	previous = current;
 
 	
-	pid = fork();
-	if (pid == 0)
-	{
-		close(pipes[0]);
-		if (check_redir_exist_pipe((*mh)->token))
-		{
-			while (*current && (*current)->type != PIPELINE)
-			{
-				if ((*current)->type == GT || (*current)->type == LT|| (*current)->type == D_GT || (*current)->type == D_LT)
-					action_redirect(current, previous, mh, pipes[1]);
-				else
-				{
-					previous = current;
-					current = &(*current)->next;
-				}
-			}
-		}
-		else
-			dup2(pipes[1], STDOUT_FILENO);
-		execve_of_commands_pipes(*mh);
-	}
-	else
-	{
-		wait(NULL);
-		close(pipes[1]);
-		if (check_pipe_exists((*mh)->token))
-			clean_pipes(mh);
-		dup2( pipes[0], STDIN_FILENO);
-		close(pipes[0]);
-	}
-}
+// 	pid = fork();
+// 	if (pid == 0)
+// 	{
+// 		close(pipes[0]);
+// 		if (check_redir_exist_pipe((*mh)->token))
+// 		{
+// 			while (*current && (*current)->type != PIPELINE)
+// 			{
+// 				if ((*current)->type == GT || (*current)->type == LT|| (*current)->type == D_GT || (*current)->type == D_LT)
+// 					action_redirect(current, previous, mh, pipes[1]);
+// 				else
+// 				{
+// 					previous = current;
+// 					current = &(*current)->next;
+// 				}
+// 			}
+// 		}
+// 		else
+// 			dup2(pipes[1], STDOUT_FILENO);
+// 		execve_of_commands_pipes(*mh);
+// 	}
+// 	else
+// 	{
+// 		wait(NULL);
+// 		close(pipes[1]);
+// 		if (check_pipe_exists((*mh)->token))
+// 			clean_pipes(mh);
+// 		dup2( pipes[0], STDIN_FILENO);
+// 		close(pipes[0]);
+// 	}
+// }
 
 
 // int	launch_pipes(t_mhstruct **mh)

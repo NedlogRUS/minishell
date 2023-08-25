@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 11:25:48 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/04 14:07:39 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/24 16:42:19 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	set_outfile(int *outfile, char **argv, int argc)
 		if (argc < 6)
 			error_msg2("Error\nNot enough arguments!");
 		*outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
-		do_here_doc(argv[2]);
+		// do_here_doc(argv[2]);
 	}
 	else
 	{
