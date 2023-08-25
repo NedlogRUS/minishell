@@ -6,7 +6,7 @@
 /*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 18:31:47 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/25 15:38:53 by vatche           ###   ########.fr       */
+/*   Updated: 2023/08/25 16:01:34 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static int	check_path2(char **paths, char *argv, char **command_path)
 		if (access(*command_path, R_OK) == 0)
 		{
 			free(argv);
-			free(*command_path);
 			return (1);
 		}
 		else
@@ -134,6 +133,7 @@ void	execve_of_commands(t_mhstruct *mh)
 		else
 		{
 			free(env);
+			free(path);
 			pr_err(mh, 127, gemsg(mh->emsg[11], mh->emsg[12], arg[0]));
 			free_all(arg);
 			return ;
