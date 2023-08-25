@@ -6,7 +6,7 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 18:31:47 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/24 18:53:04 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/25 18:13:17 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,43 +143,3 @@ void	execve_of_commands(t_mhstruct *mh)
 	free(env);
 	free(arg);
 }
-
-// void	execve_of_commands(t_mhstruct *mh)
-// {
-// 	int		pid;
-// 	char	**arg;
-// 	char	**env;
-// 	char	*path;
-// 	int		out;
-
-// 	path = NULL;
-// 	out = 0;
-// 	env = get_env_array(mh); //don,t forget to free env
-// 	arg = get_arg_array(mh); //don,t forget to free env
-// 	if (check_path(arg[0], env, &path) == 0)
-// 	{
-// 		if (access(arg[0], R_OK) == 0)
-// 			path = arg[0];
-// 		else
-// 		{
-// 			free(env);
-// 			free(arg);
-// 			return (pr_err(mh, 127, gemsg(mh->emsg[11], mh->emsg[12], arg[0])));
-// 		}
-// 	}
-// 	if (path != NULL)
-// 	{
-// 		pid = fork();
-// 		if (pid == 0)
-// 		{
-// 			out++;
-// 			execve(path, arg, env);
-// 		}
-// 		else
-// 			waitpid(pid, &out, 0);
-// 	}
-// 	GLOBAL_ERROR = out / 256;
-// 	free(env);
-// 	free(arg);
-// 	return ;
-// }

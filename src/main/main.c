@@ -6,7 +6,7 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/24 18:02:43 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/25 18:13:33 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void do_sigint_fork(int i)
 	(void)i;
 	GLOBAL_ERROR = 1;
 	write(1, "\n", 1); 	
-	// exit(1);
 }
 
 void do_sigquit(int i)
