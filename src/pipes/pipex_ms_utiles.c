@@ -6,12 +6,11 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:10:29 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/21 18:08:55 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 20:53:52 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vtavitia.h"
-
 
 int	c_w(t_mhstruct **mh, int i)
 {
@@ -54,67 +53,54 @@ int	c_ch(t_mhstruct **mh, int i)
 	return (count);
 }
 
-void	copy_to_grid(t_mhstruct **mh, int i, char **grid)
-{
-	t_token	*current;
-	int		j;
-	int		k;
-	
-	current = (*mh)->token;
-	k = 0;
-	j = 0;
-	while (current && current->pi != i)
-		current = current->next;
-	while (current && current->pi == i)
-	{
-		while (current->data[j])
-		{
-			grid[i][k] = current->data[j];
-			j++;
-			k++;
-		}
-		if (current->next && current->next->pi == i)
-		{
-			grid[i][k] = ' ';
-			k++;
-		}
-		j = 0;
-		current = current->next;
-	}
-	grid[i][k] = '\0';
-}
-
-void	create_grid(char **grid, int lines, t_mhstruct **mh)
+void	close_pipes(int pipes[1000][2], int lines)
 {
 	int	i;
 
 	i = 0;
-	while (i < lines)
+	while (i < lines - 1)
 	{
-		grid[i] = (char *)malloc(sizeof(char) * (c_ch(mh, i) +  c_w(mh, i) + 1));
-		if (!grid)
-			return ;
-		copy_to_grid(mh, i, grid);
+		close(pipes[i][0]);
+		close(pipes[i][1]);
 		i++;
 	}
-	grid[lines] = NULL;
-	// free grid
 }
 
-
-
-
-
-int	check_redir_exist_pipe(t_token *t)
+int	assign_pi(t_mhstruct **mh)
 {
-	while (t && t->next->type != PIPELINE)
+	t_token	*current;
+	int		idx;
+
+	current = (*mh)->token;
+	idx = 0;
+	while (current)
 	{
-		if (t->type == GT || t->type == LT
-			|| t->type == D_GT || t->type == D_LT)
-			return (1);
-		t = t->next;
+		while (current->type != PIPELINE && current)
+		{
+			current->pi = idx;
+			if (current->next)
+				current = current->next;
+			else
+				break ;
+		}
+		if (current)
+			current = current->next;
+		idx++;
+	}	
+	return (idx);
+}
+
+int	get_args_size_pipes(t_token *tmp)
+{
+	int		i;
+
+	i = 0;
+	if (!tmp)
+		return (0);
+	while (tmp && tmp->type != PIPELINE)
+	{
+		i++;
+		tmp = tmp->next;
 	}
-	// if (t->type == GT || t->type == LT || t->type == D_GT || t->type == D_LT)
-	// 	return (1);
-	return (0);
+	return (i);
 }

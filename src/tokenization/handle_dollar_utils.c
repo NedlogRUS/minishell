@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 15:08:46 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/12 17:20:01 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 21:32:04 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	check_term_exists(char *term, t_env *env_lst)
 {
 	if (term)
 	{
-		if (!ft_strcmp(term, "&") || !ft_strcmp(term, "_"))
+		if (!ft_strcmp(term, "&"))
 			return (0);
 		else if (!ft_strcmp(term, "$") || !ft_strcmp(term, "?"))
 			return (1);

@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 14:39:20 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/25 20:22:00 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 20:54:24 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,8 @@ int		action_justheredoc(t_token **tok, t_token **previous, t_mhstruct **mh);
 void	just_heredoc(t_token *t, t_mhstruct *mh);
 int		action_redirect_pipe(t_token **tok, t_token **previous, t_mhstruct **mh, int screen);
 void	do_redirects_pipes(t_token *t, t_mhstruct *mh, int x);
+void	close_pipes(int pipes[1000][2], int lines);
+int		assign_pi(t_mhstruct **mh);
 
 int		c_w(t_mhstruct **mh, int i);
 int		c_ch(t_mhstruct **mh, int i);

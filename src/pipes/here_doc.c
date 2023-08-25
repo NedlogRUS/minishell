@@ -6,11 +6,23 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:32:58 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/24 17:12:05 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 20:36:18 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vtavitia.h"
+
+static void	finalise_heredoc(t_mhstruct *mh, int *hdpipe)
+{
+	close(hdpipe[1]);
+	if (num_of_heredoc(mh->token) >= 2)
+	{
+		close(hdpipe[0]);
+		dup2(mh->in, STDIN_FILENO);
+	}
+	dup2(hdpipe[0], STDIN_FILENO);
+	close(hdpipe[0]);
+}
 
 void	do_here_doc(char *lim, t_mhstruct *mh)
 {
@@ -21,9 +33,8 @@ void	do_here_doc(char *lim, t_mhstruct *mh)
 		error_msg2("Error\nPipe Creation Failed\n");
 	while (1)
 	{
-		buffer =NULL;
+		buffer = NULL;
 		buffer = readline(">");
-		// printf("buffer is %s, lim is %s\n", buffer, lim);
 		if (buffer != NULL)
 		{
 			if (!ft_strcmp(buffer, lim))
@@ -38,14 +49,5 @@ void	do_here_doc(char *lim, t_mhstruct *mh)
 		if (buffer == NULL)
 			break ;
 	}
-	close(hdpipe[1]);
-	if (num_of_heredoc(mh->token) >= 2)
-	{
-		close(hdpipe[0]);
-		dup2(mh->in, STDIN_FILENO);
-	}
-		dup2(hdpipe[0], STDIN_FILENO);
-	close(hdpipe[0]);
+	finalise_heredoc(mh, hdpipe);
 }
-
-// <a

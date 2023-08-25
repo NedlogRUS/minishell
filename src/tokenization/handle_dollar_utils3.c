@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 18:46:26 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/25 18:05:54 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 21:28:13 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	get_size(char *term, t_env *env_lst, t_env **env_term, t_mhstruct *mh)
 		return (found_dollar(mh));
 	else if ((!ft_strcmp("?", term)))
 		return (found_err_num(mh));
-	while (env_lst->next)
+	while (env_lst != NULL)
 	{
 		if (!ft_strcmp(env_lst->name, term))
 		{
@@ -73,6 +73,8 @@ int	get_size(char *term, t_env *env_lst, t_env **env_term, t_mhstruct *mh)
 			while (env_lst->data[i])
 				i++;
 		}
+		if (found)
+			break ;
 		env_lst = env_lst->next;
 	}
 	if (ft_strcmp(env_lst->name, term) && !found)
