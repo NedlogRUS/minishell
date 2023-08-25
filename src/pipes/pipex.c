@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 10:37:53 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/25 11:54:57 by vatche           ###   ########.fr       */
+/*   Updated: 2023/08/25 17:54:44 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,6 +275,7 @@ int		do_pipe_forks(t_mhstruct **mh, int pipes[1000][2], int	i, int	lines, int sc
 	}
 	free_token_main(tmp);
 	free(tmp);
+	// system("leaks minishell");
 	return (pid);
 }
 
