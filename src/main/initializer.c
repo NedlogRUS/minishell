@@ -6,7 +6,7 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 13:42:38 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/25 18:40:13 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/25 19:05:00 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,7 @@ void	initializer_mh(char **env, t_mhstruct *mh)
 	mh->env = NULL;
 	mh->in = dup(STDIN_FILENO);
 	mh->screen = dup(STDOUT_FILENO);
+	mh->mark = 0;
 	mh->utils = malloc(sizeof(t_utils));
 	GLOBAL_ERROR = 0;
 	mh->mh_pid = (int)getpid();
