@@ -6,7 +6,7 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/25 18:13:33 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/25 18:38:15 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,9 @@ void	free_token_main(t_mhstruct *mh)
 int main(int ac, char **av, char **env)
 {
 	t_mhstruct *mh;
-int		screen;
+	int		screen;
 	int		in;
-		screen = dup(STDOUT_FILENO);
+	screen = dup(STDOUT_FILENO);
 	in = dup(STDIN_FILENO);
 	(void) av;
 	int	mark;
@@ -185,3 +185,6 @@ int		screen;
 // $> <
 // Syntax error - near unexpected token: Undefined error: 0
 // Segmentation fault: 11
+// |
+// bash: syntax error near unexpected token `|'
+// pr_err(mh, 258, gemsg(NULL, mh->emsg[15], write token here));

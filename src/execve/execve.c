@@ -6,7 +6,7 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 18:31:47 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/25 18:13:17 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/25 18:23:44 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@ static int	check_path2(char **paths, char *argv, char **command_path)
 		tmp = ft_strdup(*command_path);
 		free(*command_path);
 		*command_path = ft_strjoin(paths[j], tmp);
+		free(tmp);
 		stat(*command_path, &s);
 		if (access(*command_path, R_OK) == 0 && S_ISREG(s.st_mode))
-		free(tmp);
+		{
 			free(argv);
 			return (1);
 		}
