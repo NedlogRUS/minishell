@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:40:51 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/26 18:28:16 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/26 19:27:19 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,20 @@ void	just_heredoc(t_token **t, t_mhstruct **mh)
 {
 	t_token	*tok;
 	t_token	*previous;
-
+	t_token	*start;
+	start = (*mh)->token;
+	// print_tokens(start);
 	tok = (*mh)->token;
 	previous = tok;
 	if (bad_redirect_syntax(*t))
 		return (error_msg("Syntax error near unexpected token", 258, *mh));
 	while (tok && tok->type != D_LT)
+	{
+		previous = tok;
 		tok = tok->next;
+	}
 	action_justheredoc(&tok, &previous, mh);
-
+	//(*mh)->token = start;
+		// print_tokens((*mh)->token);
+		// exit(1);
 }

@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:32:58 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/26 18:26:56 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/26 19:29:21 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,23 @@
 
 void	do_hd(int pipes[1000][2], int i, t_mhstruct **tmp)
 {
-	(void) pipes;
-	(void) i;
-	//close_upto_i(pipes, i);
-	while (check_heredoc(*tmp))
-		just_heredoc(&((*tmp)->token), tmp);
+	close_upto_i(pipes, i);
+	if (check_heredoc(*tmp))
+	{
+		while (check_heredoc(*tmp))
+		{
+			just_heredoc(&((*tmp)->token), tmp);
+			if (!(*tmp)->token)
+				break;
+		}
+	}
 }
 
 int	check_heredoc(t_mhstruct *mh)
 {
 	t_token	*curr;
-
-	if (!mh->token->data)
+	
+	if (!mh || !mh->token->data)
 		return (0);
 	curr = mh->token;
 	while (curr)

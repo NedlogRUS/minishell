@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 14:39:20 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/26 18:29:21 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/26 19:05:34 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,4 +130,6 @@ void	finalise_heredoc(t_mhstruct *mh, int *hdpipe);
 void	do_here_doc_pipes(char *lim, t_mhstruct *mh);
 void	set_prev(t_token **previous, t_token **tok);
 
+
+void	print_tokens(t_token *token);
 #endif

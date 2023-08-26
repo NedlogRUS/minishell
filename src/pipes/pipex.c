@@ -6,11 +6,28 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 10:37:53 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/26 18:43:45 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/26 19:17:31 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vtavitia.h"
+
+// // //deletethis
+void	print_tokens(t_token *token)
+{
+		printf("Printing tokens\n------\n");
+		if (token)
+		{
+			while (token)
+			{
+					printf("DATA: -%s- pi is %d\n", token->data, token->pi);
+					token = token->next;				
+			}
+		}
+		// if (ft_tokenlstsize(token) == 1 && token)
+		// 	printf("DATA: -%s- type is %d\n",
+		// 		token->data, token->type);
+}
 
 void	cr_temp_mh(t_mhstruct **tmp, t_mhstruct **mh, t_token **curr, int *i)
 {
@@ -163,9 +180,12 @@ int	do_pipe_forks(t_mhstruct **mh, int pipes[1000][2], int i, int lines)
 	{
 		hd = check_heredoc(tmp);
 		if (hd)
+			//pipe_heredoc(&tmp);
 			do_hd(pipes, i, &tmp);
-		set_pipe(pipes, i, lines, hd);
+		//print_tokens(tmp->token);
+		set_pipe(pipes, i, lines, 0);
 		if (ft_tokenlstsize(tmp->token))
+			//do_redirects(tmp->token, tmp, 1);
 			do_redirects_pipe(&(tmp->token), &tmp, 0);
 		close_pipes(pipes, lines);
 		if (ft_tokenlstsize(tmp->token))
@@ -216,3 +236,5 @@ int	launch_pipes(t_mhstruct **mh)
 	do_pipes(mh, lines);
 	return (0);
 }
+
+//check  << a | wc
