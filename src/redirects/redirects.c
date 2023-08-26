@@ -6,11 +6,19 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:40:51 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/25 20:21:45 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/26 19:47:27 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vtavitia.h"
+
+void	set_prev(t_token **previous, t_token **tok)
+{
+	if (!(*previous || *tok))
+		return ;
+	*previous = *tok;
+	*tok = (*tok)->next;
+}
 
 int	do_dups(t_token **t, t_mhstruct **mh)
 {
@@ -57,13 +65,12 @@ void	delete_redirs(t_token **t, t_mhstruct **mh, t_token **previous)
 	free(tmp);
 }
 
-int	do_redirects(t_token *t, t_mhstruct *mh, int x)
+int	do_redirects(t_token *t, t_mhstruct *mh)
 {
 	t_token	*tok;
 	t_token	*previous;
 	int		mark;
 
-	(void) x;
 	tok = mh->token;
 	previous = tok;
 	mark = 0;
@@ -84,43 +91,21 @@ int	do_redirects(t_token *t, t_mhstruct *mh, int x)
 	return (mark);
 }
 
-void	do_redirects_pipes(t_token *t, t_mhstruct *mh, int x)
+void	just_heredoc(t_token **t, t_mhstruct **mh)
 {
 	t_token	*tok;
 	t_token	*previous;
-	int		screen;
-	int		in;
-	int		mark;
+	t_token	*start;
 
-	(void) x;
-	tok = mh->token;
+	start = (*mh)->token;
+	tok = (*mh)->token;
 	previous = tok;
-	screen = dup(STDOUT_FILENO);
-	in = dup(STDIN_FILENO);
-	mark = 0;
-	if (bad_redirect_syntax(t))
-		return (error_msg("Syntax error near unexpected token", 258, mh));
-	if (check_redir_exist(mh->token))
-	{
-		while (tok)
-		{
-			mark = act_red(&tok, &previous, &mh);
-			if (mark)
-				break ;
-		}
-	}	
-}
-
-void	just_heredoc(t_token *t, t_mhstruct *mh)
-{
-	t_token	*tok;
-	t_token	*previous;
-
-	tok = mh->token;
-	previous = tok;
-	if (bad_redirect_syntax(t))
-		return (error_msg("Syntax error near unexpected token", 258, mh));
+	if (bad_redirect_syntax(*t))
+		return (error_msg("Syntax error near unexpected token", 258, *mh));
 	while (tok && tok->type != D_LT)
+	{
+		previous = tok;
 		tok = tok->next;
-	action_justheredoc(&tok, &previous, &mh);
+	}
+	action_justheredoc(&tok, &previous, mh);
 }

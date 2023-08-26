@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 10:37:53 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/25 22:31:32 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/26 19:43:52 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,32 @@ void	cr_temp_mh(t_mhstruct **tmp, t_mhstruct **mh, t_token **curr, int *i)
 	while ((*curr)->pi != *i)
 		*curr = (*curr)->next;
 	copy_to_tmp(tmp, curr);
+}
+
+int	do_redirects_pipe(t_token **t, t_mhstruct **mh)
+{
+	t_token	*tok;
+	t_token	*previous;
+	int		mark;
+
+	tok = (*mh)->token;
+	previous = tok;
+	mark = 0;
+	if (bad_redirect_syntax(*t))
+	{
+		error_msg("Syntax error near unexpected token", 258, *mh);
+		return (258);
+	}
+	if (check_redir_exist((*mh)->token))
+	{
+		while (check_redir_exist((*mh)->token))
+		{
+			mark = act_red(&tok, &previous, mh);
+			if (mark)
+				break ;
+		}
+	}
+	return (mark);
 }
 
 int	do_pipe_forks(t_mhstruct **mh, int pipes[1000][2], int i, int lines)
@@ -36,10 +62,10 @@ int	do_pipe_forks(t_mhstruct **mh, int pipes[1000][2], int i, int lines)
 	{
 		hd = check_heredoc(tmp);
 		if (hd)
-			do_hd(pipes, i, tmp);
-		set_pipe(pipes, i, lines, hd);
+			do_hd(pipes, i, &tmp);
+		set_pipe(pipes, i, lines, 0);
 		if (ft_tokenlstsize(tmp->token))
-			do_redirects(tmp->token, tmp, 0);
+			do_redirects_pipe(&(tmp->token), &tmp);
 		close_pipes(pipes, lines);
 		if (ft_tokenlstsize(tmp->token))
 			execution_of_commands(tmp);
