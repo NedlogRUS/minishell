@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 14:39:20 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/26 19:05:34 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/26 19:43:02 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,14 +96,14 @@ int		check_bad_specials(char *input);
 int		check_last_type(t_mhstruct *mh);
 
 // redirects
-int		do_redirects(t_token *t, t_mhstruct *mh, int x);
+int		do_redirects(t_token *t, t_mhstruct *mh);
 int		check_redir_exist(t_token *t);
 void	do_gt(t_token **t);
 void	do_d_gt(t_token **t);
 int		do_dups(t_token **t, t_mhstruct **mh);
 void	delete_redirs(t_token **t, t_mhstruct **mh, t_token **previous);
 int		bad_redirect_syntax(t_token *t);
-int	act_red(t_token **tok, t_token **previous, t_mhstruct **mh, int x);
+int	act_red(t_token **tok, t_token **previous, t_mhstruct **mh);
 
 //pipes
 void	do_here_doc(char *lim, t_mhstruct *mh);
@@ -123,13 +123,11 @@ void	do_hd(int pipes[1000][2], int i, t_mhstruct **tmp);
 void	close_upto_i(int pipes[1000][2], int i);
 int		num_of_heredoc(t_token *t);
 void	copy_to_tmp(t_mhstruct **tmp, t_token **curr);
-// void	set_pipe(int pipes[1000][2], int i, int lines, int hd);
+void	set_pipe(int pipes[1000][2], int i, int lines, int hd);
 void	initializer_temp_mh( t_mhstruct *tmp, t_mhstruct *mh);
 int		check_redir_pipe_syntax(t_mhstruct *mh);
 void	finalise_heredoc(t_mhstruct *mh, int *hdpipe);
 void	do_here_doc_pipes(char *lim, t_mhstruct *mh);
 void	set_prev(t_token **previous, t_token **tok);
 
-
-void	print_tokens(t_token *token);
 #endif

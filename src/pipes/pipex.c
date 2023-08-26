@@ -6,28 +6,11 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 10:37:53 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/26 19:17:31 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/26 19:43:52 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vtavitia.h"
-
-// // //deletethis
-void	print_tokens(t_token *token)
-{
-		printf("Printing tokens\n------\n");
-		if (token)
-		{
-			while (token)
-			{
-					printf("DATA: -%s- pi is %d\n", token->data, token->pi);
-					token = token->next;				
-			}
-		}
-		// if (ft_tokenlstsize(token) == 1 && token)
-		// 	printf("DATA: -%s- type is %d\n",
-		// 		token->data, token->type);
-}
 
 void	cr_temp_mh(t_mhstruct **tmp, t_mhstruct **mh, t_token **curr, int *i)
 {
@@ -39,108 +22,7 @@ void	cr_temp_mh(t_mhstruct **tmp, t_mhstruct **mh, t_token **curr, int *i)
 	copy_to_tmp(tmp, curr);
 }
 
-void	finalise_heredoc_pipes(t_mhstruct *mh, int *hdpipe)
-{
-	close(hdpipe[1]);
-	if (num_of_heredoc(mh->token) >= 2)
-	{
-		close(hdpipe[0]);
-		dup2(mh->in, STDIN_FILENO);
-	}
-	dup2(hdpipe[0], STDIN_FILENO);
-	close(hdpipe[0]);
-}
-
-void	do_here_doc_pipes(char *lim, t_mhstruct *mh)
-{
-	int		hdpipe[2];
-	char	*buffer;
-
-	if (pipe(hdpipe) == -1)
-		error_msg2("Error\nPipe Creation Failed\n");
-	while (1)
-	{
-		buffer = NULL;
-		buffer = readline(">");
-		if (buffer != NULL)
-		{
-			if (!ft_strcmp(buffer, lim))
-			{
-				free(buffer);
-				break ;
-			}
-			write(hdpipe[1], buffer, ft_strlen(buffer));
-			write(hdpipe[1], "\n", 1);
-			free(buffer);
-		}
-		if (buffer == NULL)
-			break ;
-	}
-	finalise_heredoc_pipes(mh, hdpipe);
-}
-
-int	act_red_pipes(t_token **tok, t_token **previous, t_mhstruct **mh)
-{
-	t_token	*start;
-
-	if (check_heredoc(*mh))
-	{
-		start = *tok;
-		while ((*tok)->type != D_LT)
-			set_prev(previous, tok);
-		if ((*tok)->type == D_LT)
-		{
-			do_here_doc((*tok)->next->data, *mh);
-			do_dups(tok, mh);
-			delete_redirs(tok, mh, previous);
-			*tok = start;
-			return (0);
-		}
-	}
-	else if ((*tok)->next)
-		set_prev(previous, tok);
-	return (0);
-}
-
-void	pipe_heredoc(t_mhstruct **tmp)
-{
-	t_token	*tok;
-	t_token	*previous;
-
-	tok = (*tmp)->token;
-	previous = tok;
-	if (check_redir_exist((*tmp)->token))
-	{
-		while (check_redir_exist((*tmp)->token))
-			act_red_pipes(&tok, &previous, tmp);
-	}	
-}
-
-void	set_pipe(int pipes[1000][2], int i, int lines, int hd)
-{
-	if (i == 0)
-	{
-		dup2(pipes[i][1], STDOUT_FILENO);
-		close(pipes[i][1]);
-	}
-	else if (i != 0 && i != lines - 1)
-	{
-		if (!hd)
-			dup2(pipes[i - 1][0], STDIN_FILENO);
-		dup2(pipes[i][1], STDOUT_FILENO);
-		close(pipes[i - 1][0]);
-		close(pipes[i][1]);
-	}
-	else if (i == lines - 1)
-	{
-		close(pipes[i - 1][1]);
-		if (!hd)
-			dup2(pipes[i - 1][0], STDIN_FILENO);
-		close(pipes[i - 1][0]);
-	}
-}
-
-int	do_redirects_pipe(t_token **t, t_mhstruct **mh, int x)
+int	do_redirects_pipe(t_token **t, t_mhstruct **mh)
 {
 	t_token	*tok;
 	t_token	*previous;
@@ -158,7 +40,7 @@ int	do_redirects_pipe(t_token **t, t_mhstruct **mh, int x)
 	{
 		while (check_redir_exist((*mh)->token))
 		{
-			mark = act_red(&tok, &previous, mh, x);
+			mark = act_red(&tok, &previous, mh);
 			if (mark)
 				break ;
 		}
@@ -180,13 +62,10 @@ int	do_pipe_forks(t_mhstruct **mh, int pipes[1000][2], int i, int lines)
 	{
 		hd = check_heredoc(tmp);
 		if (hd)
-			//pipe_heredoc(&tmp);
 			do_hd(pipes, i, &tmp);
-		//print_tokens(tmp->token);
 		set_pipe(pipes, i, lines, 0);
 		if (ft_tokenlstsize(tmp->token))
-			//do_redirects(tmp->token, tmp, 1);
-			do_redirects_pipe(&(tmp->token), &tmp, 0);
+			do_redirects_pipe(&(tmp->token), &tmp);
 		close_pipes(pipes, lines);
 		if (ft_tokenlstsize(tmp->token))
 			execution_of_commands(tmp);
@@ -236,5 +115,3 @@ int	launch_pipes(t_mhstruct **mh)
 	do_pipes(mh, lines);
 	return (0);
 }
-
-//check  << a | wc

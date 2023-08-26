@@ -6,11 +6,19 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:40:51 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/26 19:27:19 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/26 19:47:27 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vtavitia.h"
+
+void	set_prev(t_token **previous, t_token **tok)
+{
+	if (!(*previous || *tok))
+		return ;
+	*previous = *tok;
+	*tok = (*tok)->next;
+}
 
 int	do_dups(t_token **t, t_mhstruct **mh)
 {
@@ -33,11 +41,6 @@ int	do_dups(t_token **t, t_mhstruct **mh)
 			return (1);
 		}
 	}
-	// else
-	// {
-	// 	dup2((*mh)->in, STDIN_FILENO);
-	// 	dup2((*mh)->screen, STDOUT_FILENO);
-	// }
 	return (0);
 }
 
@@ -62,12 +65,11 @@ void	delete_redirs(t_token **t, t_mhstruct **mh, t_token **previous)
 	free(tmp);
 }
 
-int	do_redirects(t_token *t, t_mhstruct *mh, int x)
+int	do_redirects(t_token *t, t_mhstruct *mh)
 {
 	t_token	*tok;
 	t_token	*previous;
 	int		mark;
-
 
 	tok = mh->token;
 	previous = tok;
@@ -81,9 +83,7 @@ int	do_redirects(t_token *t, t_mhstruct *mh, int x)
 	{
 		while (check_redir_exist(mh->token))
 		{
-			mark = act_red(&tok, &previous, &mh, x);
-			// dup2(mh->in, STDIN_FILENO);
-			// dup2(mh->screen, STDOUT_FILENO);
+			mark = act_red(&tok, &previous, &mh);
 			if (mark)
 				break ;
 		}
@@ -91,14 +91,13 @@ int	do_redirects(t_token *t, t_mhstruct *mh, int x)
 	return (mark);
 }
 
-
 void	just_heredoc(t_token **t, t_mhstruct **mh)
 {
 	t_token	*tok;
 	t_token	*previous;
 	t_token	*start;
+
 	start = (*mh)->token;
-	// print_tokens(start);
 	tok = (*mh)->token;
 	previous = tok;
 	if (bad_redirect_syntax(*t))
@@ -109,7 +108,4 @@ void	just_heredoc(t_token **t, t_mhstruct **mh)
 		tok = tok->next;
 	}
 	action_justheredoc(&tok, &previous, mh);
-	//(*mh)->token = start;
-		// print_tokens((*mh)->token);
-		// exit(1);
 }
