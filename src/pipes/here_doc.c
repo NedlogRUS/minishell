@@ -3,20 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:32:58 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/25 22:26:24 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/26 18:26:56 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vtavitia.h"
 
-void	do_hd(int pipes[1000][2], int i, t_mhstruct *tmp)
+void	do_hd(int pipes[1000][2], int i, t_mhstruct **tmp)
 {
-	close_upto_i(pipes, i);
-	while (check_heredoc(tmp))
-		just_heredoc(tmp->token, tmp);
+	(void) pipes;
+	(void) i;
+	//close_upto_i(pipes, i);
+	while (check_heredoc(*tmp))
+		just_heredoc(&((*tmp)->token), tmp);
 }
 
 int	check_heredoc(t_mhstruct *mh)
@@ -35,7 +37,7 @@ int	check_heredoc(t_mhstruct *mh)
 	return (0);
 }
 
-static void	finalise_heredoc(t_mhstruct *mh, int *hdpipe)
+void	finalise_heredoc(t_mhstruct *mh, int *hdpipe)
 {
 	close(hdpipe[1]);
 	if (num_of_heredoc(mh->token) >= 2)
@@ -51,7 +53,7 @@ void	do_here_doc(char *lim, t_mhstruct *mh)
 {
 	int		hdpipe[2];
 	char	*buffer;
-
+(void)mh;
 	if (pipe(hdpipe) == -1)
 		error_msg2("Error\nPipe Creation Failed\n");
 	while (1)
@@ -74,3 +76,4 @@ void	do_here_doc(char *lim, t_mhstruct *mh)
 	}
 	finalise_heredoc(mh, hdpipe);
 }
+

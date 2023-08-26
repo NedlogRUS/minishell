@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 22:12:24 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/25 22:26:55 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/26 17:01:54 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,29 +26,6 @@ void	initializer_temp_mh( t_mhstruct *tmp, t_mhstruct *mh)
 	tmp->th_i = 0;
 }
 
-void	set_pipe(int pipes[1000][2], int i, int lines, int hd)
-{
-	if (i == 0)
-	{
-		close(pipes[i][0]);
-		dup2(pipes[i][1], STDOUT_FILENO);
-		close(pipes[i][1]);
-	}
-	else if (i != 0 && i != lines - 1)
-	{
-		dup2(pipes[i - 1][0], STDIN_FILENO);
-		dup2(pipes[i][1], STDOUT_FILENO);
-		close(pipes[i - 1][0]);
-		close(pipes[i][1]);
-	}
-	else if (i == lines - 1)
-	{
-		close(pipes[i - 1][1]);
-		if (!hd)
-			dup2(pipes[i - 1][0], STDIN_FILENO);
-		close(pipes[i - 1][0]);
-	}
-}
 
 static void	copy_to_tmp_helper(t_mhstruct **tmp, t_token **new)
 {

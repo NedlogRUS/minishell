@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/25 23:49:01 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/26 13:43:21 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ int main(int ac, char **av, char **env)
 			free(mh->input);
 			if (mh->token)
 			{
-				if (check_last_type(mh))
+				if (check_last_type(mh) || check_redir_pipe_syntax(mh))
 				{
 					// error - test case finish command with pipe or redir
 					// handle  echo hi | wc >| wc 
