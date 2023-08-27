@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:40:51 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/26 19:47:27 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/27 14:19:07 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,7 @@ void	just_heredoc(t_token **t, t_mhstruct **mh)
 {
 	t_token	*tok;
 	t_token	*previous;
-	t_token	*start;
 
-	start = (*mh)->token;
 	tok = (*mh)->token;
 	previous = tok;
 	if (bad_redirect_syntax(*t))
