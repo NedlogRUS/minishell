@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:05:18 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/25 21:03:48 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/27 14:40:35 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	free_all(char **array)
 		free(array[i]);
 		i++;
 	}
+	free(array[i]);
 	free(array);
 }
 

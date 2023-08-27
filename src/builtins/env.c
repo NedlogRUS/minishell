@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 13:27:24 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/25 17:57:43 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/27 14:45:32 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ char	**get_env_array(t_mhstruct *mh)
 		out[i] = ft_mhjoin(tmp, "=");
 		// free(tmp);
 		tmp = ft_strdup(out[i]);
+		free(out[i]);
 		out[i] = ft_mhjoin(tmp, current_env->data);
-		// free(tmp);
 		current_env = current_env->next;
 		i++;
 	}
