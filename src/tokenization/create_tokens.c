@@ -6,7 +6,7 @@
 /*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:50:07 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/28 15:56:47 by vatche           ###   ########.fr       */
+/*   Updated: 2023/08/28 17:30:44 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,9 +137,9 @@ void	check_and_tokenize(t_mhstruct *mh)
 
 	c = '\0';
 	if (check_quotes_wrapped(mh->input))
-		error_msg("Syntax error -check quotes", 1, mh);
+		pr_err(mh, 2, gemsg("", mh->emsg[15], ""));
 	else if (check_bad_specials(mh->input) || check_syntax(mh->input, mh))
-		error_msg("Syntax error - near unexpected token", 1, mh);
+		pr_err(mh, 2, gemsg("", mh->emsg[15], ""));
 	else if (!check_quotes_wrapped(mh->input) && (!check_syntax(mh->input, mh)))
 	{
 		clean_start(mh, c);

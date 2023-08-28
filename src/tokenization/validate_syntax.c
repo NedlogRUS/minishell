@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_syntax.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 18:44:21 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/25 19:15:19 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/28 17:38:47 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,28 +79,16 @@ int	check_lt(char *input, int i, int count, int open)
 static int	syntax_conds(char *in, int i, t_mhstruct *mh)
 {
 	if ((in[i] == '<' || in[i] == '>') && ft_strlen(mh->input) == 1)
-	{
-		error_msg("Syntax error - near unexpected token", 1, mh);
 		return (1);
-	}
 	if ((!ft_strcmp(in, "<<") || !ft_strcmp(in, ">>"))
 		&& ft_strlen(mh->input) == 2)
-	{
-		error_msg("Syntax error - near unexpected token", 1, mh);
 		return (1);
-	}
 	if ((!ft_strcmp(in, "<<>>") || !ft_strcmp(in, ">><<"))
 		&& ft_strlen(mh->input) == 4)
-	{
-		error_msg("Syntax error - near unexpected token", 1, mh);
 		return (1);
-	}
 	if ((!ft_strcmp(in, "<>") || !ft_strcmp(in, "<>"))
 		&& ft_strlen(mh->input) == 2)
-	{
-		error_msg("Syntax error - near unexpected token", 1, mh);
 		return (1);
-	}
 	return (0);
 }
 
@@ -122,10 +110,7 @@ int	check_syntax(char *input, t_mhstruct *mh)
 		{
 			{
 				if (check_bad_specials(input))
-				{
-					error_msg("Syntax error - near unexpected token", 1, mh);
 					return (1);
-				}
 			}
 		}
 		i++;

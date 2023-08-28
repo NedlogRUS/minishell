@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   initializer.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 13:42:38 by apanikov          #+#    #+#             */
 /*   Updated: 2023/08/28 14:39:56 by apanikov         ###   ########.fr       */
@@ -153,7 +153,7 @@ void    add_error_message(t_mhstruct *mh)
     mh->emsg[12] = ft_strdup("\n");
 	mh->emsg[13] = ft_strdup("Minihell: ");
 	mh->emsg[14] = ft_strdup("Resource temporarily unavailable\n");
-	mh->emsg[15] = ft_strdup("syntax error near unexpected token ");
+	mh->emsg[15] = ft_strdup("syntax error near unexpected token\n");
 }
 
 void	initializer_mh(char **env, t_mhstruct *mh)
