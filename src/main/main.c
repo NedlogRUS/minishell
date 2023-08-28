@@ -6,7 +6,7 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/28 17:13:30 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/28 20:57:49 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,33 @@ void do_sigquit(int i)
 	ft_putstr_fd("Quit: 3\n", 2);
 }
 
+char *commtolow(char *str)
+{
+	char	*out;
+	int		i;
+
+	out = malloc(ft_strlen(str) + 1);
+	i = 0;
+	while(str[i])
+	{
+		if (str[i] >= 'A' && str[i] <= 'Z')
+			out[i] = str[i] + 32;
+		else
+			out[i] = str[i];
+		i++;
+	}
+	out[i] = '\0';
+	return (out);
+}
 
 void	execution_of_commands(t_mhstruct *mh)
 {
-	if(!ft_strcmp(mh->token->data, "pwd"))
+	char *command;
+
+	command = commtolow(mh->token->data);
+	if(!ft_strcmp(command, "pwd"))
 		builtin_pwd(mh);	
-	else if(!ft_strcmp(mh->token->data, "env"))
+	else if(!ft_strcmp(command, "env"))
 		builtin_env(mh);
 	else if(!ft_strcmp(mh->token->data, "export"))
 		builtin_export(mh);
@@ -49,14 +70,14 @@ void	execution_of_commands(t_mhstruct *mh)
 		builtin_unset(mh);
 	else if(!ft_strcmp(mh->token->data, "cd"))
 		builtin_cd(mh);
-	else if(!ft_strcmp(mh->token->data, "echo"))
+	else if(!ft_strcmp(command, "echo"))
 		builtin_echo(mh);
 	else if(!ft_strcmp(mh->token->data, "exit"))
 		builtin_exit(mh);
 	else
 		execve_of_commands(mh);	
+	free (command);
 	return ;
-
 }
 
 void	free_env(t_env *env)
