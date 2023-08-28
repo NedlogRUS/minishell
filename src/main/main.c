@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/26 19:58:53 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/28 14:42:12 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,13 @@ int main(int ac, char **av, char **env)
 {
 	g_error = 0;
 	t_mhstruct *mh;
-	
+	int		screen;
+	int		in;
+	screen = dup(STDOUT_FILENO);
+	in = dup(STDIN_FILENO);
 	(void) av;
-	
+	int	mark;
+	mark = 0;
 	if(ac > 1)
 		exit (1);
 	rl_catch_signals = 0;
@@ -145,14 +149,14 @@ int main(int ac, char **av, char **env)
 					mark = do_redirects(mh->token, mh);
 					if (ft_tokenlstsize(mh->token) && !mark)
 						execution_of_commands(mh);
-					dup2(mh->screen, STDOUT_FILENO);
-					dup2(mh->in, STDIN_FILENO);
+					dup2(screen, STDOUT_FILENO);
+					dup2(in, STDIN_FILENO);
 				}
 				else if (check_pipe_exists(mh->token))
 				{
 					launch_pipes(&mh);
-					dup2(mh->screen, STDOUT_FILENO);
-					dup2(mh->in, STDIN_FILENO);
+					dup2(screen, STDOUT_FILENO);
+					dup2(in, STDIN_FILENO);
 				}
 				else if (ft_strlen(mh->token->data) && mh->token && !(check_pipe_exists(mh->token)))
 					execution_of_commands(mh);
