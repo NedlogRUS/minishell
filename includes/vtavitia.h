@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vtavitia.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 14:39:20 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/26 19:43:02 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/28 14:19:27 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int		check_lt(char *input, int i, int count, int open);
 void	handle_dollar(t_mhstruct **mh);
 int		isbreak(char c);
 void	concatenate_tokens(t_mhstruct **mh);
-void	move_current(t_token *current, t_token *previous, t_mhstruct **mh);
+void	move_current(t_token **urrent, t_token **previous, t_mhstruct **mh);
 void	clean_start(t_mhstruct *mh, char c);
 int		do_copy_helper(char *input, int *ip, int *kp, t_token **current);
 int		found_dollar(t_mhstruct *mh);
@@ -129,5 +129,7 @@ int		check_redir_pipe_syntax(t_mhstruct *mh);
 void	finalise_heredoc(t_mhstruct *mh, int *hdpipe);
 void	do_here_doc_pipes(char *lim, t_mhstruct *mh);
 void	set_prev(t_token **previous, t_token **tok);
+
+void	print_tokens(t_token *token);
 
 #endif

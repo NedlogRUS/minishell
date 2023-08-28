@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/26 19:58:53 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/28 14:32:31 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ void	execution_of_commands(t_mhstruct *mh)
 		builtin_unset(mh);
 	else if(!ft_strcmp(mh->token->data, "cd"))
 		builtin_cd(mh);
-	else if(!ft_strcmp(mh->token->data, "echo"))
-		builtin_echo(mh);
+	// else if(!ft_strcmp(mh->token->data, "echo"))
+	// 	builtin_echo(mh);
 	else if(!ft_strcmp(mh->token->data, "exit"))
 		builtin_exit(mh);
 	else

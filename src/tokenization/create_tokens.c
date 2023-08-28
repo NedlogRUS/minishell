@@ -3,14 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   create_tokens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:50:07 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/25 23:17:03 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/28 14:37:47 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vtavitia.h"
+
+// // //deletethis
+void	print_tokens(t_token *token)
+{
+		printf("Printing tokens\n------\n");
+		if (token)
+		{
+			while (token)
+			{
+					printf("DATA: -%s-\n", token->data);
+					token = token->next;				
+			}
+		}
+		// if (ft_tokenlstsize(token) == 1 && token)
+		// 	printf("DATA: -%s- type is %d\n",
+		// 		token->data, token->type);
+}
 
 static void	do_copy(char *input, t_token **current, int *ip, int count)
 {
@@ -134,5 +151,6 @@ void	check_and_tokenize(t_mhstruct *mh)
 			remove_empty_nodes(mh);
 		if (mh->token && ft_tokenlstsize(mh->token))
 			classify_tokens(mh);
+		//print_tokens(mh->token);
 	}
 }
