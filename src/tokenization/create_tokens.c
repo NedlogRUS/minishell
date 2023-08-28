@@ -6,7 +6,7 @@
 /*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:50:07 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/28 14:37:47 by vatche           ###   ########.fr       */
+/*   Updated: 2023/08/28 15:56:47 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,6 @@ void	check_and_tokenize(t_mhstruct *mh)
 			remove_empty_nodes(mh);
 		if (mh->token && ft_tokenlstsize(mh->token))
 			classify_tokens(mh);
-		//print_tokens(mh->token);
+		// print_tokens(mh->token);
 	}
 }
