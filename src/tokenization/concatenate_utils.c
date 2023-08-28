@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   concatenate_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 16:37:15 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/10 17:30:23 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/28 14:28:08 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ void	free_token(t_token *token)
 	token = NULL;
 }
 
-void	move_current(t_token *current, t_token *previous, t_mhstruct **mh)
+void	move_current(t_token **current, t_token **previous, t_mhstruct **mh)
 {
-	if (current != (*mh)->token)
-		previous->next = current;
-	previous = current;
-	current = current->next;
+	if (*current != (*mh)->token)
+		(*previous)->next = *current;
+	*previous = *current;
+	*current = (*current)->next;
 }

@@ -6,7 +6,7 @@
 /*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 18:31:47 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/27 14:47:15 by vatche           ###   ########.fr       */
+/*   Updated: 2023/08/28 15:48:42 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,11 @@
 
 static int	check_path2(char **paths, char *argv, char **command_path)
 {
-	// int		i;
 	int		j;
 	char	*tmp;
-	// i = 2;
 	struct	stat s;
+	
 	j = 0;
-	argv = cut_argv(argv);
 	while (paths[j] != NULL)
 	{
 		*command_path = ft_strjoin("/", argv);
@@ -30,10 +28,7 @@ static int	check_path2(char **paths, char *argv, char **command_path)
 		free(tmp);
 		stat(*command_path, &s);
 		if (access(*command_path, R_OK) == 0 && S_ISREG(s.st_mode))
-		{
-			free(argv);
 			return (1);
-		}
 		else
 		{
 			free(*command_path);
@@ -41,7 +36,6 @@ static int	check_path2(char **paths, char *argv, char **command_path)
 		}
 		j++;
 	}
-	free(argv);
 	return (0);
 }
 

@@ -49,8 +49,8 @@ void	execution_of_commands(t_mhstruct *mh)
 		builtin_unset(mh);
 	else if(!ft_strcmp(mh->token->data, "cd"))
 		builtin_cd(mh);
-	else if(!ft_strcmp(mh->token->data, "echo"))
-		builtin_echo(mh);
+	// else if(!ft_strcmp(mh->token->data, "echo"))
+	// 	builtin_echo(mh);
 	else if(!ft_strcmp(mh->token->data, "exit"))
 		builtin_exit(mh);
 	else
