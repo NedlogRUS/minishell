@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   concatenate.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 10:55:40 by vatche            #+#    #+#             */
-/*   Updated: 2023/08/10 17:30:17 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/28 14:30:59 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	conc_check(t_token *current)
 {
-	if (current->next != NULL && (((!isbreak(current->next->data[0]))
+	if (current->next != NULL && (((!(isbreak(current->next->data[0])))
 				|| (current->next->s_quote || current->next->d_quote))
-			&& ((!isbreak(current->data[0]))
+			&& ((!(isbreak(current->data[0])))
 				|| (current->s_quote || current->d_quote))))
 		return (1);
 	else
@@ -90,7 +90,7 @@ void	concatenate_tokens(t_mhstruct **mh)
 			while (conc_while_check(current))
 				do_concatenation(current, mh);
 			if (current->next)
-				move_current(current, previous, mh);
+				move_current(&current, &previous, mh);
 		}
 		else
 		{
