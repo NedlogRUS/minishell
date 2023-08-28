@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/28 17:12:11 by vatche           ###   ########.fr       */
+/*   Updated: 2023/08/28 17:13:30 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,6 @@ void	execution_of_commands(t_mhstruct *mh)
 		builtin_exit(mh);
 	else
 		execve_of_commands(mh);	
-	// {
-	// 	g_error = 127;
-	// 	printf("minihell: command not found: %s\n", mh->token->data);
-	// }
 	return ;
 
 }
