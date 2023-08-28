@@ -1,9 +1,0 @@
-.DS_Store
-./minishell
-*.o
-/obj
-/readline-lib
-/readline
-.vscode/
-/libft/libft.a
-minishell

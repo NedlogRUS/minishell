@@ -6,7 +6,7 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:13:02 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/25 19:05:16 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/25 20:00:34 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,9 @@ typedef struct s_mhstuct
 	char			**emsg; // error message and command name for print
 	int				in;		//fd for stdin
 	int				screen; //fd for stdout
-	int				mark;
+	int				dolmark;
+	int				t_size;
+	int				th_i;
 	struct s_env	*env;
 	struct s_utils	*utils;
 }				t_mhstruct;

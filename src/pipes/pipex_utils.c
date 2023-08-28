@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 12:05:18 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/04 14:27:36 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/27 14:40:35 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vtavitia.h"
+
+void	free_all(char **array)
+{
+	int	i;
+
+	i = 0;
+	while (array[i] != NULL)
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array[i]);
+	free(array);
+}
 
 void	error_msg2(char *msg)
 {

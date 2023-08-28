@@ -28,7 +28,7 @@ char	*gemsg(char *cmndname, char *errmsg, char *data)
 void	pr_err(t_mhstruct *mh, int i, char *errmsg)
 {
 	(void) mh;
-	GLOBAL_ERROR = i;
+	g_error = i;
 	ft_putstr_fd(errmsg, 2);
 	free(errmsg);
 	return ;
@@ -206,7 +206,7 @@ void	builtin_cd(t_mhstruct *mh)
 	int		i;
 
 	token = mh->token->next;
-	GLOBAL_ERROR = 0;
+	g_error = 0;
 	i = 0;
 	if (token == NULL )
 	{	

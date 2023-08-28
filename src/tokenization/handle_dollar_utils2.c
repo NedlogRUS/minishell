@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 19:18:22 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/12 15:01:35 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 22:57:39 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ int	get_location(char *search, t_token **curr)
 	return (location);
 }
 
-int	inject_helper(int *k, int location, t_token **curr, t_token **new_term)
+int	inject_helper(int *k, int loc, t_token **curr, t_token **new_term)
 {
 	int		i;
 
 	i = 0;
-	while (i < location && (*curr)->data[i])
+	while (i < loc && (*curr)->data[i])
 	{
 		(*new_term)->data[*k] = (*curr)->data[i];
 		(i)++;
@@ -50,7 +50,7 @@ void	copy_remaining(int *i, int *k, t_token **curr, t_token **new_term)
 	}
 }
 
-int	inject_without_dollar(int *k, int size, t_env **env_term, t_token **new_t)
+int	inject_wo_dollar(int *k, int size, t_env **env_term, t_token **new_t)
 {
 	int	i;
 

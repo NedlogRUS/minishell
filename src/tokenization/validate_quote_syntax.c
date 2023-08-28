@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:15:07 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/03 18:36:37 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/25 19:18:19 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,43 @@ int	check_bad_specials(char *input)
 	if (check_lt(input, i, count, open))
 		return (1);
 	if (check_gt(input, i, count, open))
+		return (1);
+	return (0);
+}
+
+static int	check_bad_pipes_helper(int *i, int *count, char *input)
+{
+	if (input[*i] == '|')
+		(*count)++;
+	else if (input[*i] != '|')
+		(*count) = 0;
+	if (*count >= 2)
+		return (1);
+	(*i)++;
+	return (0);
+}
+
+int	check_bad_pipes(char *input, int i, int count, int open)
+{
+	char	c;
+
+	c = '\0';
+	if (input[i] == '|')
+		return (1);
+	while (input[i])
+	{
+		if (input[i] == '\'' || input[i] == '"')
+		{
+			c = input[i];
+			check_helper(input, c, &i, &open);
+		}
+		else
+		{
+			if (check_bad_pipes_helper(&i, &count, input))
+				return (1);
+		}
+	}
+	if (i >= 2 && input[i - 1] == '|')
 		return (1);
 	return (0);
 }

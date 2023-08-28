@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 18:31:47 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/25 18:23:44 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/27 14:47:15 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,12 @@ int	execve_of_commands_2(char *path, char **arg, char **env)
 		execve(path, arg, env);
 	}
 	else
+	{
 		waitpid(pid, &out, 0);
+		free_all(arg);
+		free_all(env);
+		free(path);
+	}
 	return (out);
 }
 
@@ -138,7 +143,7 @@ void	execve_of_commands(t_mhstruct *mh)
 			path = arg[0];
 		else
 		{
-			free(env);
+			free_all(env);
 			free(path);
 			pr_err(mh, 127, gemsg(mh->emsg[11], mh->emsg[12], arg[0]));
 			free_all(arg);
@@ -147,7 +152,8 @@ void	execve_of_commands(t_mhstruct *mh)
 	}
 	if (path != NULL)
 		out = execve_of_commands_2(path, arg, env);
-	GLOBAL_ERROR = out / 256;
-	free(env);
-	free_all(arg);
+	g_error = out / 256;
+	
+	//free_all(arg);
+	//free(env);;
 }

@@ -168,8 +168,11 @@ void	initializer_mh(char **env, t_mhstruct *mh)
 	mh->screen = dup(STDOUT_FILENO);
 	mh->mark = 0;
 	mh->utils = malloc(sizeof(t_utils));
-	GLOBAL_ERROR = 0;
+	g_error = 0;
 	mh->mh_pid = (int)getpid();
+	mh->dolmark = 0;
+	mh->t_size = 0;
+	mh->th_i = 0;
 	initializer_env(env, mh, node, i);
 	add_error_message(mh);
 	free(mh->utils);
