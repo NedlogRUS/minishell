@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 18:39:00 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/29 20:37:26 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/29 22:13:18 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	act_red(t_token **t, t_token **previous, t_mhstruct **mh)
 	start = NULL;
 	if (check_heredoc(*mh))
 	{
-		start = *t;
+		start = (*mh)->token;
 		while ((*t)->type != D_LT)
 			set_prev(previous, t);
 		if ((*t)->type == D_LT)
@@ -46,14 +46,21 @@ int	act_red(t_token **t, t_token **previous, t_mhstruct **mh)
 			return (0);
 		}
 	}
+	//(*t) = start;
+	printf("tok is %s previous is %s\n", (*t)->data, (*previous)->data);
+	exit(1);
 	if ((*t) && ((*t)->type == GT || (*t)->type == LT || (*t)->type == D_GT))
 	{
+		printf("here1\n");
 		if (do_dups(t, mh))
 			return (1);
 		delete_redirs(t, mh, previous, &start);
 	}
 	else
+	{
+		printf("here2 %s\n", (*t)->data);
 		set_prev(previous, t);
+	}
 	return (0);
 }
 

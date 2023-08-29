@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:40:51 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/29 20:42:23 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/29 22:05:54 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,11 @@ void	set_prev(t_token **previous, t_token **tok)
 	if (!(*previous || *tok))
 		return ;
 	*previous = *tok;
-	*tok = (*tok)->next;
+	//	printf("here\n");
+	if ((*tok) && (*tok)->next)
+		*tok = (*tok)->next;
+	else
+		*tok = *previous;
 }
 
 int	do_dups(t_token **t, t_mhstruct **mh)
@@ -47,9 +51,9 @@ int	do_dups(t_token **t, t_mhstruct **mh)
 void	delete_redirs(t_token **t, t_mhstruct **mh, t_token **p, t_token **s)
 {
 	t_token	*tmp;
-
-	if (*t == *s)
-		*s = (*t)->next->next;
+(void)s;
+	// if ((*t == *s && *t == (*mh)->token && (*t)->next->next))
+	// 	*s = (*t)->next->next;
 	if (*t == (*mh)->token)
 	{
 		(*mh)->token = (*mh)->token->next->next;
@@ -85,6 +89,7 @@ int	do_redirects(t_token *t, t_mhstruct *mh)
 	{
 		while (check_redir_exist(mh->token))
 		{
+		//	printf("tok is %s previous is %s\n", (tok)->data, (previous)->data);
 			mark = act_red(&tok, &previous, &mh);
 			if (mark)
 				break ;
