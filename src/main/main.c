@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/28 17:13:30 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/29 16:23:31 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,11 +135,7 @@ int main(int ac, char **av, char **env)
 			if (mh->token)
 			{
 				if (check_last_type(mh) || check_redir_pipe_syntax(mh))
-				{
-					// error - test case finish command with pipe or redir
-					// handle  echo hi | wc >| wc 
-					printf("ERROR MESSAGE HERE\n");
-				}
+					pr_err(mh, 2, gemsg("", mh->emsg[15], ""));
 				else if (check_redir_exist(mh->token) && !(check_pipe_exists(mh->token)))
 				{
 					mark = do_redirects(mh->token, mh);

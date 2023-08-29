@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 18:46:26 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/25 22:13:51 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/29 16:15:54 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ int	inject_pid(int	*k, int size, t_token **new_t, t_mhstruct **mh)
 	int		i;
 	char	*pid_char;
 
-	pid_char = ft_itoa((*mh)->mh_pid);
+	(void) mh;
+	pid_char = ft_strdup("WeCantUseGetPID :)");
 	i = 0;
 	while (*k <= size && pid_char[i])
 	{	

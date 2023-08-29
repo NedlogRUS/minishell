@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initializer.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 13:42:38 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/28 14:39:56 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/29 16:05:31 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,8 @@ void	initializer_mh(char **env, t_mhstruct *mh)
 	mh->screen = dup(STDOUT_FILENO);
 	mh->utils = malloc(sizeof(t_utils));
 	g_error = 0;
-	mh->mh_pid = (int)getpid();
+	// mh->mh_pid = (int)getpid();
+	mh->mh_pid = 0;
 	mh->dolmark = 0;
 	mh->t_size = 0;
 	mh->th_i = 0;

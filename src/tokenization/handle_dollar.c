@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 12:40:07 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/25 23:13:07 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/29 16:17:38 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,26 +54,28 @@ void	hd_helper(t_mhstruct **mh, t_token **p, t_token **c, t_token **t)
 void	handle_dollar(t_mhstruct **mh)
 {
 	t_token	*prev;
-	t_token	*curr;
+	t_token	*c;
 	t_token	*tmp;
 
 	tmp = NULL;
 	(*mh)->dolmark = is_there_dollar((*mh)->token->data);
-	curr = (*mh)->token;
-	prev = curr;
-	while (curr)
+	c = (*mh)->token;
+	prev = c;
+	while (c)
 	{
-		if (curr == (*mh)->token)
+		if (c == (*mh)->token)
 		(*mh)->dolmark = is_there_dollar((*mh)->token->data);
-		if (is_there_dollar(curr->data) && !(curr->s_quote))
+		if (is_there_dollar(c->data) && !(c->s_quote))
 		{
-			convert_dollars(&curr, *mh);
-			if (!ft_strlen(curr->data) && !(curr->s_quote || curr->d_quote))
-				hd_helper(mh, &prev, &curr, &tmp);
-			else if (curr->next)
-				update_cur(&prev, &curr);
+			convert_dollars(&c, *mh);
+			if (c &&!ft_strlen(c->data) && !(c->s_quote || c->d_quote))
+				hd_helper(mh, &prev, &c, &tmp);
+			else if (c->next)
+				update_cur(&prev, &c);
+			if ((*mh)->token == NULL)
+				break ;
 		}
 		else
-			update_cur(&prev, &curr);
+			update_cur(&prev, &c);
 	}
 }
