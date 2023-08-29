@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 13:40:16 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/27 14:44:56 by vatche           ###   ########.fr       */
+/*   Updated: 2023/08/29 18:56:23 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	reassign_path(char **path, char **arg)
+{
+	free(*path);
+	*path = ft_strdup(arg[0]);
+}
 
 char	*ft_mhjoin(char *s1, char *s2)
 {
@@ -38,4 +44,43 @@ char	*ft_mhjoin(char *s1, char *s2)
 	new[i + j] = '\0';
 	free(s1);
 	return (new);
+}
+
+int	get_arg_list_size(t_mhstruct *mh)
+{
+	int		i;
+	t_token	*tmp;
+
+	tmp = mh->token;
+	i = 0;
+	if (!mh->token)
+		return (0);
+	while (tmp != NULL)
+	{
+		i++;
+		tmp = tmp->next;
+	}
+	return (i);
+}
+
+char	*gemsg(char *cmndname, char *errmsg, char *data)
+{
+	char	*out;
+
+	out = ft_strdup("miniHell: ");
+	if (cmndname != NULL)
+		out = ft_mhjoin(out, cmndname);
+	if (data)
+		out = ft_mhjoin(out, data);
+	out = ft_mhjoin(out, errmsg);
+	return (out);
+}
+
+void	pr_err(t_mhstruct *mh, int i, char *errmsg)
+{
+	(void) mh;
+	g_error = i;
+	ft_putstr_fd(errmsg, 2);
+	free(errmsg);
+	return ;
 }

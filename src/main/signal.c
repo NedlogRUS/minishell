@@ -1,24 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/03 13:25:25 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/29 18:48:41 by vtavitia         ###   ########.fr       */
+/*   Created: 2023/08/29 18:57:57 by vtavitia          #+#    #+#             */
+/*   Updated: 2023/08/29 18:58:52 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	builtin_pwd(t_mhstruct *mh)
+void	do_sigint(int i)
 {
-	char	cwd[PATH_MAX];
+	(void)i;
+	g_error = 1;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
 
-	(void) mh;
-	g_error = 0;
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
-		printf("%s\n", cwd);
-	return ;
+void	do_sigint_fork(int i)
+{
+	(void)i;
+	g_error = 1;
+	write(1, "\n", 1);
+}
+
+void	do_sigquit(int i)
+{
+	(void)i;
+	g_error = 130;
+	ft_putstr_fd("Quit: 3\n", 2);
 }

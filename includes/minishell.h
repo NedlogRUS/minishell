@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:13:02 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/25 20:00:34 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/29 19:24:48 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <dirent.h>
 # include <errno.h>
 # include <signal.h>
- #include <sys/stat.h>
+# include <sys/stat.h>
 
 typedef enum s_token_type	t_token_type;
 typedef struct s_token		t_token;
@@ -34,12 +34,11 @@ typedef struct s_mhstuct
 {
 	t_token			*token;
 	char			*input;
-	int				mh_pid; //pid of miniHell
-	// char			*mh_pid;
-	int 			er_num; // number of error when comand done
-	char			**emsg; // error message and command name for print
-	int				in;		//fd for stdin
-	int				screen; //fd for stdout
+	int				mh_pid;
+	int				er_num;
+	char			**emsg;
+	int				in;
+	int				screen;
 	int				dolmark;
 	int				t_size;
 	int				th_i;
@@ -48,16 +47,16 @@ typedef struct s_mhstuct
 }				t_mhstruct;
 
 typedef struct s_env {
-    char			*name;
-    char			*data;
-    struct s_env	*next;
-} t_env;
+	char			*name;
+	char			*data;
+	struct s_env	*next;
+}	t_env;
 
 typedef struct s_utils {
 	char			*line;
-    char			*name;
-    char			*data;
+	char			*name;
+	char			*data;
 	char			*tmp;
-} t_utils;
+}	t_utils;
 
 #endif
