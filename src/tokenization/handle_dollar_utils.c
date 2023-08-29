@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 15:08:46 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/29 17:40:05 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/29 20:28:29 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	get_search_term_checks(t_token	*current, int *i, int *sizep)
 {
 	char	*delim_chars;
 
-	delim_chars = " \'\t$;|\n\\.3=#:";
+	delim_chars = " \'\t$;|\n\\.3=#:/";
 	if (ft_isdigit(current->data[*i]) || current->data[(*i)] == '$'
 		|| current->data[(*i)] == '?' || current->data[(*i)] == '\0')
 	{

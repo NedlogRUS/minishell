@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 18:39:00 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/26 19:46:29 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/29 20:37:26 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,32 +28,32 @@ void	do_d_gt(t_token **t)
 	dup2(fd, STDOUT_FILENO);
 }
 
-int	act_red(t_token **tok, t_token **previous, t_mhstruct **mh)
+int	act_red(t_token **t, t_token **previous, t_mhstruct **mh)
 {
 	t_token	*start;
 
+	start = NULL;
 	if (check_heredoc(*mh))
 	{
-		start = *tok;
-		while ((*tok)->type != D_LT)
-			set_prev(previous, tok);
-		if ((*tok)->type == D_LT)
+		start = *t;
+		while ((*t)->type != D_LT)
+			set_prev(previous, t);
+		if ((*t)->type == D_LT)
 		{
-			do_here_doc((*tok)->next->data, *mh);
-			do_dups(tok, mh);
-			delete_redirs(tok, mh, previous);
-			*tok = start;
+			do_here_doc((*t)->next->data, *mh);
+			do_dups(t, mh);
+			delete_redirs(t, mh, previous, &start);
 			return (0);
 		}
 	}
-	if ((*tok)->type == GT || (*tok)->type == LT || (*tok)->type == D_GT)
+	if ((*t) && ((*t)->type == GT || (*t)->type == LT || (*t)->type == D_GT))
 	{
-		if (do_dups(tok, mh))
+		if (do_dups(t, mh))
 			return (1);
-		delete_redirs(tok, mh, previous);
+		delete_redirs(t, mh, previous, &start);
 	}
 	else
-		set_prev(previous, tok);
+		set_prev(previous, t);
 	return (0);
 }
 

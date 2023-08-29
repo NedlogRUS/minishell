@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:40:51 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/27 14:19:07 by vatche           ###   ########.fr       */
+/*   Updated: 2023/08/29 20:42:23 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,19 @@ int	do_dups(t_token **t, t_mhstruct **mh)
 	return (0);
 }
 
-void	delete_redirs(t_token **t, t_mhstruct **mh, t_token **previous)
+void	delete_redirs(t_token **t, t_mhstruct **mh, t_token **p, t_token **s)
 {
 	t_token	*tmp;
 
+	if (*t == *s)
+		*s = (*t)->next->next;
 	if (*t == (*mh)->token)
 	{
 		(*mh)->token = (*mh)->token->next->next;
-		*previous = (*mh)->token;
+		*p = (*mh)->token;
 	}
 	else
-		(*previous)->next = (*t)->next->next;
+		(*p)->next = (*t)->next->next;
 	tmp = (*t);
 	(*t) = (*t)->next;
 	free(tmp->data);
@@ -76,7 +78,7 @@ int	do_redirects(t_token *t, t_mhstruct *mh)
 	mark = 0;
 	if (bad_redirect_syntax(t))
 	{
-		error_msg("Syntax error near unexpected token", 258, mh);
+		pr_err(mh, 2, gemsg("", mh->emsg[15], ""));
 		return (258);
 	}
 	if (check_redir_exist(mh->token))
@@ -99,7 +101,7 @@ void	just_heredoc(t_token **t, t_mhstruct **mh)
 	tok = (*mh)->token;
 	previous = tok;
 	if (bad_redirect_syntax(*t))
-		return (error_msg("Syntax error near unexpected token", 258, *mh));
+		return pr_err(*mh, 2, gemsg("", (*mh)->emsg[15], ""));
 	while (tok && tok->type != D_LT)
 	{
 		previous = tok;
