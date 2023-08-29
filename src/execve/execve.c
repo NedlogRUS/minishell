@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 18:31:47 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/28 15:48:42 by vatche           ###   ########.fr       */
+/*   Updated: 2023/08/29 18:31:48 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 static int	check_path2(char **paths, char *argv, char **command_path)
 {
-	int		j;
-	char	*tmp;
-	struct	stat s;
-	
+	int			j;
+	char		*tmp;
+	struct stat	s;
+
 	j = 0;
 	while (paths[j] != NULL)
 	{
@@ -41,7 +41,6 @@ static int	check_path2(char **paths, char *argv, char **command_path)
 
 int	check_path(char *argv, char **envp, char **command_path)
 {
-	// int		i;
 	char	**paths;
 	int		check;
 
@@ -49,27 +48,9 @@ int	check_path(char *argv, char **envp, char **command_path)
 	path_to_array(&paths, envp);
 	if (!(paths))
 		return (check);
-	// i = 2;
 	check = check_path2(paths, argv, command_path);
 	free_all(paths);
 	return (check);
-}
-
-int	get_arg_list_size(t_mhstruct *mh)
-{
-	int		i;
-	t_token	*tmp;
-
-	tmp = mh->token;
-	i = 0;
-	if (!mh->token)
-		return (0);
-	while (tmp != NULL)
-	{
-		i++;
-		tmp = tmp->next;
-	}
-	return (i);
 }
 
 char	**get_arg_array(t_mhstruct *mh)
@@ -120,34 +101,27 @@ int	execve_of_commands_2(char *path, char **arg, char **env)
 
 void	execve_of_commands(t_mhstruct *mh)
 {
-	char	**arg;
-	char	**env;
-	char	*path;
-	int		out;
-	struct	stat s;
+	char		**arg;
+	char		**env;
+	char		*path;
+	struct stat	s;
 
 	path = NULL;
-	out = 0;
 	env = get_env_array(mh);
 	arg = get_arg_array(mh);
 	if (check_path(arg[0], env, &path) == 0)
 	{
 		stat(arg[0], &s);
 		if (access(arg[0], R_OK) == 0 && S_ISREG(s.st_mode))
-			path = arg[0];
+			reassign_path(&path, arg);
 		else
 		{
 			free_all(env);
-			free(path);
 			pr_err(mh, 127, gemsg(mh->emsg[11], mh->emsg[12], arg[0]));
 			free_all(arg);
 			return ;
 		}
 	}
 	if (path != NULL)
-		out = execve_of_commands_2(path, arg, env);
-	g_error = out / 256;
-	
-	//free_all(arg);
-	//free(env);;
+		g_error = execve_of_commands_2(path, arg, env) / 256;
 }
