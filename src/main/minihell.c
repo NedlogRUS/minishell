@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 19:20:33 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/29 19:34:02 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/30 14:08:05 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	minihell2(t_mhstruct *mh, int mark)
 {
-	if (check_last_type(mh) || check_redir_pipe_syntax(mh))
+	if (check_last_type(mh))
 		pr_err(mh, 2, gemsg("", mh->emsg[15], ""));
 	else if (check_redir_exist(mh->token) && !(check_pipe_exists(mh->token)))
 	{
@@ -68,5 +68,6 @@ void	minihell(t_mhstruct *mh, int mark)
 		}
 		else
 			free(mh->input);
+		system("leaks minishell");
 	}
 }
