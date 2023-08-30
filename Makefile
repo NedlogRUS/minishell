@@ -3,53 +3,12 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+         #
+#    By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/12 19:00:48 by apanikov          #+#    #+#              #
-#    Updated: 2023/08/30 14:16:08 by vtavitia         ###   ########.fr        #
+#    Updated: 2023/08/30 17:30:02 by apanikov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
-# NAME = minishell
-# SRCDIR = src
-# OBJDIR = obj
-# INCLUDESDIR = includes
-# SRCS = $(addprefix $(SRCDIR)/, main.c)
-# OBJS = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
-# CC = cc
-# RM = rm -rf
-# CFLAGS = -Wall -Wextra -Werror
-# LIBFT = ./libft
-# LIBFTA = $(LIBFT)/libft.a
-# LIBS = -L$(LIBFT) -lft
-# HEADER = $(addprefix $(INCLUDESDIR)/, minishell.h apanikov.h vtavitia.h)
-
-# all: $(NAME) 
-
-# $(OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADER) Makefile
-# 	@ mkdir -p $(OBJDIR)
-# 	@ $(CC) $(CFLAGS) -c $< -o $@
-
-# $(NAME): $(OBJS) $(LIBFTA)
-# 	$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
-
-# $(LIBFTA):
-# 	@$(MAKE) -C $(LIBFT)
-
-# clean:
-# 	$(RM) $(OBJS) 
-# 	$(RM) $(OBJDIR)
-# 	@$(MAKE) -C $(LIBFT) fclean
-
-# fclean: clean
-# 	$(RM) $(NAME)
-# 	@$(MAKE) -C $(LIBFT) fclean
-
-# re: fclean all
-
-# .PHONY: all clean fclean re 
-
-# Main Variables
 
 NAME     = minishell
 GCC      = gcc
@@ -62,7 +21,7 @@ LIBS_DIR = includes
 # Compiled directories
 SRC = src
 OBJ = obj
-SUBDIRS = builtins parser main tokenization redirects pipes execve
+SUBDIRS = builtins main tokenization redirects pipes execve
 
 # Folder directions
 SRC_DIR = $(foreach dir, $(SUBDIRS), $(addprefix $(SRC)/, $(dir)))

@@ -3,14 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 19:33:46 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/29 19:20:29 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/30 17:26:46 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	print_program_banner(void)
+{
+	printf("\x1b[38;2;255;165;0m");
+	printf("    +                +    )       (     (  +  \n");
+	printf("   (    +      +      ( /(    +  )\\ )  )\\ )  \n");
+	printf("    )   (   +     (   )\\()) (   (()/( (()/(  \n");
+	printf("   (    )\\   (    )\\ ((_)\\  )\\   /(_)) /(_)) \n");
+	printf(" + )\\  ((_)  )\\ )((_) _((_)((_) (_))  (_))   \n");
+	printf(" _((_)) (_) _(_/( (_)");
+	printf("\x1b[31m");
+	printf("| || || __|| |   | |    \n");
+	printf("| '  \\  | || ' \\  | || __ || _| | |__ | |__  \n");
+	printf("|_|_|_| |_||_||_| |_||_||_||___||____||____| \n");
+	printf("\x1b[38;2;255;165;0m");
+	printf("Version : 6.66 \n");
+	printf("Authors : VTavitia & APanikov \n");
+	printf("\x1b[0m");
+}
 
 void	execution_of_commands(t_mhstruct *mh)
 {
@@ -89,6 +108,7 @@ int	main(int ac, char **av, char **env)
 	mh = malloc(sizeof(t_mhstruct));
 	mh->token = NULL;
 	initializer_mh(env, mh);
+	print_program_banner();
 	minihell(mh, mark);
 	return (0);
 }
