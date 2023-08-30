@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 19:20:33 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/29 19:20:45 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/29 19:34:02 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,5 @@ void	minihell(t_mhstruct *mh, int mark)
 		}
 		else
 			free(mh->input);
-		system("leaks minishell");
 	}
 }

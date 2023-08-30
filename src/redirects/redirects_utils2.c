@@ -6,11 +6,19 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 20:11:04 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/25 20:12:30 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/30 13:51:45 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vtavitia.h"
+
+void	do_gt(t_token **t)
+{
+	int	fd;
+
+	fd = open((*t)->next->data, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+	dup2(fd, STDOUT_FILENO);
+}
 
 int	check_redir_exist(t_token *t)
 {

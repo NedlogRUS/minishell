@@ -6,19 +6,11 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 18:39:00 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/26 19:46:29 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/30 13:53:10 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vtavitia.h"
-
-void	do_gt(t_token **t)
-{
-	int	fd;
-
-	fd = open((*t)->next->data, O_CREAT | O_TRUNC | O_WRONLY, 0644);
-	dup2(fd, STDOUT_FILENO);
-}
 
 void	do_d_gt(t_token **t)
 {
@@ -28,32 +20,48 @@ void	do_d_gt(t_token **t)
 	dup2(fd, STDOUT_FILENO);
 }
 
-int	act_red(t_token **tok, t_token **previous, t_mhstruct **mh)
+int	act_red_helper(t_token **t, t_token **p, t_token **start, t_mhstruct **mh)
+{
+	if ((*t) && ((*t)->type == GT || (*t)->type == LT || (*t)->type == D_GT))
+	{
+		if (do_dups(t, mh))
+		{
+			delete_redirs(t, mh, p, start);
+			return (1);
+		}
+		delete_redirs(t, mh, p, start);
+	}
+	else
+		set_prev(p, t);
+	return (0);
+}
+
+int	act_red(t_token **t, t_token **previous, t_mhstruct **mh)
 {
 	t_token	*start;
 
+	start = NULL;
 	if (check_heredoc(*mh))
 	{
-		start = *tok;
-		while ((*tok)->type != D_LT)
-			set_prev(previous, tok);
-		if ((*tok)->type == D_LT)
+		start = (*mh)->token;
+		while ((*t)->type != D_LT)
+			set_prev(previous, t);
+		if ((*t)->type == D_LT)
 		{
-			do_here_doc((*tok)->next->data, *mh);
-			do_dups(tok, mh);
-			delete_redirs(tok, mh, previous);
-			*tok = start;
+			do_here_doc((*t)->next->data, *mh);
+			do_dups(t, mh);
+			delete_redirs(t, mh, previous, &start);
+			if (start)
+			{
+			(*mh)->token = start;
+			*t = start;
+			*previous = start;
+			}
 			return (0);
 		}
 	}
-	if ((*tok)->type == GT || (*tok)->type == LT || (*tok)->type == D_GT)
-	{
-		if (do_dups(tok, mh))
-			return (1);
-		delete_redirs(tok, mh, previous);
-	}
-	else
-		set_prev(previous, tok);
+	if (act_red_helper(t, previous, &start, mh))
+		return (1);
 	return (0);
 }
 

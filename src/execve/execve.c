@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 18:31:47 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/29 18:31:48 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/30 13:54:30 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ static int	check_path2(char **paths, char *argv, char **command_path)
 		*command_path = ft_strjoin(paths[j], tmp);
 		free(tmp);
 		stat(*command_path, &s);
-		if (access(*command_path, R_OK) == 0 && S_ISREG(s.st_mode))
+		if (access(*command_path, R_OK) == 0
+			&& S_ISREG(s.st_mode) && (s.st_mode & S_IXUSR))
 			return (1);
 		else
 		{
@@ -45,6 +46,8 @@ int	check_path(char *argv, char **envp, char **command_path)
 	int		check;
 
 	check = 0;
+	if (ft_strchr(argv, '/'))
+		return (check);
 	path_to_array(&paths, envp);
 	if (!(paths))
 		return (check);
@@ -112,7 +115,8 @@ void	execve_of_commands(t_mhstruct *mh)
 	if (check_path(arg[0], env, &path) == 0)
 	{
 		stat(arg[0], &s);
-		if (access(arg[0], R_OK) == 0 && S_ISREG(s.st_mode))
+		if (access(arg[0], R_OK) == 0
+			&& S_ISREG(s.st_mode) && (s.st_mode & S_IXUSR))
 			reassign_path(&path, arg);
 		else
 		{
