@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 18:39:00 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/30 12:57:44 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/30 13:08:31 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,19 +62,20 @@ int	act_red(t_token **t, t_token **previous, t_mhstruct **mh)
 			do_here_doc((*t)->next->data, *mh);
 			do_dups(t, mh);
 			delete_redirs(t, mh, previous, &start);
+			// exit(1);
 			if (start)
 			{
-				printf("HEEEEEERREE %p now\n" , start);
+				// printf("HEEEEEERREE %p now\n" , start);
 			(*mh)->token = start;
 			 *t = start;;
 			 *previous = start;
 			//  exit(1);
 			}
-			else
-			{
-				printf("HEEEEEERREE\n");
-				(*mh)->token = NULL;
-			}
+			// else
+			// {
+			// 	// printf("HEEEEEERREE\n");
+			// 	(*mh)->token = NULL;
+			// }
 			return (0);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:40:51 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/30 13:00:47 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/30 13:03:53 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,13 @@ void	delete_redirs(t_token **t, t_mhstruct **mh, t_token **p, t_token **s)
 (void)s;
 // printf("tok is %s previous is %s\n", (*t)->data, (*p)->data);
 // exit(1);
-	if ((*t == *s && *t == (*mh)->token && (*t)->next->next))
+	if ((*t == *s && *t == (*mh)->token))
 		{
-				printf("here!\n");
 			if  ((*t)->next->next)
 				*s = (*t)->next->next;
 			else 
 			{
+				printf("here!\n");
 				*s = NULL;
 			}
 			// *p = *s;
