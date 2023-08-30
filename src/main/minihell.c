@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minihell.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 19:20:33 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/30 14:16:23 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/31 01:55:38 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	minihell2(t_mhstruct *mh, int mark)
 {
 	if (check_last_type(mh))
-		pr_err(mh, 2, gemsg("", mh->emsg[15], ""));
+		pr_err(mh, 258, gemsg("", mh->emsg[15], ""));
 	else if (check_redir_exist(mh->token) && !(check_pipe_exists(mh->token)))
 	{
 		mark = do_redirects(mh->token, mh);

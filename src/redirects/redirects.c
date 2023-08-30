@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:40:51 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/30 13:36:02 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/31 01:55:45 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	do_redirects(t_token *t, t_mhstruct *mh)
 	mark = 0;
 	if (bad_redirect_syntax(t))
 	{
-		pr_err(mh, 2, gemsg("", mh->emsg[15], ""));
+		pr_err(mh, 258, gemsg("", mh->emsg[15], ""));
 		return (258);
 	}
 	if (check_redir_exist(mh->token))

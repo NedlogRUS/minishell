@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_tokens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:50:07 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/29 15:52:50 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/31 01:55:51 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,9 +120,9 @@ void	check_and_tokenize(t_mhstruct *mh)
 
 	c = '\0';
 	if (check_quotes_wrapped(mh->input))
-		pr_err(mh, 2, gemsg("", mh->emsg[15], ""));
+		pr_err(mh, 258, gemsg("", mh->emsg[15], ""));
 	else if (check_bad_specials(mh->input) || check_syntax(mh->input, mh))
-		pr_err(mh, 2, gemsg("", mh->emsg[15], ""));
+		pr_err(mh, 258, gemsg("", mh->emsg[15], ""));
 	else if (!check_quotes_wrapped(mh->input) && (!check_syntax(mh->input, mh)))
 	{
 		clean_start(mh, c);
