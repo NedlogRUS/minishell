@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vtavitia.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 14:39:20 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/28 14:19:27 by vatche           ###   ########.fr       */
+/*   Updated: 2023/08/29 20:40:25 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,9 @@ int		check_redir_exist(t_token *t);
 void	do_gt(t_token **t);
 void	do_d_gt(t_token **t);
 int		do_dups(t_token **t, t_mhstruct **mh);
-void	delete_redirs(t_token **t, t_mhstruct **mh, t_token **previous);
 int		bad_redirect_syntax(t_token *t);
-int	act_red(t_token **tok, t_token **previous, t_mhstruct **mh);
-
+int		act_red(t_token **tok, t_token **previous, t_mhstruct **mh);
+void	delete_redirs(t_token **t, t_mhstruct **mh, t_token **p, t_token **s);
 //pipes
 void	do_here_doc(char *lim, t_mhstruct *mh);
 void	error_msg2(char *msg);
@@ -129,7 +128,5 @@ int		check_redir_pipe_syntax(t_mhstruct *mh);
 void	finalise_heredoc(t_mhstruct *mh, int *hdpipe);
 void	do_here_doc_pipes(char *lim, t_mhstruct *mh);
 void	set_prev(t_token **previous, t_token **tok);
-
-void	print_tokens(t_token *token);
 
 #endif

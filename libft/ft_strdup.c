@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apanikov <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 19:30:01 by apanikov          #+#    #+#             */
-/*   Updated: 2023/01/24 19:33:48 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/30 17:28:35 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ char	*ft_strdup(char *s1)
 	int		j;
 
 	j = 0;
-	if(!s1)
+	if (!s1)
 		return (0);
 	new = (char *)malloc(sizeof(char) * ft_strlen(s1) + 1);
 	if (!new)
 	{
-		return NULL;
+		return (NULL);
 	}
 	while (s1[j])
 	{

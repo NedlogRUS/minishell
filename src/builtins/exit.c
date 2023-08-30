@@ -6,39 +6,11 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 12:54:14 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/25 22:13:51 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/29 18:40:17 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	exit_num_req(t_mhstruct *mh, const char *data)
-{
-	(void) mh;
-	ft_putstr_fd("exit\n", 1);
-	ft_putstr_fd("minishell: exit: ", 2);
-	ft_putstr_fd((char *)data, 2);
-	ft_putstr_fd(": numeric argument required\n", 2);
-	exit(255);
-}
-
-int	check_long_min(const char *str)
-{
-	char	*line;
-	char	*tmp;
-
-	line = ft_strdup((char *) str);
-	tmp = line;
-	while (*tmp == 32 || (*tmp > 8 && *tmp < 14))
-		tmp++;
-	if ((!ft_strcmp(tmp, "-9223372036854775808")))
-	{
-		free(line);
-		return (0);
-	}
-	free(line);
-	return (1);
-}
 
 int	exit_check_long(const char *str)
 {
@@ -133,7 +105,7 @@ void	builtin_exit(t_mhstruct *mh)
 	token = mh->token->next;
 	if (token == NULL )
 		do_exit(mh, g_error, NULL);
-	while (token != NULL) // don't forget chek for token type
+	while (token != NULL)
 	{
 		i++;
 		token = token->next;

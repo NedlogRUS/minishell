@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:36:10 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/28 15:24:15 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/29 18:37:51 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ int	check_n(const char *str, char n)
 	i = 0;
 	while (str[i])
 	{
-		if(str[i] != n)
-			return(1);
+		if (str[i] != n)
+			return (1);
 		i++;
 	}
 	return (0);
@@ -52,7 +52,7 @@ void	builtin_echo(t_mhstruct *mh)
 {
 	t_token	*token;
 	int		i;
-	char *tmp;
+	char	*tmp;
 
 	token = mh->token->next;
 	g_error = 0;
@@ -66,10 +66,10 @@ void	builtin_echo(t_mhstruct *mh)
 	{
 		tmp = token->data;
 		tmp++;
-		if(!check_n(tmp, 'n'))
+		if (!check_n(tmp, 'n'))
 			i = 1;
 		else
-			break;	
+			break ;
 		token = token->next;
 	}
 	do_echo(token, i);
