@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:40:51 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/30 13:03:53 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/30 13:36:02 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,7 @@ void	set_prev(t_token **previous, t_token **tok)
 	if (!(*previous || *tok))
 		return ;
 	*previous = *tok;
-	//	printf("here\n");
-	// if ((*tok) && (*tok)->next)
-		*tok = (*tok)->next;
-	// else
-	// 	*tok = *previous;
+	*tok = (*tok)->next;
 }
 
 int	do_dups(t_token **t, t_mhstruct **mh)
@@ -51,21 +47,14 @@ int	do_dups(t_token **t, t_mhstruct **mh)
 void	delete_redirs(t_token **t, t_mhstruct **mh, t_token **p, t_token **s)
 {
 	t_token	*tmp;
-(void)s;
-// printf("tok is %s previous is %s\n", (*t)->data, (*p)->data);
-// exit(1);
+
 	if ((*t == *s && *t == (*mh)->token))
-		{
-			if  ((*t)->next->next)
-				*s = (*t)->next->next;
-			else 
-			{
-				printf("here!\n");
-				*s = NULL;
-			}
-			// *p = *s;
-		}
-		
+	{
+		if ((*t)->next->next)
+			*s = (*t)->next->next;
+		else
+			*s = NULL;
+	}
 	if (*t == (*mh)->token)
 	{
 		(*mh)->token = (*mh)->token->next->next;
@@ -78,45 +67,11 @@ void	delete_redirs(t_token **t, t_mhstruct **mh, t_token **p, t_token **s)
 	free(tmp->data);
 	free(tmp);
 	tmp = (*t);
-	if  ((*t)->next)
+	if ((*t)->next)
 	(*t) = (*t)->next;
-	// else
-	// *t = NULL;
 	free(tmp->data);
 	free(tmp);
 }
-
-// void	delete_redirs(t_token **t, t_mhstruct **mh, t_token **p, t_token **s)
-// {
-// 	t_token	*tmp;
-// // (void)s;
-// printf("tok is %s previous is %s\n", (*t)->data, (*p)->data);
-// // exit(1);
-// 	if ((*t == *s && *t == (*mh)->token && (*t)->next->next))
-// 		{
-// 			*s = (*t)->next->next;
-// 			// *p = *s;
-// 		}
-		
-// 	if (*t == (*mh)->token)
-// 	{
-// 		(*mh)->token = (*mh)->token->next->next;
-// 		*p = (*mh)->token;
-// 	}
-// 	else
-// 		(*p)->next = (*t)->next->next;
-// 	tmp = (*t);
-// 	(*t) = (*t)->next;
-// 	free(tmp->data);
-// 	free(tmp);
-// 	tmp = (*t);
-// 	if ((*t)->next)
-// 		(*t) = (*t)->next;
-// 	// else
-// 	// 	(*t) = NULL;
-// 	free(tmp->data);
-// 	free(tmp);
-// }
 
 int	do_redirects(t_token *t, t_mhstruct *mh)
 {
@@ -136,7 +91,6 @@ int	do_redirects(t_token *t, t_mhstruct *mh)
 	{
 		while (check_redir_exist(mh->token))
 		{
-		//	printf("tok is %s previous is %s\n", (tok)->data, (previous)->data);
 			mark = act_red(&tok, &previous, &mh);
 			if (mark)
 				break ;
@@ -153,7 +107,7 @@ void	just_heredoc(t_token **t, t_mhstruct **mh)
 	tok = (*mh)->token;
 	previous = tok;
 	if (bad_redirect_syntax(*t))
-		return pr_err(*mh, 2, gemsg("", (*mh)->emsg[15], ""));
+		return (pr_err(*mh, 2, gemsg("", (*mh)->emsg[15], "")));
 	while (tok && tok->type != D_LT)
 	{
 		previous = tok;
