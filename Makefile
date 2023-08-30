@@ -6,7 +6,7 @@
 #    By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/12 19:00:48 by apanikov          #+#    #+#              #
-#    Updated: 2023/08/29 20:03:56 by vtavitia         ###   ########.fr        #
+#    Updated: 2023/08/30 14:06:39 by vtavitia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,7 +53,7 @@
 
 NAME     = minishell
 GCC      = gcc
-CFLAGS   = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS   = -Wall -Wextra -Werror -g #-fsanitize=address
 RM       = rm -rf
 OUTPUT   = ./$(NAME)
 LIBS     = -I./includes/ -I./readline/include
@@ -62,7 +62,7 @@ LIBS_DIR = includes
 # Compiled directories
 SRC = src
 OBJ = obj
-SUBDIRS = execute builtins parser main pipes_redirs tokenization redirects pipes execve
+SUBDIRS = builtins parser main tokenization redirects pipes execve
 
 # Folder directions
 SRC_DIR = $(foreach dir, $(SUBDIRS), $(addprefix $(SRC)/, $(dir)))
