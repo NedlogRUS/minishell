@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_dollar_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vatche <vatche@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 15:08:46 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/30 14:42:50 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/30 19:34:53 by vatche           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,11 +106,11 @@ int	check_term_exists(char *term, t_env *env_lst)
 			return (0);
 		while (env_lst->next)
 		{
-			if (!ft_strcmp(env_lst->name, term))
+			if (!ft_strcmp(env_lst->name, term) && env_lst->data)
 				return (1);
 			env_lst = env_lst->next;
 		}
-		if (!ft_strcmp(env_lst->name, term))
+		if (!ft_strcmp(env_lst->name, term) && env_lst->data)
 			return (1);
 	}
 	return (0);
