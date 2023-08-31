@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 18:31:47 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/30 13:54:30 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/31 01:42:04 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	check_path(char *argv, char **envp, char **command_path)
 	int		check;
 
 	check = 0;
+	(paths) = NULL;
 	if (ft_strchr(argv, '/'))
 		return (check);
 	path_to_array(&paths, envp);
