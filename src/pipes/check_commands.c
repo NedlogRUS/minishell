@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 18:49:47 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/31 01:42:10 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/31 13:42:50 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void	path_to_array(char ***paths, char **envp)
 			break ;
 		i++;
 	}
-	if(envp[i] == NULL)
-			return ;
+	if (envp[i] == NULL)
+		return ;
 	while (envp[i][size])
 		size++;
 	size -= 5;
