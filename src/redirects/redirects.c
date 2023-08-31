@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:40:51 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/31 01:55:45 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/31 13:04:28 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ int	do_dups(t_token **t, t_mhstruct **mh)
 	int	fd;
 
 	if ((*t)->type == GT)
-		do_gt(t);
+		return (do_gt(t, mh));
 	else if ((*t)->type == D_GT)
-		do_d_gt(t);
+		return (do_d_gt(t, mh));
 	else if ((*t)->type == LT)
 	{
 		if (!access(((*t)->next->data), R_OK))
