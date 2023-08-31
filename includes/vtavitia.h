@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 14:39:20 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/29 20:40:25 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/31 13:01:04 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,11 @@ int		check_last_type(t_mhstruct *mh);
 // redirects
 int		do_redirects(t_token *t, t_mhstruct *mh);
 int		check_redir_exist(t_token *t);
-void	do_gt(t_token **t);
-void	do_d_gt(t_token **t);
+int		do_gt(t_token **t, t_mhstruct **mh);
+int		do_d_gt(t_token **t, t_mhstruct **mh);
 int		do_dups(t_token **t, t_mhstruct **mh);
 int		bad_redirect_syntax(t_token *t);
+int		bad_redirect_syntax2(t_token *t);
 int		act_red(t_token **tok, t_token **previous, t_mhstruct **mh);
 void	delete_redirs(t_token **t, t_mhstruct **mh, t_token **p, t_token **s);
 //pipes

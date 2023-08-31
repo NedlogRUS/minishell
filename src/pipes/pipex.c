@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 10:37:53 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/26 19:43:52 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/31 12:58:52 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,12 @@ int	launch_pipes(t_mhstruct **mh)
 		pr_err(*mh, 1, gemsg("", (*mh)->emsg[14], "fork: "));
 		return (1);
 	}
-	do_pipes(mh, lines);
+	if (bad_redirect_syntax((*mh)->token) || bad_redirect_syntax2((*mh)->token))
+	{
+		pr_err((*mh), 258, gemsg("", (*mh)->emsg[15], ""));
+		return (1);
+	}
+	else
+		do_pipes(mh, lines);
 	return (0);
 }

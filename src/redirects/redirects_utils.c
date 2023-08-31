@@ -6,18 +6,29 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 18:39:00 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/30 13:53:10 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/31 13:00:37 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vtavitia.h"
 
-void	do_d_gt(t_token **t)
+int	do_d_gt(t_token **t, t_mhstruct **mh)
 {
 	int	fd;
 
-	fd = open((*t)->next->data, O_CREAT | O_APPEND | O_WRONLY, 0644);
-	dup2(fd, STDOUT_FILENO);
+	if (access((*t)->next->data, F_OK) == 0)
+	{
+		if (access((*t)->next->data, W_OK) != 0)
+		{ 
+			pr_err(*mh, 1, gemsg((*t)->next->data, (*mh)->emsg[7], ""));
+			return (1);
+		}
+	}
+	{
+		fd = open((*t)->next->data, O_CREAT | O_APPEND | O_WRONLY, 0644);
+		dup2(fd, STDOUT_FILENO);
+	}
+	return (0);
 }
 
 int	act_red_helper(t_token **t, t_token **p, t_token **start, t_mhstruct **mh)

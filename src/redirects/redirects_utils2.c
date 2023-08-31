@@ -6,18 +6,30 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 20:11:04 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/30 13:51:45 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/31 13:00:24 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vtavitia.h"
 
-void	do_gt(t_token **t)
+int	do_gt(t_token **t, t_mhstruct **mh)
 {
 	int	fd;
 
-	fd = open((*t)->next->data, O_CREAT | O_TRUNC | O_WRONLY, 0644);
-	dup2(fd, STDOUT_FILENO);
+    if (access((*t)->next->data, F_OK) == 0)
+	{
+		if (access((*t)->next->data, W_OK) != 0)
+		{ 
+			pr_err(*mh, 1, gemsg((*t)->next->data, (*mh)->emsg[7], ""));
+			return (1);
+		}
+	}
+	else
+	{
+		fd = open((*t)->next->data, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+		dup2(fd, STDOUT_FILENO);
+	}
+	return (0);
 }
 
 int	check_redir_exist(t_token *t)
@@ -70,8 +82,11 @@ int	bad_redirect_syntax2(t_token *t)
 {
 	while (t->next)
 	{
-		if (t->type == PIPELINE && t->next->type == PIPELINE)
-			return (1);
+		if (t->type == GT || t->type == LT || t->type == D_GT || t->type == D_LT)
+		{
+			if (t->next->type == PIPELINE)
+				return (1);
+		}
 		t = t->next;
 	}
 	return (0);
