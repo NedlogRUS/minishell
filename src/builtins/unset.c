@@ -6,33 +6,30 @@
 /*   By: apanikov <apanikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 18:50:42 by apanikov          #+#    #+#             */
-/*   Updated: 2023/08/04 14:52:28 by apanikov         ###   ########.fr       */
+/*   Updated: 2023/08/31 14:25:52 by apanikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	unset_2(t_env *curr, char *tdata)
+void	unset_2(t_env **curr, char *tdata, t_env **tmp)
 {
-	t_env	*tmp;
-
-	tmp = NULL;
-	while (curr != NULL)
+	while ((*curr) != NULL)
 	{
-		if (!ft_strcmp(curr->name, tdata))
+		if (!ft_strcmp((*curr)->name, tdata))
 		{
-			if (curr->next != NULL)
-				tmp->next = curr->next;
+			if ((*curr)->next != NULL)
+				(*tmp)->next = (*curr)->next;
 			else
-				tmp->next = NULL;
-			free(curr->name);
-			if (curr->data != NULL)
-				free(curr->data);
-			free(curr);
+				(*tmp)->next = NULL;
+			free((*curr)->name);
+			if ((*curr)->data != NULL)
+				free((*curr)->data);
+			free(*curr);
 			return ;
 		}
-		tmp = curr;
-		curr = curr->next;
+		*tmp = *curr;
+		*curr = (*curr)->next;
 	}
 	return ;
 }
@@ -40,6 +37,7 @@ void	unset_2(t_env *curr, char *tdata)
 void	unset(t_mhstruct *mh, char *tdata)
 {
 	t_env	*curr;
+	t_env	*tmp;
 
 	curr = mh->env;
 	if (!ft_strcmp(curr->name, tdata))
@@ -47,12 +45,14 @@ void	unset(t_mhstruct *mh, char *tdata)
 		free(mh->env->name);
 		if (mh->env->data != NULL)
 			free(mh->env->data);
+		curr = curr->next;
 		free(mh->env);
-		mh->env = curr->next;
+		mh->env = curr;
 		return ;
 	}
+	tmp = curr;
 	curr = curr->next;
-	return (unset_2(curr, tdata));
+	unset_2(&curr, tdata, &tmp);
 }
 
 int	handle_for_unset(t_mhstruct *mh, char *tdata)
