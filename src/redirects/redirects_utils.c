@@ -6,29 +6,17 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 18:39:00 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/31 13:00:37 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/31 13:39:28 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vtavitia.h"
 
-int	do_d_gt(t_token **t, t_mhstruct **mh)
+void	set_start(t_token **s, t_token **t, t_token **previous, t_mhstruct **mh)
 {
-	int	fd;
-
-	if (access((*t)->next->data, F_OK) == 0)
-	{
-		if (access((*t)->next->data, W_OK) != 0)
-		{ 
-			pr_err(*mh, 1, gemsg((*t)->next->data, (*mh)->emsg[7], ""));
-			return (1);
-		}
-	}
-	{
-		fd = open((*t)->next->data, O_CREAT | O_APPEND | O_WRONLY, 0644);
-		dup2(fd, STDOUT_FILENO);
-	}
-	return (0);
+	*s = (*mh)->token;
+	while ((*t)->type != D_LT)
+		set_prev(previous, t);
 }
 
 int	act_red_helper(t_token **t, t_token **p, t_token **start, t_mhstruct **mh)
@@ -54,19 +42,18 @@ int	act_red(t_token **t, t_token **previous, t_mhstruct **mh)
 	start = NULL;
 	if (check_heredoc(*mh))
 	{
-		start = (*mh)->token;
-		while ((*t)->type != D_LT)
-			set_prev(previous, t);
+		set_start(&start, t, previous, mh);
 		if ((*t)->type == D_LT)
 		{
 			do_here_doc((*t)->next->data, *mh);
-			do_dups(t, mh);
+			if (do_dups(t, mh))
+				return (1);
 			delete_redirs(t, mh, previous, &start);
 			if (start)
 			{
-			(*mh)->token = start;
-			*t = start;
-			*previous = start;
+				(*mh)->token = start;
+				*t = start;
+				*previous = start;
 			}
 			return (0);
 		}

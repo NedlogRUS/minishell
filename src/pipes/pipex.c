@@ -6,21 +6,11 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 10:37:53 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/31 12:58:52 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/31 14:05:23 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vtavitia.h"
-
-void	cr_temp_mh(t_mhstruct **tmp, t_mhstruct **mh, t_token **curr, int *i)
-{
-	*tmp = malloc(sizeof(t_mhstruct));
-	initializer_temp_mh(*tmp, *mh);
-	*curr = (*mh)->token;
-	while ((*curr)->pi != *i)
-		*curr = (*curr)->next;
-	copy_to_tmp(tmp, curr);
-}
 
 int	do_redirects_pipe(t_token **t, t_mhstruct **mh)
 {
@@ -48,24 +38,33 @@ int	do_redirects_pipe(t_token **t, t_mhstruct **mh)
 	return (mark);
 }
 
+void	close_reset_dups(t_mhstruct **mh, int pipes[1000][2], int lines)
+{
+	close_pipes(pipes, lines);
+	dup2((*mh)->in, STDIN_FILENO);
+	dup2((*mh)->screen, STDOUT_FILENO);
+	exit(g_error);
+}
+
 int	do_pipe_forks(t_mhstruct **mh, int pipes[1000][2], int i, int lines)
 {
 	int			pid;
 	t_token		*curr;
 	t_mhstruct	*tmp;
-	int			hd;
 
 	tmp = NULL;
 	cr_temp_mh(&tmp, mh, &curr, &i);
 	pid = fork();
 	if (pid == 0)
 	{
-		hd = check_heredoc(tmp);
-		if (hd)
+		if (check_heredoc(tmp))
 			do_hd(pipes, i, &tmp);
 		set_pipe(pipes, i, lines, 0);
 		if (ft_tokenlstsize(tmp->token))
-			do_redirects_pipe(&(tmp->token), &tmp);
+		{
+			if (do_redirects_pipe(&(tmp->token), &tmp))
+				close_reset_dups(mh, pipes, lines);
+		}
 		close_pipes(pipes, lines);
 		if (ft_tokenlstsize(tmp->token))
 			execution_of_commands(tmp);
