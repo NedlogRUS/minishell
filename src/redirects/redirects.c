@@ -6,7 +6,7 @@
 /*   By: vtavitia <vtavitia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 14:40:51 by vtavitia          #+#    #+#             */
-/*   Updated: 2023/08/31 13:04:28 by vtavitia         ###   ########.fr       */
+/*   Updated: 2023/08/31 14:29:52 by vtavitia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	do_dups(t_token **t, t_mhstruct **mh)
 		}
 		else
 		{
-			error_msg("No such file or directory", 1, *mh);
+			pr_err(*mh, 1, gemsg((*t)->next->data, (*mh)->emsg[9], ""));
 			return (1);
 		}
 	}
